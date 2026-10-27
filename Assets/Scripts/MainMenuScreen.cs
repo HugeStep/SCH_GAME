@@ -101,7 +101,7 @@ public class MainMenuScreen : MonoBehaviour
         (string sheet, string name, string desc)[] enemies =
         {
             ("professor_base", "교수님", "추적형 · +100"),
-            ("grad_student_base", "대학원생", "추적형 · +100"),
+            ("grad_student_base", "대학원생", "근접형 · +100"),
             ("football_base", "미식축구부", "돌진형 · +150"),
             ("chemistry_base", "화학과", "원거리형 · +200"),
         };

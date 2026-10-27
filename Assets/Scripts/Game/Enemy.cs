@@ -7,10 +7,10 @@ public class Enemy : MonoBehaviour
 {
     EnemyType type;
     int hp, score, facing = 1;
-    int state; // 돌진형: 0 접근 1 준비 2 돌진 3 숨고르기 / 원거리형: 0 이동 1 던지기
+    int state; // 돌진형: 0 접근 1 준비 2 돌진 3 숨고르기 / 원거리형: 0 이동 1 던지기 / 대학원생: 0 추적 1 내려찍기
     float speed, height = 1.9f, stateT, hurtT, flashT, alpha, attackCd;
     Vector3 dashDir;
-    bool dead, thrown;
+    bool dead, thrown, melee;
     SpriteAnim anim;
     Sprite[] idle, walk, run, attack, hit, die;
 
@@ -36,6 +36,7 @@ public class Enemy : MonoBehaviour
             case EnemyType.Ranged: sheet = "chemistry_base"; hp = 2; speed = 2.2f; score = 200; break;
             default: sheet = Random.value < 0.5f ? "professor_base" : "grad_student_base"; hp = 2; speed = 2.4f; score = 100; break;
         }
+        melee = sheet == "grad_student_base"; // 몸통 접촉 대신 논문 내려찍기로만 피해
         speed *= 1f + GameManager.I.Elapsed / 240f; // 시간이 갈수록 빨라짐 (끝날 때 1.5배)
         idle = Art.Frames(sheet, "idle");
         walk = Art.Frames(sheet, "walk");
@@ -60,6 +61,7 @@ public class Enemy : MonoBehaviour
         if (dead) return;
         hp -= dmg;
         flashT = 0.1f;
+        if (melee) state = 0; // 맞으면 내려찍기가 끊긴다
         if (!(type == EnemyType.Charger && state == 2)) // 돌진 중엔 경직 없음
         {
             hurtT = 0.18f;
@@ -96,6 +98,7 @@ public class Enemy : MonoBehaviour
         if (hurtT > 0) { hurtT -= dt; anim.Play(hit, 14, false); }
         else if (type == EnemyType.Charger) Charge(to, dt);
         else if (type == EnemyType.Ranged) Shoot(to, dt);
+        else if (melee) Slam(to, dt);
         else Move(to, speed, run);
         Separate(gm);
 
@@ -107,7 +110,32 @@ public class Enemy : MonoBehaviour
 
         // 같은 깊이에서 몸이 겹치면 주인공 피격
         to = gm.Player.transform.position - p;
-        if (Mathf.Abs(to.x) < 0.7f && Mathf.Abs(to.y) < 0.35f) gm.Player.Damage(p);
+        if (!melee && Mathf.Abs(to.x) < 0.7f && Mathf.Abs(to.y) < 0.35f) gm.Player.Damage(p);
+    }
+
+    // 대학원생: 붙으면 논문 더미를 머리 위로 들었다가(예고) 앞으로 내려찍는다. 내려찍는 프레임에 앞에 있으면 피격
+    void Slam(Vector3 to, float dt)
+    {
+        if (state == 1)
+        {
+            anim.Play(attack, 12, false);
+            float ahead = to.x * facing;
+            if (!thrown && anim.Frame >= 4 && anim.Frame <= 5 && ahead > -0.2f && ahead < 1.4f && Mathf.Abs(to.y) < 0.4f)
+            {
+                thrown = true;
+                GameManager.I.Player.Damage(transform.position);
+            }
+            if (anim.Done) { state = 0; attackCd = Random.Range(0.8f, 1.3f); }
+            return;
+        }
+
+        attackCd -= dt;
+        if (Mathf.Abs(to.x) > 1.1f || Mathf.Abs(to.y) > 0.3f) { Move(to, speed, run); return; }
+        Face(to);
+        if (attackCd > 0) { anim.Play(idle, 6, true); return; }
+        state = 1;
+        thrown = false;
+        anim.Play(attack, 12, false, true);
     }
 
     void Move(Vector3 dir, float spd, Sprite[] frames)
