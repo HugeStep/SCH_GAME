@@ -18,7 +18,8 @@ public static class ArtBaker
     };
 
     [System.Serializable] class Db { public Sheet[] sheets; }
-    [System.Serializable] class Sheet { public string key, file; public bool chroma, jpeg; }
+    [System.Serializable] class Sheet { public string key, file; public bool chroma, jpeg; public Anim[] anims; }
+    [System.Serializable] class Anim { public string name; public int[] rects; }
 
     [MenuItem("SCH/Bake Art")]
     public static void Bake()
@@ -27,15 +28,18 @@ public static class ArtBaker
 
         // 1) 캐릭터·이펙트 시트: 마젠타 배경 제거 (프레임 좌표는 frames.json)
         var db = JsonUtility.FromJson<Db>(File.ReadAllText(Dst + "frames.json"));
-        Texture2D throwRun = null;
+        Texture2D throwRun = null, drone = null;
         foreach (var s in db.sheets)
         {
             var t = Load(s.file);
             if (s.chroma) KeyMagenta(t, s.jpeg);
+            if (s.key == "mech_eng_base") Untangle(t, System.Array.Find(s.anims, a => a.name == "attack").rects); // 로봇팔 프레임끼리 겹침
             Save(t, "chr/" + s.key);
             if (s.key == "player_throw_run") throwRun = t;
+            if (s.key == "drone_unit") drone = t;
         }
         Save(Crop(throwRun, 1585, 810, 60, 60), "ui/paper_ball"); // 던지는 프레임 속 종이공
+        Save(Crop(drone, 874, 1364, 56, 54, 60), "ui/energy_ball"); // 발사 프레임 옆 에너지탄
 
         // 2) 메인 메뉴 버튼 (위: 게임시작/설정, 아래: 도감/종료 — 아래 라벨 알약은 제외)
         var menu = Load("ui/buttons/ui_btn_main_menu_sheet.png");
@@ -165,6 +169,53 @@ public static class ArtBaker
             p[i] = c;
         }
         if (jpeg) Erode(p, t.width, t.height); // JPEG 경계 노이즈 1px 정리
+        t.SetPixels32(p);
+        t.Apply();
+    }
+
+    // 한 줄에 놓인 프레임 사각형끼리 겹칠 때, 이웃 프레임에서 삐져 들어온 그림을 지운다.
+    // 이어진 덩어리마다 중심 x가 들어 있는 프레임이 주인이고, 주인 아닌 프레임 사각형 안에 있는 픽셀은 투명으로.
+    static void Untangle(Texture2D t, int[] rects)
+    {
+        var p = t.GetPixels32();
+        int w = t.width, h = t.height, n = rects.Length / 4;
+        int Idx(int x, int y) => (h - 1 - y) * w + x; // (x, y)는 좌상단 기준
+        int FrameAt(int x, int y, int skip)
+        {
+            for (int f = 0; f < n; f++)
+                if (f != skip && x >= rects[f * 4] && x < rects[f * 4] + rects[f * 4 + 2] && y >= rects[f * 4 + 1] && y < rects[f * 4 + 1] + rects[f * 4 + 3]) return f;
+            return -1;
+        }
+        int y0 = rects[1], y1 = rects[1] + rects[3], midY = (y0 + y1) / 2;
+        var seen = new bool[p.Length];
+        var blob = new List<(int x, int y)>();
+        var stack = new Stack<(int x, int y)>();
+        for (int sy = y0; sy < y1; sy++)
+        for (int sx = 0; sx < w; sx++)
+        {
+            if (seen[Idx(sx, sy)] || p[Idx(sx, sy)].a == 0) continue;
+            blob.Clear();
+            int minX = sx, maxX = sx;
+            seen[Idx(sx, sy)] = true;
+            stack.Push((sx, sy));
+            while (stack.Count > 0)
+            {
+                var (x, y) = stack.Pop();
+                blob.Add((x, y));
+                minX = Mathf.Min(minX, x); maxX = Mathf.Max(maxX, x);
+                for (int dy = -1; dy <= 1; dy++)
+                for (int dx = -1; dx <= 1; dx++)
+                {
+                    int nx = x + dx, ny = y + dy;
+                    if (nx < 0 || nx >= w || ny < y0 || ny >= y1 || seen[Idx(nx, ny)] || p[Idx(nx, ny)].a == 0) continue;
+                    seen[Idx(nx, ny)] = true;
+                    stack.Push((nx, ny));
+                }
+            }
+            int owner = FrameAt((minX + maxX) / 2, midY, -1); // 쓰지 않는 그림이면 -1 → 어느 프레임에도 남기지 않음
+            foreach (var (x, y) in blob)
+                if (FrameAt(x, y, owner) >= 0) p[Idx(x, y)] = new Color32(0, 0, 0, 0);
+        }
         t.SetPixels32(p);
         t.Apply();
     }

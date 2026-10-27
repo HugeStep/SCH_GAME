@@ -117,10 +117,14 @@ public class GameManager : MonoBehaviour
         // 생성 간격: 0~10초 1.3초 → 40초 0.8초 → 90초 0.5초 → 마지막 30초 0.35초
         spawnT = t < 10 ? 1.3f : t < 40 ? Mathf.Lerp(1.1f, 0.8f, (t - 10) / 30) : t < 90 ? Mathf.Lerp(0.8f, 0.5f, (t - 40) / 50) : 0.35f;
         float r = Random.value;
+        // 새 학과가 차례로 합류: 0초 교수님·대학원생 → 10초 미식축구부 → 30초 화학과·기계공학과 → 50초 드론학과
         var type = t < 10 ? EnemyType.Chaser
                  : t < 30 ? (r < 0.7f ? EnemyType.Chaser : EnemyType.Charger)
-                 : r < 0.5f ? EnemyType.Chaser : r < 0.75f ? EnemyType.Charger : EnemyType.Ranged;
-        Enemy.Create(type, SpawnPoint());
+                 : t < 50 ? (r < 0.45f ? EnemyType.Chaser : r < 0.65f ? EnemyType.Charger : r < 0.85f ? EnemyType.Ranged : EnemyType.Engineer)
+                 : r < 0.35f ? EnemyType.Chaser : r < 0.53f ? EnemyType.Charger : r < 0.7f ? EnemyType.Ranged : r < 0.87f ? EnemyType.Engineer : EnemyType.Pilot;
+        if (type == EnemyType.Pilot && Enemies.Exists(e => e.Type == EnemyType.Pilot)) type = EnemyType.Chaser; // 드론은 한 번에 한 대만
+        // 조종사는 앉아서 움직이지 않으니 화면 오른쪽 안에 자리 잡는다
+        Enemy.Create(type, type == EnemyType.Pilot ? new Vector3(CamRight - 1.2f, Random.Range(BandMin, BandMax)) : SpawnPoint());
     }
 
     // 화면 밖 사방(오른쪽·왼쪽·뒤쪽 건물 앞·화면 아래)에서 나타난다. 주인공 바로 옆은 피한다.

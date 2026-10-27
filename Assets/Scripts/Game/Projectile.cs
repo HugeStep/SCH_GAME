@@ -1,12 +1,13 @@
 using UnityEngine;
 
-// 주인공의 종이공 / 화학과의 플라스크
+// 주인공의 종이공 / 화학과의 플라스크 / 드론의 에너지탄
 public class Projectile : MonoBehaviour
 {
     Vector3 vel;
-    float life;
+    float life, fxScale = 1f;
     bool hostile; // true = 적이 던진 것 (주인공을 맞힘)
     SpriteAnim anim;
+    Sprite[] endFx; // 적 투사체가 터질 때
 
     public static void Ball(Vector3 pos, Vector3 dir)
     {
@@ -20,6 +21,17 @@ public class Projectile : MonoBehaviour
         var p = Make("Flask", pos, dir * 6.5f, 3f, true);
         p.anim.Play(Art.Frames("flask", "projectile"), 14, true);
         p.anim.Sr.flipX = dir.x < 0;
+        p.endFx = Art.Frames("flask", "explode");
+    }
+
+    public static void Energy(Vector3 pos, Vector3 dir)
+    {
+        var p = Make("Energy", pos, dir * 7.5f, 3f, true);
+        p.anim.Sr.sprite = Art.Ui("energy_ball");
+        p.anim.Sr.flipX = dir.x < 0; // 꼬리가 왼쪽에 그려져 있음
+        p.transform.localScale = Vector3.one * 0.7f;
+        p.endFx = Art.Frames("fx_common", "electric_shock");
+        p.fxScale = 0.6f;
     }
 
     static Projectile Make(string name, Vector3 pos, Vector3 vel, float life, bool hostile)
@@ -64,7 +76,7 @@ public class Projectile : MonoBehaviour
 
     void End()
     {
-        if (hostile) SpriteAnim.Fx(Art.Frames("flask", "explode"), transform.position, 1f, 14f);
+        if (hostile) SpriteAnim.Fx(endFx, transform.position, fxScale, 14f);
         Destroy(gameObject);
     }
 }

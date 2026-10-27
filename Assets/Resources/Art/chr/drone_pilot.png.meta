@@ -1,0 +1,867 @@
+fileFormatVersion: 2
+guid: 2e3f316a6a71fb445a98c70beec9f7b9
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 708024071001632889
+    second: drone_pilot_0
+  - first:
+      213: -7508948169711496450
+    second: drone_pilot_1
+  - first:
+      213: -221697822095435914
+    second: drone_pilot_2
+  - first:
+      213: 8839377132536297774
+    second: drone_pilot_3
+  - first:
+      213: -8132904346129833469
+    second: drone_pilot_4
+  - first:
+      213: 1856792721779666828
+    second: drone_pilot_5
+  - first:
+      213: -4816136758139159997
+    second: drone_pilot_6
+  - first:
+      213: 6531513023361309166
+    second: drone_pilot_7
+  - first:
+      213: -3348017569406423626
+    second: drone_pilot_8
+  - first:
+      213: -6383945288381315991
+    second: drone_pilot_9
+  - first:
+      213: 5515492959874996987
+    second: drone_pilot_10
+  - first:
+      213: 29136222476217257
+    second: drone_pilot_11
+  - first:
+      213: 7176800422081538152
+    second: drone_pilot_12
+  - first:
+      213: 470725781477216209
+    second: drone_pilot_13
+  - first:
+      213: -9045906074449251696
+    second: drone_pilot_14
+  - first:
+      213: 3264720120586891771
+    second: drone_pilot_15
+  - first:
+      213: -7298181794211016695
+    second: drone_pilot_16
+  - first:
+      213: -4886449444616941034
+    second: drone_pilot_17
+  - first:
+      213: 7900687003579299161
+    second: drone_pilot_18
+  - first:
+      213: -1192296791058071866
+    second: drone_pilot_19
+  - first:
+      213: -154844157878476852
+    second: drone_pilot_20
+  - first:
+      213: 7696666037491374130
+    second: drone_pilot_21
+  - first:
+      213: 3590777336289382133
+    second: drone_pilot_22
+  - first:
+      213: -4834830400965635134
+    second: drone_pilot_23
+  - first:
+      213: 7188672528869318886
+    second: drone_pilot_24
+  - first:
+      213: -1790450153460767096
+    second: drone_pilot_25
+  - first:
+      213: -1140504802350806486
+    second: drone_pilot_26
+  - first:
+      213: 218825372428522638
+    second: drone_pilot_27
+  - first:
+      213: 5491220403315299175
+    second: drone_pilot_28
+  - first:
+      213: -1653068819410039294
+    second: drone_pilot_29
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: drone_pilot_0
+      rect:
+        serializedVersion: 2
+        x: 58
+        y: 1654
+        width: 279
+        height: 363
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9707a7c242863d900800000000000000
+      internalID: 708024071001632889
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: drone_pilot_1
+      rect:
+        serializedVersion: 2
+        x: 397
+        y: 1654
+        width: 279
+        height: 362
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ef2d68b7c6bdac790800000000000000
+      internalID: -7508948169711496450
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: drone_pilot_2
+      rect:
+        serializedVersion: 2
+        x: 740
+        y: 1654
+        width: 275
+        height: 363
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6771682610f5cecf0800000000000000
+      internalID: -221697822095435914
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: drone_pilot_3
+      rect:
+        serializedVersion: 2
+        x: 1077
+        y: 1654
+        width: 278
+        height: 365
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e2979844ba6cbaa70800000000000000
+      internalID: 8839377132536297774
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: drone_pilot_4
+      rect:
+        serializedVersion: 2
+        x: 1416
+        y: 1654
+        width: 276
+        height: 360
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 30263b0569e122f80800000000000000
+      internalID: -8132904346129833469
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: drone_pilot_5
+      rect:
+        serializedVersion: 2
+        x: 1752
+        y: 1654
+        width: 277
+        height: 362
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c8f253b8427a4c910800000000000000
+      internalID: 1856792721779666828
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: drone_pilot_6
+      rect:
+        serializedVersion: 2
+        x: 51
+        y: 1251
+        width: 285
+        height: 362
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 34af96da225a92db0800000000000000
+      internalID: -4816136758139159997
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: drone_pilot_7
+      rect:
+        serializedVersion: 2
+        x: 393
+        y: 1251
+        width: 283
+        height: 362
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ee9d9434d7894aa50800000000000000
+      internalID: 6531513023361309166
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: drone_pilot_8
+      rect:
+        serializedVersion: 2
+        x: 730
+        y: 1251
+        width: 284
+        height: 362
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6bd63c952c37981d0800000000000000
+      internalID: -3348017569406423626
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: drone_pilot_9
+      rect:
+        serializedVersion: 2
+        x: 1075
+        y: 1251
+        width: 281
+        height: 361
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 964c084759ba767a0800000000000000
+      internalID: -6383945288381315991
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: drone_pilot_10
+      rect:
+        serializedVersion: 2
+        x: 1411
+        y: 1251
+        width: 282
+        height: 361
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bfa548aef97fa8c40800000000000000
+      internalID: 5515492959874996987
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: drone_pilot_11
+      rect:
+        serializedVersion: 2
+        x: 1749
+        y: 1251
+        width: 280
+        height: 361
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9abaace6d33876000800000000000000
+      internalID: 29136222476217257
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: drone_pilot_12
+      rect:
+        serializedVersion: 2
+        x: 58
+        y: 853
+        width: 280
+        height: 347
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8682b06a5fd199360800000000000000
+      internalID: 7176800422081538152
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: drone_pilot_13
+      rect:
+        serializedVersion: 2
+        x: 394
+        y: 853
+        width: 283
+        height: 356
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1df419faa9a588600800000000000000
+      internalID: 470725781477216209
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: drone_pilot_14
+      rect:
+        serializedVersion: 2
+        x: 733
+        y: 853
+        width: 282
+        height: 346
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 09277e04a5c767280800000000000000
+      internalID: -9045906074449251696
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: drone_pilot_15
+      rect:
+        serializedVersion: 2
+        x: 1076
+        y: 853
+        width: 282
+        height: 347
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bf1f6a607ad9e4d20800000000000000
+      internalID: 3264720120586891771
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: drone_pilot_16
+      rect:
+        serializedVersion: 2
+        x: 1419
+        y: 853
+        width: 281
+        height: 347
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 90054d95356a7ba90800000000000000
+      internalID: -7298181794211016695
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: drone_pilot_17
+      rect:
+        serializedVersion: 2
+        x: 1751
+        y: 853
+        width: 278
+        height: 358
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 612d3b0ae18df2cb0800000000000000
+      internalID: -4886449444616941034
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: drone_pilot_18
+      rect:
+        serializedVersion: 2
+        x: 51
+        y: 454
+        width: 289
+        height: 358
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 955b3e958f0e4ad60800000000000000
+      internalID: 7900687003579299161
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: drone_pilot_19
+      rect:
+        serializedVersion: 2
+        x: 396
+        y: 454
+        width: 280
+        height: 359
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6ce3526b26c147fe0800000000000000
+      internalID: -1192296791058071866
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: drone_pilot_20
+      rect:
+        serializedVersion: 2
+        x: 730
+        y: 454
+        width: 285
+        height: 357
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ccfdb1e0f02e9ddf0800000000000000
+      internalID: -154844157878476852
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: drone_pilot_21
+      rect:
+        serializedVersion: 2
+        x: 1072
+        y: 454
+        width: 284
+        height: 356
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2389c7f7bfc00da60800000000000000
+      internalID: 7696666037491374130
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: drone_pilot_22
+      rect:
+        serializedVersion: 2
+        x: 1416
+        y: 454
+        width: 277
+        height: 361
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5fe4d0d66f005d130800000000000000
+      internalID: 3590777336289382133
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: drone_pilot_23
+      rect:
+        serializedVersion: 2
+        x: 1752
+        y: 454
+        width: 277
+        height: 361
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2c31f29cd5b37ecb0800000000000000
+      internalID: -4834830400965635134
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: drone_pilot_24
+      rect:
+        serializedVersion: 2
+        x: 58
+        y: 49
+        width: 280
+        height: 362
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6e06dd9e39b43c360800000000000000
+      internalID: 7188672528869318886
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: drone_pilot_25
+      rect:
+        serializedVersion: 2
+        x: 401
+        y: 49
+        width: 280
+        height: 367
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8866de6521b0727e0800000000000000
+      internalID: -1790450153460767096
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: drone_pilot_26
+      rect:
+        serializedVersion: 2
+        x: 737
+        y: 49
+        width: 281
+        height: 349
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a2ac047ccec1c20f0800000000000000
+      internalID: -1140504802350806486
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: drone_pilot_27
+      rect:
+        serializedVersion: 2
+        x: 1077
+        y: 49
+        width: 278
+        height: 361
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e84d17f448c690300800000000000000
+      internalID: 218825372428522638
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: drone_pilot_28
+      rect:
+        serializedVersion: 2
+        x: 1414
+        y: 49
+        width: 278
+        height: 362
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7635cf2fcdbb43c40800000000000000
+      internalID: 5491220403315299175
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: drone_pilot_29
+      rect:
+        serializedVersion: 2
+        x: 1752
+        y: 49
+        width: 277
+        height: 362
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 20e4ac5caae1f09e0800000000000000
+      internalID: -1653068819410039294
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable: {}
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
