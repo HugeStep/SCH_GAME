@@ -92,7 +92,8 @@ public static class Db
 
     public static async Task<List<Entry>> Top(int n)
     {
-        var q = await (await Users()).WhereGreaterThan("bestScore", 0).OrderByDescending("bestScore").Limit(n).GetSnapshotAsync();
+        // 서버에서만 읽는다: 기본값은 연결이 안 되면 빈 캐시를 돌려줘서 "기록 없음"으로 잘못 보인다
+        var q = await (await Users()).WhereGreaterThan("bestScore", 0).OrderByDescending("bestScore").Limit(n).GetSnapshotAsync(Source.Server);
         var list = new List<Entry>();
         foreach (var d in q.Documents)
         {
@@ -120,7 +121,7 @@ public static class Db
         var m = e.Message ?? "";
         if (m.Contains("PERMISSION_DENIED") || m.Contains("permission")) return "DB 접근 권한이 없습니다. (Firestore 보안 규칙 확인 필요)";
         if (m.Contains("does not exist")) return "Firestore 데이터베이스가 아직 만들어지지 않았습니다.";
-        if (m.Contains("offline") || m.Contains("UNAVAILABLE")) return "서버에 연결할 수 없습니다. 인터넷 연결을 확인해 주세요.";
+        if (m.Contains("offline") || m.Contains("from server") || m.Contains("UNAVAILABLE")) return "서버에 연결할 수 없습니다. 인터넷 연결을 확인해 주세요.";
         return "오류: " + m;
     }
 }
