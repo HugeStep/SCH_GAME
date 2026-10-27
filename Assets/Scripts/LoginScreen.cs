@@ -21,7 +21,7 @@ public class LoginScreen : MonoBehaviour
         var logo = Art.Ui("logo");
         UIKit.Img(root, logo, new Vector2(0.5f, 1f), new Vector2(0, -30), UIKit.Fit(logo, 560));
 
-        var panel = UIKit.Panel(root, mid, new Vector2(0, -150), new Vector2(760, 520)).transform;
+        var panel = UIKit.Panel(root, mid, new Vector2(0, -150), new Vector2(760, 560)).transform;
         UIKit.Label(panel, "학생 로그인", 44, new Vector2(0.5f, 1f), new Vector2(0, -28), new Vector2(700, 60), color: UIKit.Gold);
 
         dept = Row(panel, 0, "학과", "예) 컴퓨터소프트웨어공학과", InputField.ContentType.Standard, 20);
@@ -37,7 +37,7 @@ public class LoginScreen : MonoBehaviour
 
     static InputField Row(Transform panel, int i, string label, string placeholder, InputField.ContentType type, int limit)
     {
-        float y = -120 - i * 90;
+        float y = -110 - i * 88; // 마지막 칸 아래 끝(패널 위에서 356)이 로그인 버튼(아래에서 154)과 겹치지 않게
         UIKit.Label(panel, label, 34, new Vector2(0f, 1f), new Vector2(40, y), new Vector2(120, 70), TextAnchor.MiddleLeft);
         return UIKit.Field(panel, placeholder, new Vector2(0f, 1f), new Vector2(170, y), new Vector2(550, 70), type, limit);
     }
