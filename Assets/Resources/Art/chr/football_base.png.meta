@@ -1,0 +1,967 @@
+fileFormatVersion: 2
+guid: d66c9478795e9c246987d8e1458a338d
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -1275489048242459487
+    second: football_base_0
+  - first:
+      213: -107894868136046687
+    second: football_base_1
+  - first:
+      213: 1797505475367742269
+    second: football_base_2
+  - first:
+      213: 2030181887018622995
+    second: football_base_3
+  - first:
+      213: 8477521820267568316
+    second: football_base_4
+  - first:
+      213: 2352173697622487702
+    second: football_base_5
+  - first:
+      213: 3651614891173331367
+    second: football_base_6
+  - first:
+      213: 1834047662404603731
+    second: football_base_7
+  - first:
+      213: 7616293713516837895
+    second: football_base_8
+  - first:
+      213: 4912233900100457880
+    second: football_base_9
+  - first:
+      213: 6519036238916567339
+    second: football_base_10
+  - first:
+      213: -7769309703382339106
+    second: football_base_11
+  - first:
+      213: 8771236665602122464
+    second: football_base_12
+  - first:
+      213: 1428303340625403638
+    second: football_base_13
+  - first:
+      213: 609756368388264150
+    second: football_base_14
+  - first:
+      213: -6090226200119473296
+    second: football_base_15
+  - first:
+      213: 8605234668580159113
+    second: football_base_16
+  - first:
+      213: 2915432979639558414
+    second: football_base_17
+  - first:
+      213: 6104507625042067977
+    second: football_base_18
+  - first:
+      213: 406988726445157575
+    second: football_base_19
+  - first:
+      213: -659761575030215213
+    second: football_base_20
+  - first:
+      213: 4628170988772148367
+    second: football_base_21
+  - first:
+      213: 3669677011946768114
+    second: football_base_22
+  - first:
+      213: -7733114241093064872
+    second: football_base_23
+  - first:
+      213: 3781566813620470853
+    second: football_base_24
+  - first:
+      213: -7212857276217859642
+    second: football_base_25
+  - first:
+      213: 4806183209832684016
+    second: football_base_26
+  - first:
+      213: -8248950788516410444
+    second: football_base_27
+  - first:
+      213: -5135412067756766212
+    second: football_base_28
+  - first:
+      213: 7460046266120856341
+    second: football_base_29
+  - first:
+      213: 1680885491234449414
+    second: football_base_30
+  - first:
+      213: -5960013654299050159
+    second: football_base_31
+  - first:
+      213: -8355758430524977706
+    second: football_base_32
+  - first:
+      213: -7914236539854460755
+    second: football_base_33
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: football_base_0
+      rect:
+        serializedVersion: 2
+        x: 88
+        y: 1717
+        width: 133
+        height: 307
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1ac6b9ce77d8c4ee0800000000000000
+      internalID: -1275489048242459487
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: football_base_1
+      rect:
+        serializedVersion: 2
+        x: 335
+        y: 1717
+        width: 130
+        height: 307
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1afc9a7603ea08ef0800000000000000
+      internalID: -107894868136046687
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: football_base_2
+      rect:
+        serializedVersion: 2
+        x: 587
+        y: 1717
+        width: 131
+        height: 307
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d3b2d1dc4b502f810800000000000000
+      internalID: 1797505475367742269
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: football_base_3
+      rect:
+        serializedVersion: 2
+        x: 843
+        y: 1717
+        width: 130
+        height: 307
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3106d2d7ba7ac2c10800000000000000
+      internalID: 2030181887018622995
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: football_base_4
+      rect:
+        serializedVersion: 2
+        x: 58
+        y: 1374
+        width: 179
+        height: 320
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cbcdba00e2536a570800000000000000
+      internalID: 8477521820267568316
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: football_base_5
+      rect:
+        serializedVersion: 2
+        x: 308
+        y: 1374
+        width: 173
+        height: 319
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6923ec0048994a020800000000000000
+      internalID: 2352173697622487702
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: football_base_6
+      rect:
+        serializedVersion: 2
+        x: 544
+        y: 1374
+        width: 187
+        height: 319
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7a1c9ec75642da230800000000000000
+      internalID: 3651614891173331367
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: football_base_7
+      rect:
+        serializedVersion: 2
+        x: 805
+        y: 1374
+        width: 188
+        height: 319
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 35f03cab1a8d37910800000000000000
+      internalID: 1834047662404603731
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: football_base_8
+      rect:
+        serializedVersion: 2
+        x: 1058
+        y: 1374
+        width: 190
+        height: 320
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 70c363397c282b960800000000000000
+      internalID: 7616293713516837895
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: football_base_9
+      rect:
+        serializedVersion: 2
+        x: 1311
+        y: 1374
+        width: 194
+        height: 320
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8959e1db4b2cb2440800000000000000
+      internalID: 4912233900100457880
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: football_base_10
+      rect:
+        serializedVersion: 2
+        x: 56
+        y: 1032
+        width: 183
+        height: 315
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b2145828be4487a50800000000000000
+      internalID: 6519036238916567339
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: football_base_11
+      rect:
+        serializedVersion: 2
+        x: 284
+        y: 1032
+        width: 215
+        height: 315
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ed176e30dfddd2490800000000000000
+      internalID: -7769309703382339106
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: football_base_12
+      rect:
+        serializedVersion: 2
+        x: 513
+        y: 1035
+        width: 242
+        height: 313
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0e2a81e7641b9b970800000000000000
+      internalID: 8771236665602122464
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: football_base_13
+      rect:
+        serializedVersion: 2
+        x: 766
+        y: 1043
+        width: 245
+        height: 305
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6fe1b71225a52d310800000000000000
+      internalID: 1428303340625403638
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: football_base_14
+      rect:
+        serializedVersion: 2
+        x: 1017
+        y: 1036
+        width: 248
+        height: 313
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6d09059bf2a467800800000000000000
+      internalID: 609756368388264150
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: football_base_15
+      rect:
+        serializedVersion: 2
+        x: 1288
+        y: 1032
+        width: 229
+        height: 316
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 07b0a14d98b2b7ba0800000000000000
+      internalID: -6090226200119473296
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: football_base_16
+      rect:
+        serializedVersion: 2
+        x: 1525
+        y: 1036
+        width: 245
+        height: 312
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 98eb89da65feb6770800000000000000
+      internalID: 8605234668580159113
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: football_base_17
+      rect:
+        serializedVersion: 2
+        x: 1779
+        y: 1037
+        width: 245
+        height: 312
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e01efdd29d2b57820800000000000000
+      internalID: 2915432979639558414
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: football_base_18
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 697
+        width: 165
+        height: 287
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 902cb47875197b450800000000000000
+      internalID: 6104507625042067977
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: football_base_19
+      rect:
+        serializedVersion: 2
+        x: 314
+        y: 696
+        width: 216
+        height: 246
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7cc2a53271ae5a500800000000000000
+      internalID: 406988726445157575
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: football_base_20
+      rect:
+        serializedVersion: 2
+        x: 566
+        y: 697
+        width: 250
+        height: 250
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3dd2fd3d75e08d6f0800000000000000
+      internalID: -659761575030215213
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: football_base_21
+      rect:
+        serializedVersion: 2
+        x: 843
+        y: 698
+        width: 253
+        height: 249
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f8448814ef09a3040800000000000000
+      internalID: 4628170988772148367
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: football_base_22
+      rect:
+        serializedVersion: 2
+        x: 1087
+        y: 698
+        width: 275
+        height: 217
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2f60181bccf4de230800000000000000
+      internalID: 3669677011946768114
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: football_base_23
+      rect:
+        serializedVersion: 2
+        x: 1428
+        y: 696
+        width: 163
+        height: 308
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 857222cc1957ea490800000000000000
+      internalID: -7733114241093064872
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: football_base_24
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 358
+        width: 158
+        height: 315
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 544014c3bf2da7430800000000000000
+      internalID: 3781566813620470853
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: football_base_25
+      rect:
+        serializedVersion: 2
+        x: 315
+        y: 358
+        width: 232
+        height: 301
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6c1617bc588c6eb90800000000000000
+      internalID: -7212857276217859642
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: football_base_26
+      rect:
+        serializedVersion: 2
+        x: 624
+        y: 358
+        width: 196
+        height: 300
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0f916834a2ef2b240800000000000000
+      internalID: 4806183209832684016
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: football_base_27
+      rect:
+        serializedVersion: 2
+        x: 882
+        y: 358
+        width: 159
+        height: 315
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4bb0dc076f6d58d80800000000000000
+      internalID: -8248950788516410444
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: football_base_28
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 18
+        width: 158
+        height: 314
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cfb8a16dee95bb8b0800000000000000
+      internalID: -5135412067756766212
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: football_base_29
+      rect:
+        serializedVersion: 2
+        x: 332
+        y: 18
+        width: 190
+        height: 311
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 513ec14dd88678760800000000000000
+      internalID: 7460046266120856341
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: football_base_30
+      rect:
+        serializedVersion: 2
+        x: 578
+        y: 25
+        width: 197
+        height: 242
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6082325d274b35710800000000000000
+      internalID: 1680885491234449414
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: football_base_31
+      rect:
+        serializedVersion: 2
+        x: 834
+        y: 26
+        width: 223
+        height: 179
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 15ff60fa827c94da0800000000000000
+      internalID: -5960013654299050159
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: football_base_32
+      rect:
+        serializedVersion: 2
+        x: 1101
+        y: 22
+        width: 296
+        height: 121
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6dd45976af16a0c80800000000000000
+      internalID: -8355758430524977706
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: football_base_33
+      rect:
+        serializedVersion: 2
+        x: 1447
+        y: 28
+        width: 380
+        height: 79
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: da8ee856ccbfa2290800000000000000
+      internalID: -7914236539854460755
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable: {}
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,1167 @@
+fileFormatVersion: 2
+guid: 8a4f5064216d8794ca8a67707534a023
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 955527993360617904
+    second: grad_student_base_0
+  - first:
+      213: -2567151750353083281
+    second: grad_student_base_1
+  - first:
+      213: -2309730525483160638
+    second: grad_student_base_2
+  - first:
+      213: 6423607060125260926
+    second: grad_student_base_3
+  - first:
+      213: 1956542949277855270
+    second: grad_student_base_4
+  - first:
+      213: 8974593667625613232
+    second: grad_student_base_5
+  - first:
+      213: -1179581414555001766
+    second: grad_student_base_6
+  - first:
+      213: 3200660000024654139
+    second: grad_student_base_7
+  - first:
+      213: -7594008796235835751
+    second: grad_student_base_8
+  - first:
+      213: 7036949876243970119
+    second: grad_student_base_9
+  - first:
+      213: 6578353222454976970
+    second: grad_student_base_10
+  - first:
+      213: 1766884425787748167
+    second: grad_student_base_11
+  - first:
+      213: -3975715622649986617
+    second: grad_student_base_12
+  - first:
+      213: 7198971940001724876
+    second: grad_student_base_13
+  - first:
+      213: 3297617717014495861
+    second: grad_student_base_14
+  - first:
+      213: -2308002140617369713
+    second: grad_student_base_15
+  - first:
+      213: 8180417626862152758
+    second: grad_student_base_16
+  - first:
+      213: -6904083888587018057
+    second: grad_student_base_17
+  - first:
+      213: -7722765297648926855
+    second: grad_student_base_18
+  - first:
+      213: 4222598121130373159
+    second: grad_student_base_19
+  - first:
+      213: -7281903592921427775
+    second: grad_student_base_20
+  - first:
+      213: -2652997613721764034
+    second: grad_student_base_21
+  - first:
+      213: -5206974940941459762
+    second: grad_student_base_22
+  - first:
+      213: 875603312567045787
+    second: grad_student_base_23
+  - first:
+      213: 2519787829523457689
+    second: grad_student_base_24
+  - first:
+      213: -4305654958752782938
+    second: grad_student_base_25
+  - first:
+      213: -7138050342504676449
+    second: grad_student_base_26
+  - first:
+      213: -5869686120764016821
+    second: grad_student_base_27
+  - first:
+      213: 1621226793006321194
+    second: grad_student_base_28
+  - first:
+      213: -7647280912780805327
+    second: grad_student_base_29
+  - first:
+      213: 1649409572302196799
+    second: grad_student_base_30
+  - first:
+      213: 422152675539272911
+    second: grad_student_base_31
+  - first:
+      213: -3531373175766594045
+    second: grad_student_base_32
+  - first:
+      213: 7471982698506075196
+    second: grad_student_base_33
+  - first:
+      213: 6926757413660693633
+    second: grad_student_base_34
+  - first:
+      213: -2875651496182015761
+    second: grad_student_base_35
+  - first:
+      213: -4909961511781451387
+    second: grad_student_base_36
+  - first:
+      213: 2506664879037963745
+    second: grad_student_base_37
+  - first:
+      213: -2263298188564658850
+    second: grad_student_base_38
+  - first:
+      213: -3962799789488690085
+    second: grad_student_base_39
+  - first:
+      213: 845541888852060971
+    second: grad_student_base_40
+  - first:
+      213: -8356613640741150785
+    second: grad_student_base_41
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: grad_student_base_0
+      rect:
+        serializedVersion: 2
+        x: 75
+        y: 1734
+        width: 111
+        height: 288
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0b19339b5a7b24d00800000000000000
+      internalID: 955527993360617904
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: grad_student_base_1
+      rect:
+        serializedVersion: 2
+        x: 307
+        y: 1735
+        width: 112
+        height: 287
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f64aeab9515af5cd0800000000000000
+      internalID: -2567151750353083281
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: grad_student_base_2
+      rect:
+        serializedVersion: 2
+        x: 541
+        y: 1735
+        width: 114
+        height: 288
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2cb23b5135032ffd0800000000000000
+      internalID: -2309730525483160638
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: grad_student_base_3
+      rect:
+        serializedVersion: 2
+        x: 776
+        y: 1734
+        width: 113
+        height: 289
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e7c1573669c352950800000000000000
+      internalID: 6423607060125260926
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: grad_student_base_4
+      rect:
+        serializedVersion: 2
+        x: 67
+        y: 1430
+        width: 140
+        height: 276
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 62e60873279072b10800000000000000
+      internalID: 1956542949277855270
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: grad_student_base_5
+      rect:
+        serializedVersion: 2
+        x: 303
+        y: 1432
+        width: 145
+        height: 278
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0b77b4a24692c8c70800000000000000
+      internalID: 8974593667625613232
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: grad_student_base_6
+      rect:
+        serializedVersion: 2
+        x: 553
+        y: 1432
+        width: 148
+        height: 283
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a5cdbc104f841afe0800000000000000
+      internalID: -1179581414555001766
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: grad_student_base_7
+      rect:
+        serializedVersion: 2
+        x: 803
+        y: 1433
+        width: 156
+        height: 282
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b31754cef470b6c20800000000000000
+      internalID: 3200660000024654139
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: grad_student_base_8
+      rect:
+        serializedVersion: 2
+        x: 1080
+        y: 1433
+        width: 149
+        height: 285
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 996db2f0c39ac9690800000000000000
+      internalID: -7594008796235835751
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: grad_student_base_9
+      rect:
+        serializedVersion: 2
+        x: 1349
+        y: 1433
+        width: 128
+        height: 289
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 74830cb01a448a160800000000000000
+      internalID: 7036949876243970119
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: grad_student_base_10
+      rect:
+        serializedVersion: 2
+        x: 46
+        y: 1149
+        width: 188
+        height: 250
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ac1a977f6610b4b50800000000000000
+      internalID: 6578353222454976970
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: grad_student_base_11
+      rect:
+        serializedVersion: 2
+        x: 298
+        y: 1149
+        width: 191
+        height: 250
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 74faf3e160c358810800000000000000
+      internalID: 1766884425787748167
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: grad_student_base_12
+      rect:
+        serializedVersion: 2
+        x: 559
+        y: 1146
+        width: 188
+        height: 254
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7c10af794bb63d8c0800000000000000
+      internalID: -3975715622649986617
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: grad_student_base_13
+      rect:
+        serializedVersion: 2
+        x: 806
+        y: 1153
+        width: 206
+        height: 244
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cc9becf66d2e7e360800000000000000
+      internalID: 7198971940001724876
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: grad_student_base_14
+      rect:
+        serializedVersion: 2
+        x: 1073
+        y: 1142
+        width: 177
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5720fa397dd73cd20800000000000000
+      internalID: 3297617717014495861
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: grad_student_base_15
+      rect:
+        serializedVersion: 2
+        x: 1319
+        y: 1143
+        width: 181
+        height: 254
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f8719ab084458ffd0800000000000000
+      internalID: -2308002140617369713
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: grad_student_base_16
+      rect:
+        serializedVersion: 2
+        x: 1560
+        y: 1140
+        width: 161
+        height: 257
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 63c667b6d7ea68170800000000000000
+      internalID: 8180417626862152758
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: grad_student_base_17
+      rect:
+        serializedVersion: 2
+        x: 1772
+        y: 1152
+        width: 210
+        height: 253
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7b0f5416844cf20a0800000000000000
+      internalID: -6904083888587018057
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: grad_student_base_18
+      rect:
+        serializedVersion: 2
+        x: 73
+        y: 831
+        width: 102
+        height: 290
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 97ffbe5f0e933d490800000000000000
+      internalID: -7722765297648926855
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: grad_student_base_19
+      rect:
+        serializedVersion: 2
+        x: 297
+        y: 831
+        width: 175
+        height: 258
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 720353f6e9ea99a30800000000000000
+      internalID: 4222598121130373159
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: grad_student_base_20
+      rect:
+        serializedVersion: 2
+        x: 575
+        y: 832
+        width: 141
+        height: 275
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1c0174f634b71fa90800000000000000
+      internalID: -7281903592921427775
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: grad_student_base_21
+      rect:
+        serializedVersion: 2
+        x: 836
+        y: 832
+        width: 146
+        height: 305
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e3fb72cf9b8ae2bd0800000000000000
+      internalID: -2652997613721764034
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: grad_student_base_22
+      rect:
+        serializedVersion: 2
+        x: 1053
+        y: 833
+        width: 191
+        height: 237
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eced2d201eb1db7b0800000000000000
+      internalID: -5206974940941459762
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: grad_student_base_23
+      rect:
+        serializedVersion: 2
+        x: 1302
+        y: 833
+        width: 209
+        height: 236
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b9ec6b9d294c62c00800000000000000
+      internalID: 875603312567045787
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: grad_student_base_24
+      rect:
+        serializedVersion: 2
+        x: 1552
+        y: 833
+        width: 196
+        height: 209
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 99629183ea518f220800000000000000
+      internalID: 2519787829523457689
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: grad_student_base_25
+      rect:
+        serializedVersion: 2
+        x: 1858
+        y: 830
+        width: 100
+        height: 283
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6a5242a90ad3f34c0800000000000000
+      internalID: -4305654958752782938
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: grad_student_base_26
+      rect:
+        serializedVersion: 2
+        x: 78
+        y: 537
+        width: 99
+        height: 275
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f934722580d80fc90800000000000000
+      internalID: -7138050342504676449
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: grad_student_base_27
+      rect:
+        serializedVersion: 2
+        x: 332
+        y: 539
+        width: 130
+        height: 266
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b47f1d4729faa8ea0800000000000000
+      internalID: -5869686120764016821
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: grad_student_base_28
+      rect:
+        serializedVersion: 2
+        x: 595
+        y: 540
+        width: 122
+        height: 252
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a2ecc79bd21cf7610800000000000000
+      internalID: 1621226793006321194
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: grad_student_base_29
+      rect:
+        serializedVersion: 2
+        x: 815
+        y: 537
+        width: 97
+        height: 266
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 13b3310e6866fd590800000000000000
+      internalID: -7647280912780805327
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: grad_student_base_30
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 290
+        width: 114
+        height: 216
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f30933e5441e3e610800000000000000
+      internalID: 1649409572302196799
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: grad_student_base_31
+      rect:
+        serializedVersion: 2
+        x: 313
+        y: 291
+        width: 122
+        height: 194
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fc4cf7a2f99cbd500800000000000000
+      internalID: 422152675539272911
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: grad_student_base_32
+      rect:
+        serializedVersion: 2
+        x: 530
+        y: 300
+        width: 208
+        height: 196
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 30ec6118eca0efec0800000000000000
+      internalID: -3531373175766594045
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: grad_student_base_33
+      rect:
+        serializedVersion: 2
+        x: 788
+        y: 303
+        width: 203
+        height: 134
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c3cb1501da0d1b760800000000000000
+      internalID: 7471982698506075196
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: grad_student_base_34
+      rect:
+        serializedVersion: 2
+        x: 1033
+        y: 311
+        width: 215
+        height: 93
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1849c8e0b29c02060800000000000000
+      internalID: 6926757413660693633
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: grad_student_base_35
+      rect:
+        serializedVersion: 2
+        x: 1286
+        y: 311
+        width: 233
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fe810483332a718d0800000000000000
+      internalID: -2875651496182015761
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: grad_student_base_36
+      rect:
+        serializedVersion: 2
+        x: 73
+        y: 30
+        width: 115
+        height: 223
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5893d65e4005cdbb0800000000000000
+      internalID: -4909961511781451387
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: grad_student_base_37
+      rect:
+        serializedVersion: 2
+        x: 318
+        y: 30
+        width: 96
+        height: 235
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1ed51063d6679c220800000000000000
+      internalID: 2506664879037963745
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: grad_student_base_38
+      rect:
+        serializedVersion: 2
+        x: 552
+        y: 30
+        width: 103
+        height: 236
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e5581d9f9462790e0800000000000000
+      internalID: -2263298188564658850
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: grad_student_base_39
+      rect:
+        serializedVersion: 2
+        x: 789
+        y: 30
+        width: 130
+        height: 234
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b5ca887569e4109c0800000000000000
+      internalID: -3962799789488690085
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: grad_student_base_40
+      rect:
+        serializedVersion: 2
+        x: 1007
+        y: 31
+        width: 192
+        height: 234
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b2b6db73ed7fbbb00800000000000000
+      internalID: 845541888852060971
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: grad_student_base_41
+      rect:
+        serializedVersion: 2
+        x: 1302
+        y: 34
+        width: 179
+        height: 240
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fbf90724b28570c80800000000000000
+      internalID: -8356613640741150785
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable: {}
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

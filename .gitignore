@@ -49,3 +49,7 @@ crashlytics-build.properties
 
 # Claude Code local settings
 .claude/settings.local.json
+
+# Firebase macOS 네이티브 플러그인: GitHub 파일 크기 제한(100MB) 초과
+/[Aa]ssets/Firebase/Plugins/x86_64/FirebaseCppApp-*.bundle
+/[Aa]ssets/Firebase/Plugins/x86_64/FirebaseCppApp-*.bundle.meta
