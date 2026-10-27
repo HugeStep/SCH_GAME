@@ -42,6 +42,8 @@ public class Enemy : MonoBehaviour
             case EnemyType.Drone: sheet = "drone_unit"; hp = 1; speed = 3.2f; score = 120; break;
             default: sheet = Random.value < 0.5f ? "professor_base" : "grad_student_base"; hp = 2; speed = 2.4f; score = 100; break;
         }
+        if (sheet == "professor_base") // 교수님은 늘 뒤(화면 왼쪽 밖)에서 쫓아온다
+            transform.position = new Vector3(GameManager.I.CamLeft - 1f, Random.Range(GameManager.BandMin, GameManager.BandMax));
         melee = sheet == "grad_student_base"; // 몸통 접촉 대신 논문 내려찍기로만 피해
         touch = !melee && t <= EnemyType.Ranged; // 몸이 닿으면 피해 (기계과·조종사·드론은 공격으로만)
         speed *= 1f + GameManager.I.Elapsed / 240f; // 시간이 갈수록 빨라짐 (끝날 때 1.5배)
