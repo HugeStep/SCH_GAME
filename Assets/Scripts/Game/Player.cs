@@ -3,7 +3,7 @@ using UnityEngine;
 // 주인공: WASD 걷기 + Shift 달리기(스태미나 소모), 마우스 조준 + 왼쪽 클릭으로 종이공 투척
 public class Player : MonoBehaviour
 {
-    public const int MaxHp = 5;
+    public const int MaxHp = 3;
     public const float WalkSpeed = 3f, RunSpeed = 5.4f;
     const float FireCooldown = 1f, ThrowTime = 0.2f, InvulTime = 1.0f;
     const float RunDrain = 2.5f, Regen = 4f; // 가득 찬 스태미나를 다 쓰는 / 다시 채우는 데 걸리는 초 (서 있으면 2배로 참)

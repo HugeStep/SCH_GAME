@@ -257,7 +257,7 @@ public class GameManager : MonoBehaviour
         distText.text = $"{Meters:N0} m";
 
         int hp = Mathf.Clamp(Player.Hp, 0, Player.MaxHp);
-        if (hp != shownHp) { shownHp = hp; hpIcon.sprite = Art.Ui("hp_" + hp); }
+        if (hp != shownHp) { shownHp = hp; hpIcon.sprite = Art.Ui("hp_" + Mathf.CeilToInt(hp * 5f / Player.MaxHp)); } // 커피 그림은 0~5단계
         staminaFill.anchorMax = new Vector2(Player.Stamina, 1);
         staminaImg.color = Player.Tired ? new Color(1f, 0.35f, 0.3f) : new Color(0.45f, 0.9f, 0.4f); // 지치면 빨강
 
