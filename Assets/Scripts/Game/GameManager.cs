@@ -286,9 +286,9 @@ public class GameManager : MonoBehaviour
         await Task.Delay(1500);
         if (!this) return;
         centerText.text = "";
-        var (bestText, rankText) = BuildResult(died, score, meters, kills, hits, kill);
-        if (save == null) { rankText.text = "게스트 플레이 — 기록이 저장되지 않습니다"; return; }
-        try
+        var (bestText, rankText, dim) = BuildResult(died, score, meters, kills, hits, kill);
+        if (save == null) rankText.text = "게스트 플레이 — 기록이 저장되지 않습니다";
+        else try
         {
             bool best = await save;
             long rank = await Db.MyRank();
@@ -301,14 +301,17 @@ public class GameManager : MonoBehaviour
             Debug.LogWarning(e);
             if (rankText) rankText.text = Db.Friendly(e);
         }
+        // 오른쪽: 랭킹 (저장이 끝난 뒤에 불러와서 방금 기록이 반영된다)
+        if (dim) RankingBoard.Build(dim.transform, new Vector2(0.5f, 0.5f), new Vector2(490, 70), 920);
     }
 
-    (Text best, Text rank) BuildResult(bool died, int score, int meters, int kills, int hits, int killScore)
+    // 왼쪽: 이번 판 점수
+    (Text best, Text rank, Image dim) BuildResult(bool died, int score, int meters, int kills, int hits, int killScore)
     {
         var mid = new Vector2(0.5f, 0.5f);
         var dim = UIKit.Dim(hud, 0.6f);
         dim.raycastTarget = true;
-        var panel = UIKit.Panel(dim.transform, mid, new Vector2(0, 70), new Vector2(900, 760)).transform;
+        var panel = UIKit.Panel(dim.transform, mid, new Vector2(-470, 70), new Vector2(860, 760)).transform;
 
         UIKit.Label(panel, died ? "GAME OVER" : "TIME UP!", 72, new Vector2(0.5f, 1), new Vector2(0, -24), new Vector2(860, 90), color: UIKit.Gold);
         UIKit.Label(panel, "최종 점수", 34, new Vector2(0.5f, 1), new Vector2(0, -122), new Vector2(860, 44));
@@ -336,6 +339,6 @@ public class GameManager : MonoBehaviour
         var menu = Art.Ui("btn_menu");
         UIKit.Btn(dim.transform, menu, Art.Ui("btn_menu_pressed"), new Vector2(0.5f, 0), new Vector2(270, 30), UIKit.Fit(menu, 470),
             () => SceneManager.LoadScene("Main"));
-        return (best, rank);
+        return (best, rank, dim);
     }
 }
