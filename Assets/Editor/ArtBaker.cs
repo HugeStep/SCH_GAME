@@ -10,12 +10,11 @@ public static class ArtBaker
     const string Src = @"C:\Users\cscsw\OneDrive - sch.ac.kr\게임경진대회 소스\";
     const string Dst = "Assets/Resources/Art/";
 
-    // 진행 순서대로 이어 붙일 캠퍼스 배경 (bg_1 ~ bg_8)
-    public static readonly string[] Backgrounds =
-    {
-        "1. 앙뜨레프레너관.png", "2. 유니토피아 좌측면.png", "2. 유니토피아 정면.png", "3. 유니토 앞 건물.png",
-        "4. 공학관 20.9.png", "5. 향1-도서관.png", "6. 도서관 옆길 내리막.png", "7. 대학본관.png",
-    };
+    // 진행 순서대로 이어 붙일 캠퍼스 배경. bg_1 ~ bg_4 는 한 장짜리 파노라마를 건물 사이 x 좌표에서 잘라 쓴다
+    const string Panorama = "1-4. 캠퍼스 파노라마.png";
+    static readonly int[] PanoramaCuts = { 0, 395, 905, 1500, 2000 };
+    // bg_5 ~ bg_8
+    static readonly string[] Backgrounds = { "4. 공학관 20.9.png", "5. 향1-도서관.png", "6. 도서관 옆길 내리막.png", "7. 대학본관.png" };
 
     [System.Serializable] class Db { public Sheet[] sheets; }
     [System.Serializable] class Sheet { public string key, file; public bool chroma, jpeg; public Anim[] anims; }
@@ -81,8 +80,12 @@ public static class ArtBaker
 
         // 5) 배경 (불투명, 그대로 복사)
         File.Copy(Src + "ui/main_menu/bg_main_menu_campus_gate.png", Dst + "ui/menu_bg.png", true);
+        var pano = Load("배경/" + Panorama);
+        int n = PanoramaCuts.Length - 1;
+        for (int i = 0; i < n; i++)
+            Save(Crop(pano, PanoramaCuts[i], 0, PanoramaCuts[i + 1] - PanoramaCuts[i], pano.height, 0, false), "bg/bg_" + (i + 1));
         for (int i = 0; i < Backgrounds.Length; i++)
-            File.Copy(Src + "배경/" + Backgrounds[i], Dst + "bg/bg_" + (i + 1) + ".png", true);
+            File.Copy(Src + "배경/" + Backgrounds[i], Dst + "bg/bg_" + (n + i + 1) + ".png", true);
 
         AssetDatabase.Refresh();
         Debug.Log("[ArtBaker] 완료");

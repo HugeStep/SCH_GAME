@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
     const float MetersPerUnit = 5f;
     const int HitPenalty = 200;
 
-    // 배경 bg_1 ~ bg_8 순서의 구역 이름 (ArtBaker.Backgrounds 와 같은 순서)
+    // 배경 bg_1 ~ bg_8 순서의 구역 이름 (ArtBaker 의 배경 순서와 같음)
     static readonly string[] Zones = { "앙뜨레프레너관", "유니토피아", "유니토피아 광장", "유니토 앞", "공학관", "향설1관 · 도서관", "도서관 옆길", "대학본관" };
 
     public static GameManager I { get; private set; }
