@@ -9,10 +9,10 @@ public static class RankingBoard
     {
         var s = Art.Ui("panel_ranking");
         var panel = UIKit.Img(parent, s, anchor, pos, UIKit.Fit(s, width));
-        // 패널 그림 안쪽 남색 영역
+        // 패널 그림 안쪽 남색 영역 (전체 랭킹만 — 친구·주간 랭킹 탭 없음)
         var inner = UIKit.Rect(panel.transform, "Rows", Vector2.zero, Vector2.zero, Vector2.zero);
-        inner.anchorMin = new Vector2(0.10f, 0.13f);
-        inner.anchorMax = new Vector2(0.90f, 0.61f);
+        inner.anchorMin = new Vector2(0.10f, 0.12f);
+        inner.anchorMax = new Vector2(0.90f, 0.615f);
         inner.offsetMin = inner.offsetMax = Vector2.zero;
         var status = UIKit.Label(inner, "불러오는 중...", 32, new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(900, 100));
         Load(inner, status);
@@ -28,14 +28,18 @@ public static class RankingBoard
 
             status.text = top.Count == 0 ? "아직 기록이 없습니다.\n첫 번째 기록의 주인공이 되어보세요!" : "";
             float h = inner.rect.height / 12f;
-            Row(inner, 0, h, UIKit.Gold, "순위", "학과", "이름", "점수");
+            var head = Line(inner, 0, h);
+            UIKit.Img(head, null, Vector2.zero, Vector2.zero, Vector2.zero, new Color(0, 0, 0, 0.3f)).rectTransform.anchorMax = Vector2.one;
+            Row(head, UIKit.Gold, "순위", "학과", "이름", "점수");
             int rank = 0;
             for (int i = 0; i < top.Count; i++)
             {
                 var e = top[i];
                 if (i == 0 || e.Score != top[i - 1].Score) rank = i + 1; // 동점은 같은 순위
-                var c = e.Id == Session.Id ? UIKit.Gold : Color.white;
-                Row(inner, i + 1, h, c, rank.ToString(), e.Dept, Db.Mask(e.Name), e.Score.ToString("N0"));
+                var line = Line(inner, i + 1, h);
+                Deco(line, rank, h);
+                var c = e.Id == Session.Id && rank != 1 ? UIKit.Gold : Color.white; // 1위 줄은 금색 바탕이라 흰 글자
+                Row(line, c, rank <= 3 ? "" : rank.ToString(), e.Dept, Db.Mask(e.Name), e.Score.ToString("N0"));
             }
             if (Session.LoggedIn)
             {
@@ -50,13 +54,28 @@ public static class RankingBoard
         }
     }
 
-    static void Row(RectTransform inner, int i, float h, Color c, string rank, string dept, string name, string score)
+    // 줄 배경(1위 금색, 나머지 파랑) + 왼쪽 순위 배지. 1~3위 배지엔 숫자가 그려져 있고 4위부터는 빈 배지에 글자를 얹는다.
+    static void Deco(RectTransform line, int rank, float h)
     {
-        var line = Line(inner, i, h);
+        var bs = Art.Ui(rank == 1 ? "rank_bar_gold" : "rank_bar_blue");
+        var bar = UIKit.Img(line, bs, Vector2.zero, Vector2.zero, Vector2.zero);
+        bar.preserveAspect = false;
+        bar.type = Image.Type.Sliced;
+        bar.pixelsPerUnitMultiplier = bs.rect.height / (h * 0.88f); // 끝부분을 줄 높이에 맞춰 축소
+        bar.rectTransform.anchorMin = new Vector2(0.05f, 0.06f);
+        bar.rectTransform.anchorMax = new Vector2(1f, 0.94f);
+
+        var ks = Art.Ui(rank <= 3 ? "rank_" + rank : "rank_n");
+        var badge = UIKit.Img(line, ks, new Vector2(0.06f, 0.5f), Vector2.zero, ks.rect.size * h / 85f).rectTransform;
+        badge.pivot = new Vector2(0.5f, rank == 1 ? 0.45f : 0.5f); // 1위는 왕관만큼 위로 솟게
+    }
+
+    static void Row(RectTransform line, Color c, string rank, string dept, string name, string score)
+    {
         Cell(line, rank, 0f, 0.12f, TextAnchor.MiddleCenter, c, 30);
         Cell(line, dept, 0.14f, 0.56f, TextAnchor.MiddleLeft, c, 28);
         Cell(line, name, 0.56f, 0.74f, TextAnchor.MiddleLeft, c, 30);
-        Cell(line, score, 0.74f, 0.98f, TextAnchor.MiddleRight, c, 30);
+        Cell(line, score, 0.74f, 0.95f, TextAnchor.MiddleRight, c, 30);
     }
 
     static RectTransform Line(RectTransform inner, int i, float h)

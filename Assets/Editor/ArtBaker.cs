@@ -77,6 +77,17 @@ public static class ArtBaker
         var panel = Load("ui/panels/ui_panel_ranking.png");
         RemoveCheckerboard(panel);
         Save(Crop(panel, 0, 0, panel.width, panel.height), "ui/panel_ranking");
+        // 랭킹 요소 시트(투명 배경): 1~3위 배지, 4위 이하용 빈 배지, 줄 배경
+        var rk = Load("ui/panels/ui_ranking_elements.png");
+        Save(Crop(rk, 902, 402, 118, 120, 60), "ui/rank_1");
+        Save(Crop(rk, 1027, 415, 118, 105, 60), "ui/rank_2");
+        Save(Crop(rk, 1152, 415, 118, 105, 60), "ui/rank_3");
+        FillRows(rk, 1309, 453, 42, 44, 1305);           // '4' 글자 지우기 → 번호는 코드에서 얹음
+        Save(Crop(rk, 1278, 425, 102, 95, 60), "ui/rank_n");
+        FillRows(rk, 995, 548, 477, 154, 1060);          // 1·2위 줄의 아바타·이름·점수 지우기 (배지에 가려지는 왼쪽 끝은 잘라냄)
+        Save(Crop(rk, 995, 548, 515, 79, 60), "ui/rank_bar_gold");
+        Save(Crop(rk, 995, 629, 515, 71, 60), "ui/rank_bar_blue");
+
         var over = Load("ui/panels/ui_panel_gameover.png"); // 체크무늬 배경은 미리 지워 둔 것. 결과 화면이 그림 좌표 비율로 글자를 얹으니 자르지 않음
         Save(Crop(over, 0, 0, over.width, over.height, 0, false), "ui/panel_gameover");
 
@@ -107,6 +118,7 @@ public static class ArtBaker
             ti.mipmapEnabled = false;
             ti.alphaIsTransparency = true;
             ti.maxTextureSize = 4096;
+            if (assetPath.Contains("rank_bar")) ti.spriteBorder = new Vector4(12, 0, 44, 0); // 줄 길이에 맞춰 늘릴 때 오른쪽 뾰족한 끝은 유지
         }
     }
 

@@ -303,8 +303,11 @@ public class GameManager : MonoBehaviour
             if (rankText) rankText.text = Db.Friendly(e);
         }
         // 오른쪽: 랭킹 (저장이 끝난 뒤에 불러와서 방금 기록이 반영된다)
-        if (dim) RankingBoard.Build(dim.transform, new Vector2(0.5f, 0.5f), new Vector2(490, 70), 920);
+        // 두 프레임의 네모 틀 위·아래 끝이 같은 높이에 오도록 크기·위치를 맞춘 값 (패널 그림 비율 기준)
+        if (dim) RankingBoard.Build(dim.transform, new Vector2(0.5f, 0.5f), new Vector2(RankX, 47), 888);
     }
+
+    const float OverX = -448, RankX = 425; // 결과 화면 왼쪽(게임오버)·오른쪽(랭킹) 패널 가로 위치
 
     // 왼쪽: 이번 판 점수
     // 프레임 그림(panel_gameover)에 'GAME OVER'·'최종 점수'·항목 이름이 그려져 있어서 숫자만 얹는다
@@ -314,7 +317,7 @@ public class GameManager : MonoBehaviour
         var dim = UIKit.Dim(hud, 0.6f);
         dim.raycastTarget = true;
         var frame = Art.Ui("panel_gameover");
-        var panel = UIKit.Img(dim.transform, frame, mid, new Vector2(-470, 70), UIKit.Fit(frame, 900)).transform;
+        var panel = UIKit.Img(dim.transform, frame, mid, new Vector2(OverX, -27), UIKit.Fit(frame, 860)).transform;
 
         // (fx, fy) = 그림 좌상단 기준 비율 좌표
         Text At(string s, int size, float fx, float fy, float w, TextAnchor align = TextAnchor.MiddleCenter, Color? color = null)
@@ -337,14 +340,16 @@ public class GameManager : MonoBehaviour
             At(rows[i].value, 38, 0.55f, rowY[i], 240, TextAnchor.MiddleRight);
             At(rows[i].pts, 30, 0.74f, rowY[i], 200, TextAnchor.MiddleRight, new Color(0.75f, 0.85f, 1f));
         }
-        var best = At("", 30, 0.5f, 0.75f, 800, color: UIKit.Gold);
-        var rank = At("순위 확인 중...", 32, 0.5f, 0.808f, 800);
+        // 항목 상자 아래 ~ 남색 틀 안쪽 끝(0.72 ~ 0.83) 사이에 두 줄
+        var best = At("", 26, 0.5f, 0.752f, 800, color: UIKit.Gold);
+        var rank = At("순위 확인 중...", 28, 0.5f, 0.802f, 800);
 
+        // 버튼은 각 패널 아래 가운데
         var retry = Art.Ui("btn_retry");
-        UIKit.Btn(dim.transform, retry, Art.Ui("btn_retry_pressed"), new Vector2(0.5f, 0), new Vector2(-270, 30), UIKit.Fit(retry, 470),
+        UIKit.Btn(dim.transform, retry, Art.Ui("btn_retry_pressed"), new Vector2(0.5f, 0), new Vector2(OverX, 30), UIKit.Fit(retry, 470),
             () => SceneManager.LoadScene("Game"));
         var menu = Art.Ui("btn_menu");
-        UIKit.Btn(dim.transform, menu, Art.Ui("btn_menu_pressed"), new Vector2(0.5f, 0), new Vector2(270, 30), UIKit.Fit(menu, 470),
+        UIKit.Btn(dim.transform, menu, Art.Ui("btn_menu_pressed"), new Vector2(0.5f, 0), new Vector2(RankX, 30), UIKit.Fit(menu, 470),
             () => SceneManager.LoadScene("Main"));
         return (best, rank, dim);
     }
