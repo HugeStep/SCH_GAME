@@ -11,8 +11,8 @@ public static class RankingBoard
         var panel = UIKit.Img(parent, s, anchor, pos, UIKit.Fit(s, width));
         // 패널 그림 안쪽 남색 영역
         var inner = UIKit.Rect(panel.transform, "Rows", Vector2.zero, Vector2.zero, Vector2.zero);
-        inner.anchorMin = new Vector2(0.08f, 0.09f);
-        inner.anchorMax = new Vector2(0.92f, 0.66f);
+        inner.anchorMin = new Vector2(0.10f, 0.13f);
+        inner.anchorMax = new Vector2(0.90f, 0.61f);
         inner.offsetMin = inner.offsetMax = Vector2.zero;
         var status = UIKit.Label(inner, "불러오는 중...", 32, new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(900, 100));
         Load(inner, status);
