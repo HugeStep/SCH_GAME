@@ -287,7 +287,7 @@ public class GameManager : MonoBehaviour
         await Task.Delay(1500);
         if (!this) return;
         centerText.text = "";
-        var (bestText, rankText, dim) = BuildResult(died, score, meters, kills, hits, kill);
+        var (bestText, rankText, dim) = BuildResult(score, meters, kills, hits, kill);
         if (save == null) rankText.text = "게스트 플레이 — 기록이 저장되지 않습니다";
         else try
         {
@@ -307,32 +307,38 @@ public class GameManager : MonoBehaviour
     }
 
     // 왼쪽: 이번 판 점수
-    (Text best, Text rank, Image dim) BuildResult(bool died, int score, int meters, int kills, int hits, int killScore)
+    // 프레임 그림(panel_gameover)에 'GAME OVER'·'최종 점수'·항목 이름이 그려져 있어서 숫자만 얹는다
+    (Text best, Text rank, Image dim) BuildResult(int score, int meters, int kills, int hits, int killScore)
     {
         var mid = new Vector2(0.5f, 0.5f);
         var dim = UIKit.Dim(hud, 0.6f);
         dim.raycastTarget = true;
-        var panel = UIKit.Panel(dim.transform, mid, new Vector2(-470, 70), new Vector2(860, 760)).transform;
+        var frame = Art.Ui("panel_gameover");
+        var panel = UIKit.Img(dim.transform, frame, mid, new Vector2(-470, 70), UIKit.Fit(frame, 900)).transform;
 
-        UIKit.Label(panel, died ? "GAME OVER" : "TIME UP!", 72, new Vector2(0.5f, 1), new Vector2(0, -24), new Vector2(860, 90), color: UIKit.Gold);
-        UIKit.Label(panel, "최종 점수", 34, new Vector2(0.5f, 1), new Vector2(0, -122), new Vector2(860, 44));
-        UIKit.Label(panel, score.ToString("N0"), 100, new Vector2(0.5f, 1), new Vector2(0, -166), new Vector2(860, 120), color: UIKit.Gold);
-
-        (string label, string value, string pts)[] rows =
+        // (fx, fy) = 그림 좌상단 기준 비율 좌표
+        Text At(string s, int size, float fx, float fy, float w, TextAnchor align = TextAnchor.MiddleCenter, Color? color = null)
         {
-            ("이동 거리", $"{meters:N0} m", $"+{meters * 10:N0}"),
-            ("적 처치", $"{kills}", $"+{killScore:N0}"),
-            ("피격 횟수", $"{hits}", hits > 0 ? $"-{hits * HitPenalty:N0}" : "0"),
+            var t = UIKit.Label(panel, s, size, new Vector2(fx, 1 - fy), Vector2.zero, new Vector2(w, size * 1.4f), align, color);
+            t.rectTransform.pivot = mid;
+            return t;
+        }
+
+        At(score.ToString("N0"), 90, 0.5f, 0.345f, 800, color: UIKit.Gold);
+        (string value, string pts)[] rows =
+        {
+            ($"{meters:N0} m", $"+{meters * 10:N0}"),
+            ($"{kills}", $"+{killScore:N0}"),
+            ($"{hits}", hits > 0 ? $"-{hits * HitPenalty:N0}" : "0"),
         };
+        float[] rowY = { 0.494f, 0.575f, 0.656f }; // 그림 속 이동 거리 / 적 처치 / 피격 횟수 줄
         for (int i = 0; i < rows.Length; i++)
         {
-            float y = -310 - i * 62;
-            UIKit.Label(panel, rows[i].label, 36, new Vector2(0, 1), new Vector2(110, y), new Vector2(260, 56), TextAnchor.MiddleLeft);
-            UIKit.Label(panel, rows[i].value, 40, new Vector2(0, 1), new Vector2(380, y), new Vector2(200, 56), TextAnchor.MiddleRight);
-            UIKit.Label(panel, rows[i].pts, 30, new Vector2(1, 1), new Vector2(-110, y), new Vector2(200, 56), TextAnchor.MiddleRight, new Color(0.75f, 0.85f, 1f));
+            At(rows[i].value, 38, 0.55f, rowY[i], 240, TextAnchor.MiddleRight);
+            At(rows[i].pts, 30, 0.74f, rowY[i], 200, TextAnchor.MiddleRight, new Color(0.75f, 0.85f, 1f));
         }
-        var best = UIKit.Label(panel, "", 36, new Vector2(0.5f, 0), new Vector2(0, 100), new Vector2(860, 50), color: UIKit.Gold);
-        var rank = UIKit.Label(panel, "순위 확인 중...", 44, new Vector2(0.5f, 0), new Vector2(0, 36), new Vector2(860, 60));
+        var best = At("", 30, 0.5f, 0.75f, 800, color: UIKit.Gold);
+        var rank = At("순위 확인 중...", 32, 0.5f, 0.808f, 800);
 
         var retry = Art.Ui("btn_retry");
         UIKit.Btn(dim.transform, retry, Art.Ui("btn_retry_pressed"), new Vector2(0.5f, 0), new Vector2(-270, 30), UIKit.Fit(retry, 470),

@@ -77,6 +77,8 @@ public static class ArtBaker
         var panel = Load("ui/panels/ui_panel_ranking.png");
         RemoveCheckerboard(panel);
         Save(Crop(panel, 0, 0, panel.width, panel.height), "ui/panel_ranking");
+        var over = Load("ui/panels/ui_panel_gameover.png"); // 체크무늬 배경은 미리 지워 둔 것. 결과 화면이 그림 좌표 비율로 글자를 얹으니 자르지 않음
+        Save(Crop(over, 0, 0, over.width, over.height, 0, false), "ui/panel_gameover");
 
         Save(Crop(Load("ui/title/ui_title_logo.png"), 0, 0, 2695, 1696, 10), "ui/logo");
 
