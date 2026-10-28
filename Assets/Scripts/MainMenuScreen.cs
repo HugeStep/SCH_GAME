@@ -92,8 +92,8 @@ public class MainMenuScreen : MonoBehaviour
         UIKit.Label(panel, "게임 규칙", 56, new Vector2(0.5f, 1), new Vector2(0, -30), new Vector2(800, 70), color: UIKit.Gold);
         UIKit.Label(panel,
             "<color=#FFD54A>목표</color>   2분 동안 캠퍼스를 <b>오른쪽으로</b> 최대한 멀리 달리세요!\n" +
-            "<color=#FFD54A>이동</color>   W A S D  (8방향)\n" +
-            "<color=#FFD54A>공격</color>   마우스로 조준하고 왼쪽 클릭 — 누르고 있으면 계속 던져요\n" +
+            "<color=#FFD54A>이동</color>   W A S D  (8방향) · Shift 누르면 달리기 (스태미나 소모)\n" +
+            "<color=#FFD54A>공격</color>   마우스로 조준하고 왼쪽 클릭 — 1초에 한 번\n" +
             "<color=#FFD54A>체력</color>   아이스커피 5잔 · 다 비우면 그 자리에서 게임 종료\n" +
             "<color=#FFD54A>점수</color>   이동 거리(m) × 10  +  처치 점수  −  피격 1회당 200",
             34, new Vector2(0.5f, 1), new Vector2(0, -130), new Vector2(1200, 300), TextAnchor.UpperLeft);

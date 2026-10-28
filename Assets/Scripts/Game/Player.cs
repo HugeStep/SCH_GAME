@@ -1,15 +1,19 @@
 using UnityEngine;
 
-// 주인공: WASD 이동, 마우스 조준 + 왼쪽 클릭으로 종이공 투척
+// 주인공: WASD 걷기 + Shift 달리기(스태미나 소모), 마우스 조준 + 왼쪽 클릭으로 종이공 투척
 public class Player : MonoBehaviour
 {
     public const int MaxHp = 5;
-    const float Speed = 4.6f, FireCooldown = 1f, ThrowTime = 0.2f, InvulTime = 1.0f;
+    public const float WalkSpeed = 3f, RunSpeed = 5.4f;
+    const float FireCooldown = 1f, ThrowTime = 0.2f, InvulTime = 1.0f;
+    const float RunDrain = 2.5f, Regen = 4f; // 가득 찬 스태미나를 다 쓰는 / 다시 채우는 데 걸리는 초 (서 있으면 2배로 참)
     public const float HalfWidth = 0.4f, Height = 1.9f;
 
     public int Hp = MaxHp;
+    public float Stamina { get; private set; } = 1f; // 0~1
+    public bool Tired { get; private set; } // 다 쓰면 30% 찰 때까지 못 뜀
     SpriteAnim anim;
-    Sprite[] idle, run, hit, fall, throwStand, throwRun;
+    Sprite[] idle, walk, run, hit, fall, throwStand, throwRun;
     float fireT, throwT, hurtT, invulT;
     int facing = 1;
     bool moving;
@@ -26,6 +30,7 @@ public class Player : MonoBehaviour
     {
         anim = GetComponent<SpriteAnim>();
         idle = Art.Frames("player_base", "idle");
+        walk = Art.Frames("player_base", "walk");
         run = Art.Frames("player_base", "run");
         hit = Art.Frames("player_base", "hit");
         fall = Art.Frames("player_base", "trip_fall");
@@ -57,8 +62,12 @@ public class Player : MonoBehaviour
         var input = new Vector2(Key(KeyCode.D) - Key(KeyCode.A), Key(KeyCode.W) - Key(KeyCode.S));
         if (input.sqrMagnitude > 1) input.Normalize();
         moving = input.sqrMagnitude > 0.01f;
+        bool running = moving && !Tired && (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift));
+        Stamina = Mathf.Clamp01(Stamina + (running ? -dt / RunDrain : dt / Regen * (moving ? 1f : 2f)));
+        if (Stamina <= 0) Tired = true;
+        else if (Tired && Stamina >= 0.3f) Tired = false;
         if (hurtT > 0) { hurtT -= dt; input *= 0.3f; }
-        var p = transform.position + (Vector3)(input * (Speed * dt));
+        var p = transform.position + (Vector3)(input * ((running ? RunSpeed : WalkSpeed) * dt));
         p.x = Mathf.Clamp(p.x, gm.CamLeft + 0.6f, gm.CamRight - 0.6f);
         p.y = Mathf.Clamp(p.y, GameManager.BandMin, GameManager.BandMax);
         transform.position = p;
@@ -76,7 +85,8 @@ public class Player : MonoBehaviour
 
         if (hurtT > 0) anim.Play(hit, 14, false);
         else if (throwT > 0) anim.Play(moving ? throwRun : throwStand, 25, false);
-        else if (moving) anim.Play(run, 14, true);
+        else if (running) anim.Play(run, 14, true);
+        else if (moving) anim.Play(walk, 10, true);
         else anim.Play(idle, 6, true);
 
         anim.Sr.enabled = invulT <= 0 || (int)(invulT * 16) % 2 == 0; // 무적 중 깜빡임

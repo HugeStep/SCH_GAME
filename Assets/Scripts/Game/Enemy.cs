@@ -43,7 +43,9 @@ public class Enemy : MonoBehaviour
             default:
                 // 교수님은 한 번에 한 명만 (이미 있으면 대학원생)
                 professor = Random.value < 0.5f && !GameManager.I.Enemies.Exists(e => e.professor && !e.dead);
-                sheet = professor ? "professor_base" : "grad_student_base"; hp = 2; speed = 2.4f; score = 100; break;
+                sheet = professor ? "professor_base" : "grad_student_base"; hp = 2; score = 100;
+                speed = professor ? Player.WalkSpeed + 0.3f : 2.4f; // 교수님은 주인공이 걸을 때보다 조금 빠르고 뛸 때보다 느리다
+                break;
         }
         if (professor) // 교수님은 늘 뒤(화면 왼쪽 밖)에서 쫓아온다
             transform.position = new Vector3(GameManager.I.CamLeft - 1f, Random.Range(GameManager.BandMin, GameManager.BandMax));
@@ -119,6 +121,8 @@ public class Enemy : MonoBehaviour
         anim.Sr.color = flashT > 0 ? new Color(1f, 0.4f, 0.4f, alpha) : new Color(1, 1, 1, alpha);
 
         if (!gm.Running) { anim.Play(idle, 6, true); return; }
+        // 교수님은 떨어져도 사라지지 않고 화면 바로 뒤에 붙어 걸어온다 → 주인공이 걸으면 왼쪽 끝에 살짝씩 보인다
+        if (professor && transform.position.x < gm.CamLeft - 1.5f) transform.position = new Vector3(gm.CamLeft - 1.5f, transform.position.y);
         if (transform.position.x < gm.CamLeft - 6f) { gm.Enemies.Remove(this); Destroy(gameObject); return; } // 한참 뒤처짐
 
         var to = gm.Player.transform.position - transform.position;
@@ -129,7 +133,7 @@ public class Enemy : MonoBehaviour
         else if (type == EnemyType.Pilot) Pilot(to, dt);
         else if (type == EnemyType.Drone) Fly(to, dt);
         else if (melee) Slam(to, dt);
-        else Move(to, speed, run);
+        else Move(to, speed, professor ? walk : run);
         anim.Sr.flipX = facing < 0;
         if (type == EnemyType.Drone) { anim.Sr.sortingOrder = 3000; return; } // 하늘에 떠 있으니 땅 위 캐릭터들보다 앞에
         if (type != EnemyType.Pilot) Separate(gm);

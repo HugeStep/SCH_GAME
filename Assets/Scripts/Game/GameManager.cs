@@ -46,7 +46,8 @@ public class GameManager : MonoBehaviour
 
     RectTransform hud;
     Image hpIcon;
-    RectTransform progressFill;
+    RectTransform progressFill, staminaFill;
+    Image staminaImg;
     Text timeText, scoreText, statText, distText, zoneText, centerText;
 
     void Awake()
@@ -73,7 +74,7 @@ public class GameManager : MonoBehaviour
         nextX = CamLeft - 1f;
         UpdateCampus();
 
-        Player = Player.Create(new Vector3(CamLeft + 4f, -2.6f, 0));
+        Player = Player.Create(new Vector3(0, -2.6f, 0));
         startX = Player.transform.position.x;
         BuildHud();
         Running = true;
@@ -93,7 +94,7 @@ public class GameManager : MonoBehaviour
     {
         // 카메라는 오른쪽으로만 따라간다 (지나온 곳으로는 돌아가지 않음)
         var p = Cam.transform.position;
-        float target = Player.transform.position.x + 2f;
+        float target = Player.transform.position.x; // 주인공을 화면 가운데에
         if (target > p.x) p.x = Mathf.Lerp(p.x, target, 8f * Time.deltaTime);
         shakeT -= Time.deltaTime;
         p.y = shakeT > 0 ? Random.Range(-0.08f, 0.08f) : 0f;
@@ -219,6 +220,13 @@ public class GameManager : MonoBehaviour
         var cup = Art.Ui("hp_5");
         hpIcon = UIKit.Img(hud, cup, tl, new Vector2(30, -16), UIKit.Fit(cup, 92));
         statText = UIKit.Label(hud, "", 30, tl, new Vector2(140, -40), new Vector2(240, 100), TextAnchor.UpperLeft);
+        // 스태미나 바 (Shift 달리기)
+        UIKit.Label(hud, "STAMINA", 22, tl, new Vector2(30, -150), new Vector2(160, 28), TextAnchor.MiddleLeft, UIKit.Gold);
+        var track = UIKit.Img(hud, null, tl, new Vector2(30, -180), new Vector2(260, 16), new Color(0, 0, 0, 0.55f));
+        staminaImg = UIKit.Img(track.transform, null, Vector2.zero, Vector2.zero, Vector2.zero);
+        staminaFill = staminaImg.rectTransform;
+        staminaFill.anchorMin = Vector2.zero;
+        staminaFill.offsetMin = staminaFill.offsetMax = Vector2.zero;
 
         var barSprite = Art.Ui("progress_bar");
         var bar = UIKit.Img(hud, barSprite, top, new Vector2(0, -6), UIKit.Fit(barSprite, 900));
@@ -249,6 +257,8 @@ public class GameManager : MonoBehaviour
 
         int hp = Mathf.Clamp(Player.Hp, 0, Player.MaxHp);
         if (hp != shownHp) { shownHp = hp; hpIcon.sprite = Art.Ui("hp_" + hp); }
+        staminaFill.anchorMax = new Vector2(Player.Stamina, 1);
+        staminaImg.color = Player.Tired ? new Color(1f, 0.35f, 0.3f) : new Color(0.45f, 0.9f, 0.4f); // 지치면 빨강
 
         float progress = Mathf.Clamp01((Player.transform.position.x - startX) / lapLength); // START → GOAL (캠퍼스 한 바퀴)
         progressFill.anchorMax = new Vector2(Mathf.Lerp(0.118f, 0.89f, progress), 0.53f);
