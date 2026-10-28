@@ -46,6 +46,8 @@ public static class ArtBaker
         Save(Crop(menu, 455, 140, 450, 195), "ui/btn_start_pressed");
         Save(Crop(menu, 910, 500, 435, 195), "ui/btn_exit");
         Save(Crop(menu, 1345, 500, 425, 195), "ui/btn_exit_pressed");
+        Save(Crop(menu, 910, 140, 435, 195), "ui/btn_settings");
+        Save(Crop(menu, 1345, 140, 425, 195), "ui/btn_settings_pressed");
         FillRows(menu, 205, 545, 147, 100, 353);           // '도감' 글자 지우기 → 글자는 코드에서 얹음
         Save(Crop(menu, 15, 500, 445, 195), "ui/btn_blue_book");
         CoverIcon(menu, 82, 562, 88, 74);                   // 책 아이콘 지우기

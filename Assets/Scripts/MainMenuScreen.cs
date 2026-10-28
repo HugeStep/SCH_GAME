@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-// 메인 화면: 게임 시작 / 규칙 / 랭킹 / 종료 + 내 정보
+// 메인 화면: 게임 시작 / 설정 / 도움말 / 종료 + 랭킹(왼쪽 트로피 버튼·오른쪽 위 내 정보 배너)
 public class MainMenuScreen : MonoBehaviour
 {
     static readonly Vector2 Mid = new(0.5f, 0.5f);
@@ -25,21 +25,26 @@ public class MainMenuScreen : MonoBehaviour
         var start = Art.Ui("btn_start");
         UIKit.Btn(root, start, Art.Ui("btn_start_pressed"), right, new Vector2(-60, 200), UIKit.Fit(start, 600),
             () => SceneManager.LoadScene("Game"));
-        var rules = BlueButton("btn_blue_book", "규칙", new Vector2(-70, 30), ShowRules);
-        var rank = BlueButton("btn_blue_blank", "랭킹", new Vector2(-70, -130), ShowRanking);
-        var trophy = Art.Ui("trophy");
-        var size = rank.GetComponent<RectTransform>().sizeDelta;
-        UIKit.Img(rank.transform, trophy, Mid, new Vector2(-size.x * 0.245f, 2), UIKit.Fit(trophy, size.x * 0.24f));
+        var settings = Art.Ui("btn_settings");
+        UIKit.Btn(root, settings, Art.Ui("btn_settings_pressed"), right, new Vector2(-70, 30), UIKit.Fit(settings, 520), ShowSettings);
+        BlueButton("btn_blue_book", "도움말", new Vector2(-70, -130), ShowRules);
         var exit = Art.Ui("btn_exit");
         UIKit.Btn(root, exit, Art.Ui("btn_exit_pressed"), right, new Vector2(-70, -290), UIKit.Fit(exit, 520), Quit);
 
-        // 오른쪽 위: 내 정보 배너
+        // 왼쪽: 랭킹 버튼 (트로피)
+        var rb = UIKit.Btn(root, null, null, new Vector2(0, 0.5f), new Vector2(50, -20), new Vector2(150, 160), ShowRanking, UIKit.Navy);
+        var outline = rb.gameObject.AddComponent<Outline>();
+        outline.effectColor = UIKit.Gold;
+        outline.effectDistance = new Vector2(4, 4);
+        var trophy = Art.Ui("trophy");
+        UIKit.Img(rb.transform, trophy, new Vector2(0.5f, 1), new Vector2(0, -10), UIKit.Fit(trophy, 100));
+        UIKit.Label(rb.transform, "랭킹", 32, new Vector2(0.5f, 0), new Vector2(0, 6), new Vector2(150, 44));
+
+        // 오른쪽 위: 내 정보 배너 (트로피 — 누르면 랭킹)
         var banner = Art.Ui("banner_trophy");
         var bannerSize = UIKit.Fit(banner, 640);
-        var b = UIKit.Img(root, banner, new Vector2(1, 1), new Vector2(-30, -20), bannerSize);
+        var b = UIKit.Btn(root, banner, null, new Vector2(1, 1), new Vector2(-30, -20), bannerSize, ShowRanking);
         info = UIKit.Label(b.transform, "", 28, Mid, new Vector2(bannerSize.x * 0.11f, 4), new Vector2(bannerSize.x * 0.62f, 120));
-        UIKit.TextBtn(root, "로그아웃", 24, new Vector2(1, 1), new Vector2(-40, -225), new Vector2(160, 48), new Color(0.1f, 0.2f, 0.45f, 0.9f),
-            () => { Session.Clear(); SceneManager.LoadScene("Login"); });
         RefreshInfo();
 
         // 왼쪽 아래: 주인공 + 말풍선
@@ -89,7 +94,7 @@ public class MainMenuScreen : MonoBehaviour
     {
         var p = OpenPopup();
         var panel = UIKit.Panel(p, Mid, new Vector2(0, 20), new Vector2(1320, 860)).transform;
-        UIKit.Label(panel, "게임 규칙", 56, new Vector2(0.5f, 1), new Vector2(0, -30), new Vector2(800, 70), color: UIKit.Gold);
+        UIKit.Label(panel, "도움말", 56, new Vector2(0.5f, 1), new Vector2(0, -30), new Vector2(800, 70), color: UIKit.Gold);
         UIKit.Label(panel,
             "<color=#FFD54A>목표</color>   2분 동안 캠퍼스를 <b>오른쪽으로</b> 최대한 멀리 달리세요!\n" +
             "<color=#FFD54A>이동</color>   W A S D  (8방향) · Shift 누르면 달리기 (스태미나 소모)\n" +
@@ -116,6 +121,32 @@ public class MainMenuScreen : MonoBehaviour
         UIKit.TextBtn(panel, "닫기", 32, new Vector2(0.5f, 0), new Vector2(0, 24), new Vector2(220, 64), new Color(1f, 0.72f, 0.1f), () => Destroy(popup));
     }
 
+    void ShowSettings()
+    {
+        var p = OpenPopup();
+        var panel = UIKit.Panel(p, Mid, new Vector2(0, 20), new Vector2(820, 480)).transform;
+        UIKit.Label(panel, "설정", 56, new Vector2(0.5f, 1), new Vector2(0, -30), new Vector2(600, 70), color: UIKit.Gold);
+        Toggle(panel, "배경음악", 60, () => Sfx.BgmOn, v => Sfx.BgmOn = v);
+        Toggle(panel, "효과음", -60, () => Sfx.On, v => Sfx.On = v);
+        UIKit.TextBtn(panel, "닫기", 32, new Vector2(0.5f, 0), new Vector2(0, 24), new Vector2(220, 64), new Color(1f, 0.72f, 0.1f), () => Destroy(popup));
+    }
+
+    // 이름 + 켜짐/꺼짐 버튼 한 줄
+    static void Toggle(Transform panel, string name, float y, Func<bool> get, Action<bool> set)
+    {
+        UIKit.Label(panel, name, 40, Mid, new Vector2(-140, y), new Vector2(300, 70), TextAnchor.MiddleLeft);
+        Text label = null;
+        Button b = null;
+        void Show()
+        {
+            label.text = get() ? "켜짐" : "꺼짐";
+            b.image.color = get() ? new Color(0.3f, 0.75f, 0.35f) : new Color(0.45f, 0.45f, 0.5f);
+        }
+        b = UIKit.TextBtn(panel, "", 34, Mid, new Vector2(170, y), new Vector2(220, 70), Color.white, () => { set(!get()); Show(); });
+        label = b.GetComponentInChildren<Text>();
+        Show();
+    }
+
     void ShowRanking()
     {
         var p = OpenPopup();
@@ -125,6 +156,7 @@ public class MainMenuScreen : MonoBehaviour
 
     static void Quit()
     {
+        Session.Clear(); // 종료 = 로그아웃 (다음 실행은 로그인 화면부터)
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #else

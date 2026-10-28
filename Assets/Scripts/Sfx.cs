@@ -16,8 +16,13 @@ public static class Sfx
         src = go.AddComponent<AudioSource>();
     }
 
+    // 설정 화면의 켜기/끄기 (저장됨)
+    public static bool On { get => PlayerPrefs.GetInt("sfx", 1) == 1; set => PlayerPrefs.SetInt("sfx", value ? 1 : 0); }
+    public static bool BgmOn { get => PlayerPrefs.GetInt("bgm", 1) == 1; set => PlayerPrefs.SetInt("bgm", value ? 1 : 0); }
+
     public static void Play(string name, float volume = 1f)
     {
+        if (!On) return;
         if (!clips.TryGetValue(name, out var clip)) clips[name] = clip = Resources.Load<AudioClip>("Audio/sfx_" + name);
         if (clip) src.PlayOneShot(clip, volume);
     }

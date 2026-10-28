@@ -68,6 +68,7 @@ public class GameManager : MonoBehaviour
         bgm.clip = Resources.Load<AudioClip>("Audio/bgm_game");
         bgm.loop = true;
         bgm.volume = 0.5f;
+        bgm.mute = !Sfx.BgmOn;
         bgm.Play();
 
         for (int i = 1; i <= Zones.Length; i++) lapLength += Width(Art.Bg(i));
