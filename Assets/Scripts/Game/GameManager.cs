@@ -61,6 +61,14 @@ public class GameManager : MonoBehaviour
         Cam.orthographicSize = 5;
         Cam.transform.position = new Vector3(0, 0, -10);
 
+        // 배경음악 (씬에 AudioListener가 없어서 카메라에 붙인다)
+        Cam.gameObject.AddComponent<AudioListener>();
+        var bgm = gameObject.AddComponent<AudioSource>();
+        bgm.clip = Resources.Load<AudioClip>("Audio/bgm_game");
+        bgm.loop = true;
+        bgm.volume = 0.5f;
+        bgm.Play();
+
         for (int i = 1; i <= Zones.Length; i++) lapLength += Width(Art.Bg(i));
         nextX = CamLeft - 1f;
         UpdateCampus();
