@@ -94,6 +94,7 @@ public class Player : MonoBehaviour
         var dir = target - hand;
         if (dir.sqrMagnitude < 0.01f) dir = Vector3.right * facing;
         Projectile.Ball(hand, dir.normalized);
+        Sfx.Play("throw", 0.35f); // 초당 5번까지 나니 작게
     }
 
     public void Damage(Vector3 from)
@@ -107,6 +108,7 @@ public class Player : MonoBehaviour
         p.x += Mathf.Sign(p.x - from.x) * 0.5f; // 살짝 밀려남
         transform.position = p;
         SpriteAnim.Fx(Art.Frames("fx_common", "hit_spark"), p + Vector3.up, 0.9f);
+        Sfx.Play("hurt");
         GameManager.I.OnPlayerHit();
     }
 }

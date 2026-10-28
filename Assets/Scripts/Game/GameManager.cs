@@ -61,8 +61,7 @@ public class GameManager : MonoBehaviour
         Cam.orthographicSize = 5;
         Cam.transform.position = new Vector3(0, 0, -10);
 
-        // 배경음악 (씬에 AudioListener가 없어서 카메라에 붙인다)
-        Cam.gameObject.AddComponent<AudioListener>();
+        // 배경음악 (AudioListener는 Sfx가 만든다)
         var bgm = gameObject.AddComponent<AudioSource>();
         bgm.clip = Resources.Load<AudioClip>("Audio/bgm_game");
         bgm.loop = true;
@@ -243,6 +242,7 @@ public class GameManager : MonoBehaviour
         StopAllCoroutines();
         int score = Score, meters = Meters, kills = Kills, hits = Hits, kill = killScore;
         centerText.text = died ? "GAME OVER" : "TIME UP!";
+        Sfx.Play(died ? "gameover" : "whistle");
         var save = Session.LoggedIn ? Db.SaveResult(score, meters, kills, hits) : null;
 
         await Task.Delay(1500);

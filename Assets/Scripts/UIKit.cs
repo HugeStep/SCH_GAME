@@ -133,6 +133,7 @@ public static class UIKit
             cb.pressedColor = new Color(0.7f, 0.7f, 0.7f);
             b.colors = cb;
         }
+        b.onClick.AddListener(() => Sfx.Play("click"));
         b.onClick.AddListener(onClick);
         return b;
     }

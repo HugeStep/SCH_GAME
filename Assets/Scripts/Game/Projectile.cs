@@ -8,6 +8,7 @@ public class Projectile : MonoBehaviour
     bool hostile; // true = 적이 던진 것 (주인공을 맞힘)
     SpriteAnim anim;
     Sprite[] endFx; // 적 투사체가 터질 때
+    string endSfx;
 
     public static void Ball(Vector3 pos, Vector3 dir)
     {
@@ -22,6 +23,7 @@ public class Projectile : MonoBehaviour
         p.anim.Play(Art.Frames("flask", "projectile"), 14, true);
         p.anim.Sr.flipX = dir.x < 0;
         p.endFx = Art.Frames("flask", "explode");
+        p.endSfx = "glass";
     }
 
     public static void Energy(Vector3 pos, Vector3 dir)
@@ -77,6 +79,7 @@ public class Projectile : MonoBehaviour
     void End()
     {
         if (hostile) SpriteAnim.Fx(endFx, transform.position, fxScale, 14f);
+        if (endSfx != null) Sfx.Play(endSfx, 0.7f);
         Destroy(gameObject);
     }
 }

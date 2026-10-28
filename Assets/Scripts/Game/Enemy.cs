@@ -7,7 +7,7 @@ public class Enemy : MonoBehaviour
 {
     EnemyType type;
     int hp, score, facing = 1;
-    int state; // 돌진형: 0 접근 1 준비 2 돌진 3 숨고르기 / 원거리형·드론: 0 이동 1 쏘기 / 대학원생·기계과: 0 접근 1 공격 / 조종사: 0 첫 드론 전 1 이후
+    int state; // 돌진형: 0 접근 1 준비 2 돌진 3 숨고르기 / 원거리형·드론: 0 이동 1 쏘기 / 대학원생: 0 접근 1 공격 2 내려찍은 뒤 / 기계과: 0 접근 1 공격 / 조종사: 0 첫 드론 전 1 이후
     float speed, height = 1.9f, stateT, hurtT, flashT, alpha, attackCd;
     Vector3 dashDir;
     bool dead, thrown, melee, touch;
@@ -72,6 +72,7 @@ public class Enemy : MonoBehaviour
         if (dead) return;
         hp -= dmg;
         flashT = 0.1f;
+        Sfx.Play("hit", 0.6f);
         if (melee) state = 0; // 맞으면 내려찍기가 끊긴다
         // 돌진 중·로봇팔 휘두르는 중·의자에 앉은 조종사는 경직 없음
         bool steady = (type == EnemyType.Charger && state == 2) || (type == EnemyType.Engineer && state == 1) || type == EnemyType.Pilot;
@@ -81,6 +82,7 @@ public class Enemy : MonoBehaviour
             transform.position += new Vector3(Mathf.Sign(dir.x) * 0.15f, 0);
         }
         if (hp > 0) return;
+        Sfx.Play("kill");
         Die();
         GameManager.I.AddKill(score);
         if (type == EnemyType.Pilot && partner) partner.Die(); // 조종사가 쓰러지면 드론도 추락 (점수는 조종사 몫만)
@@ -164,6 +166,7 @@ public class Enemy : MonoBehaviour
         state = 1;
         thrown = false;
         anim.Play(attack, 8, false, true);
+        Sfx.Play("robot", 0.6f);
     }
 
     // 드론학과: 캠핑 의자에 앉아 움직이지 않고 드론을 띄운다. 드론이 격추되면 잠시 뒤 새로 띄우니 조종사를 잡아야 끝난다
@@ -195,6 +198,7 @@ public class Enemy : MonoBehaviour
                 thrown = true;
                 var muzzle = transform.position + new Vector3(0.45f * facing, -0.1f);
                 Projectile.Energy(muzzle, (gm.Player.transform.position + Vector3.up - muzzle).normalized);
+                Sfx.Play("zap", 0.6f);
             }
             if (anim.Done) { state = 0; attackCd = Random.Range(2.2f, 3f); }
             return;
@@ -219,9 +223,10 @@ public class Enemy : MonoBehaviour
     // 대학원생: 붙으면 논문 더미를 머리 위로 들었다가(예고) 앞으로 내려찍는다. 내려찍는 프레임에 앞에 있으면 피격
     void Slam(Vector3 to, float dt)
     {
-        if (state == 1)
+        if (state >= 1) // 2 = 내려찍는 소리를 낸 뒤
         {
             anim.Play(attack, 12, false);
+            if (state == 1 && anim.Frame >= 4) { state = 2; Sfx.Play("slam", 0.7f); }
             float ahead = to.x * facing;
             if (!thrown && anim.Frame >= 4 && anim.Frame <= 5 && ahead > -0.2f && ahead < 1.4f && Mathf.Abs(to.y) < 0.4f)
             {
@@ -271,6 +276,7 @@ public class Enemy : MonoBehaviour
                     stateT = 0;
                     dashDir = to.normalized;
                     SpriteAnim.Fx(Art.Frames("fx_common", "dust_puff"), transform.position + Vector3.up * 0.3f, 0.8f, 18f, dashDir.x > 0);
+                    Sfx.Play("dash");
                 }
                 break;
             case 2:
