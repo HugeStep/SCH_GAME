@@ -90,19 +90,49 @@ public static class Db
         return snap.Count + 1;
     }
 
-    public static async Task<List<Entry>> Top(int n)
+    // 랭킹 한 페이지. Start = 첫 줄의 위치(0부터), FirstRank = 첫 줄의 순위(동점 반영).
+    // 앞뒤 페이지는 이 페이지 양 끝 문서에서 이어 읽어서, 페이지마다 n개만 읽는다.
+    public class Page
+    {
+        public List<Entry> List = new();
+        public long Start, FirstRank;
+        internal DocumentSnapshot first, last;
+    }
+
+    static Query Ranked(CollectionReference users) => users.WhereGreaterThan("bestScore", 0).OrderByDescending("bestScore");
+
+    // 기록이 있는 전체 인원
+    public static async Task<long> Count() =>
+        (await (await Users()).WhereGreaterThan("bestScore", 0).Count.GetSnapshotAsync(AggregateSource.Server)).Count;
+
+    public static async Task<Page> First(int n) => await Read(Ranked(await Users()).Limit(n), 0);
+    // score 점(동점 중 맨 앞)부터. index = 그 줄의 위치 (= 내 순위 - 1)
+    public static async Task<Page> At(long score, long index, int n) => await Read(Ranked(await Users()).StartAt(score).Limit(n), index);
+    public static async Task<Page> Next(Page p, int n) => await Read(Ranked(await Users()).StartAfter(p.last).Limit(n), p.Start + p.List.Count);
+    public static async Task<Page> Prev(Page p, int n)
+    {
+        var page = await Read(Ranked(await Users()).EndBefore(p.first).LimitToLast(n), 0);
+        page.Start = p.Start - page.List.Count;
+        return page;
+    }
+
+    static async Task<Page> Read(Query q, long start)
     {
         // 서버에서만 읽는다: 기본값은 연결이 안 되면 빈 캐시를 돌려줘서 "기록 없음"으로 잘못 보인다
-        var q = await (await Users()).WhereGreaterThan("bestScore", 0).OrderByDescending("bestScore").Limit(n).GetSnapshotAsync(Source.Server);
-        var list = new List<Entry>();
-        foreach (var d in q.Documents)
+        var snap = await q.GetSnapshotAsync(Source.Server);
+        var page = new Page { Start = start };
+        foreach (var d in snap.Documents)
         {
             d.TryGetValue<string>("dept", out var dept);
             d.TryGetValue<string>("name", out var name);
             d.TryGetValue<long>("bestScore", out var score);
-            list.Add(new Entry { Dept = dept, Name = name, Id = d.Id, Score = score });
+            page.List.Add(new Entry { Dept = dept, Name = name, Id = d.Id, Score = score });
+            page.first ??= d;
+            page.last = d;
         }
-        return list;
+        if (page.List.Count > 0) // 앞 페이지와 동점일 수 있어서 첫 줄 순위는 따로 센다
+            page.FirstRank = (await (await Users()).WhereGreaterThan("bestScore", page.List[0].Score).Count.GetSnapshotAsync(AggregateSource.Server)).Count + 1;
+        return page;
     }
 
     // 랭킹 화면용 이름 가리기: 홍길동 → 홍*동

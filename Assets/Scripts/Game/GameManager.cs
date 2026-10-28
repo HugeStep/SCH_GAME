@@ -304,7 +304,7 @@ public class GameManager : MonoBehaviour
         }
         // 오른쪽: 랭킹 (저장이 끝난 뒤에 불러와서 방금 기록이 반영된다)
         // 두 프레임의 네모 틀 위·아래 끝이 같은 높이에 오도록 크기·위치를 맞춘 값 (패널 그림 비율 기준)
-        if (dim) RankingBoard.Build(dim.transform, new Vector2(0.5f, 0.5f), new Vector2(RankX, 47), 888);
+        if (dim) RankingBoard.Build(dim.transform, new Vector2(0.5f, 0.5f), new Vector2(RankX, 47), 888, atMe: true);
     }
 
     const float OverX = -448, RankX = 425; // 결과 화면 왼쪽(게임오버)·오른쪽(랭킹) 패널 가로 위치

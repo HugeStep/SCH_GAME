@@ -87,6 +87,8 @@ public static class ArtBaker
         FillRows(rk, 995, 548, 477, 154, 1060);          // 1·2위 줄의 아바타·이름·점수 지우기 (배지에 가려지는 왼쪽 끝은 잘라냄)
         Save(Crop(rk, 995, 548, 515, 79, 60), "ui/rank_bar_gold");
         Save(Crop(rk, 995, 629, 515, 71, 60), "ui/rank_bar_blue");
+        Save(Crop(rk, 465, 925, 63, 75, 60), "ui/rank_prev");
+        Save(Crop(rk, 545, 925, 63, 75, 60), "ui/rank_next");
 
         var over = Load("ui/panels/ui_panel_gameover.png"); // 체크무늬 배경은 미리 지워 둔 것. 결과 화면이 그림 좌표 비율로 글자를 얹으니 자르지 않음
         Save(Crop(over, 0, 0, over.width, over.height, 0, false), "ui/panel_gameover");
