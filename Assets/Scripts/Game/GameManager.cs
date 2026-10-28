@@ -58,6 +58,9 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        // 모든 판이 랭킹에 등록되도록 로그인 없이는 시작하지 않는다 (에디터에서 Game 씬을 바로 실행한 경우)
+        if (!Session.LoggedIn) { enabled = false; SceneManager.LoadScene("Login"); return; }
+
         Cam = Camera.main;
         Cam.orthographic = true;
         Cam.orthographicSize = 5;
@@ -282,20 +285,19 @@ public class GameManager : MonoBehaviour
         int score = Score, meters = Meters, kills = Kills, hits = Hits, kill = killScore;
         centerText.text = died ? "GAME OVER" : "TIME UP!";
         Sfx.Play(died ? "gameover" : "whistle");
-        var save = Session.LoggedIn ? Db.SaveResult(score, meters, kills, hits) : null;
+        var save = Db.SaveResult(score, meters, kills, hits); // 결과 화면이 뜨기 전에 저장을 시작해서 랭킹에 바로 반영
 
         await Task.Delay(1500);
         if (!this) return;
         centerText.text = "";
         var (bestText, rankText, dim) = BuildResult(score, meters, kills, hits, kill);
-        if (save == null) rankText.text = "게스트 플레이 — 기록이 저장되지 않습니다";
-        else try
+        try
         {
             bool best = await save;
             long rank = await Db.MyRank();
             if (!this) return;
             bestText.text = best ? "★ 최고 기록 갱신! ★" : $"내 최고 기록  {Session.Best:N0}점";
-            rankText.text = $"현재 순위  <color=#FFD54A>#{rank}</color>";
+            rankText.text = rank > 0 ? $"현재 순위  <color=#FFD54A>#{rank}</color>" : "0점은 랭킹에 오르지 않습니다";
         }
         catch (Exception e)
         {
