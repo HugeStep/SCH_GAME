@@ -10,7 +10,7 @@ public class Enemy : MonoBehaviour
     int state; // 돌진형: 0 접근 1 준비 2 돌진 3 숨고르기 / 원거리형·드론: 0 이동 1 쏘기 / 대학원생: 0 접근 1 공격 2 내려찍은 뒤 / 기계과: 0 접근 1 공격 / 조종사: 0 첫 드론 전 1 이후
     float speed, height = 1.9f, stateT, hurtT, flashT, alpha, attackCd;
     Vector3 dashDir;
-    bool dead, thrown, melee, touch;
+    bool dead, thrown, melee, touch, professor;
     Enemy partner; // 조종사 ↔ 드론
     SpriteAnim anim;
     Sprite[] idle, walk, run, attack, hit, die;
@@ -40,9 +40,12 @@ public class Enemy : MonoBehaviour
             case EnemyType.Engineer: sheet = "mech_eng_base"; hp = 3; speed = 1.9f; score = 180; break;
             case EnemyType.Pilot: sheet = "drone_pilot"; hp = 3; speed = 0f; score = 300; height = 1.5f; break;
             case EnemyType.Drone: sheet = "drone_unit"; hp = 1; speed = 3.2f; score = 120; break;
-            default: sheet = Random.value < 0.5f ? "professor_base" : "grad_student_base"; hp = 2; speed = 2.4f; score = 100; break;
+            default:
+                // 교수님은 한 번에 한 명만 (이미 있으면 대학원생)
+                professor = Random.value < 0.5f && !GameManager.I.Enemies.Exists(e => e.professor && !e.dead);
+                sheet = professor ? "professor_base" : "grad_student_base"; hp = 2; speed = 2.4f; score = 100; break;
         }
-        if (sheet == "professor_base") // 교수님은 늘 뒤(화면 왼쪽 밖)에서 쫓아온다
+        if (professor) // 교수님은 늘 뒤(화면 왼쪽 밖)에서 쫓아온다
             transform.position = new Vector3(GameManager.I.CamLeft - 1f, Random.Range(GameManager.BandMin, GameManager.BandMax));
         melee = sheet == "grad_student_base"; // 몸통 접촉 대신 논문 내려찍기로만 피해
         touch = !melee && t <= EnemyType.Ranged; // 몸이 닿으면 피해 (기계과·조종사·드론은 공격으로만)
