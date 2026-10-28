@@ -4,7 +4,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public const int MaxHp = 5;
-    const float Speed = 4.6f, FireCooldown = 0.2f, ThrowTime = 0.2f, InvulTime = 1.0f;
+    const float Speed = 4.6f, FireCooldown = 1f, ThrowTime = 0.2f, InvulTime = 1.0f;
     public const float HalfWidth = 0.4f, Height = 1.9f;
 
     public int Hp = MaxHp;
@@ -94,7 +94,7 @@ public class Player : MonoBehaviour
         var dir = target - hand;
         if (dir.sqrMagnitude < 0.01f) dir = Vector3.right * facing;
         Projectile.Ball(hand, dir.normalized);
-        Sfx.Play("throw", 0.35f); // 초당 5번까지 나니 작게
+        Sfx.Play("throw", 0.35f);
     }
 
     public void Damage(Vector3 from)
