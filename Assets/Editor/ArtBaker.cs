@@ -14,7 +14,7 @@ public static class ArtBaker
     const string Panorama = "1-4. 캠퍼스 파노라마.png";
     static readonly int[] PanoramaCuts = { 0, 395, 905, 1500, 2000 };
     // bg_5 ~ bg_8
-    static readonly string[] Backgrounds = { "4. 공학관 20.9.png", "5. 향1-도서관.png", "6. 도서관 옆길 내리막.png", "7. 대학본관.png" };
+    static readonly string[] Backgrounds = { "4. 공학관 20.9.png", "5. 향1 숲길.png", "6. 도서관 옆길 내리막.png", "7. 대학본관.png" };
 
     [System.Serializable] class Db { public Sheet[] sheets; }
     [System.Serializable] class Sheet { public string key, file; public bool chroma, jpeg; public Anim[] anims; }

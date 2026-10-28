@@ -40,8 +40,9 @@ public class GameManager : MonoBehaviour
     public static int Order(float y) => Mathf.RoundToInt(-y * 100);
 
     readonly List<(GameObject go, float x0, float x1, int zone)> segs = new();
-    float nextX, lapLength;
+    float nextX, lapLength, warpX = float.MaxValue; // warpX: 5→6 구역 경계
     int nextSeg, zone = -1, shownHp = -1;
+    Image fade;
 
     RectTransform hud;
     Image hpIcon;
@@ -166,11 +167,13 @@ public class GameManager : MonoBehaviour
             go.transform.localScale = Vector3.one * (10f / s.bounds.size.y);
             go.transform.position = new Vector3(nextX + w / 2, 0, 0);
             segs.Add((go, nextX, nextX + w, z));
+            if (z == 5) warpX = nextX;
             nextX += w - 0.02f; // 이음매 틈 방지
             nextSeg++;
         }
         for (int i = segs.Count - 1; i >= 0; i--)
             if (segs[i].x1 < CamLeft - 2f) { Destroy(segs[i].go); segs.RemoveAt(i); }
+        if (Running && CamRight + 1.5f > warpX) { StartCoroutine(Warp(warpX)); warpX = float.MaxValue; }
 
         if (!Player) return;
         float px = Player.transform.position.x;
@@ -180,6 +183,30 @@ public class GameManager : MonoBehaviour
                 zone = s.zone;
                 if (zoneText) zoneText.text = Zones[zone];
             }
+    }
+
+    // 5→6 구역은 이어지지 않고 다른 맵으로 넘어가듯 빠르게 암전했다가 밝아진다.
+    // 어두운 동안 배경만 당겨서 새 구역이 화면 왼쪽 끝부터 시작되게 한다 (주인공·적은 그대로).
+    IEnumerator Warp(float seam)
+    {
+        fade = UIKit.Dim(hud, 0f);
+        fade.raycastTarget = false;
+        for (float t = 0; t < 1; t += Time.deltaTime / 0.12f) { fade.color = new Color(0, 0, 0, t); yield return null; }
+        fade.color = Color.black;
+
+        float dx = seam - CamLeft;
+        for (int i = segs.Count - 1; i >= 0; i--)
+        {
+            var s = segs[i];
+            if (s.x0 < seam - 0.01f) { Destroy(s.go); segs.RemoveAt(i); continue; }
+            s.go.transform.position += Vector3.left * dx;
+            segs[i] = (s.go, s.x0 - dx, s.x1 - dx, s.zone);
+        }
+        nextX -= dx;
+        yield return new WaitForSeconds(0.06f);
+
+        for (float t = 1; t > 0; t -= Time.deltaTime / 0.22f) { fade.color = new Color(0, 0, 0, t); yield return null; }
+        Destroy(fade.gameObject);
     }
 
     // ---------- HUD ----------
@@ -240,6 +267,7 @@ public class GameManager : MonoBehaviour
     {
         Running = false;
         StopAllCoroutines();
+        if (fade) Destroy(fade.gameObject); // 암전 도중에 끝났을 때
         int score = Score, meters = Meters, kills = Kills, hits = Hits, kill = killScore;
         centerText.text = died ? "GAME OVER" : "TIME UP!";
         Sfx.Play(died ? "gameover" : "whistle");
