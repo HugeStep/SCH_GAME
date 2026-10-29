@@ -17,7 +17,7 @@ public static class ArtBaker
     static readonly string[] Backgrounds = { "4. 공학관 20.9.png", "5. 향1 숲길.png", "6. 도서관 옆길 내리막.png", "7. 대학본관.png" };
 
     [System.Serializable] class Db { public Sheet[] sheets; }
-    [System.Serializable] class Sheet { public string key, file; public bool chroma, jpeg; public Anim[] anims; }
+    [System.Serializable] class Sheet { public string key, file; public bool chroma, jpeg, white; public Anim[] anims; }
     [System.Serializable] class Anim { public string name; public int[] rects; }
 
     [MenuItem("SCH/Bake Art")]
@@ -32,6 +32,9 @@ public static class ArtBaker
         {
             var t = Load(s.file);
             if (s.chroma) KeyMagenta(t, s.jpeg);
+            if (s.white) KeyWhite(t);
+            if (s.key == "computer_base") ClearFaint(t, 40); // webp 원본의 희미한 알파 얼룩
+            // (computer_throw 원본은 받은 시트에서 프레임끼리 겹치지 않게 다시 배치해 둔 것)
             if (s.key == "mech_eng_base") Untangle(t, System.Array.Find(s.anims, a => a.name == "attack").rects); // 로봇팔 프레임끼리 겹침
             Save(t, "chr/" + s.key);
             if (s.key == "player_throw_run") throwRun = t;
@@ -251,6 +254,49 @@ public static class ArtBaker
             int i = y * w + x;
             p[i].a = (byte)Mathf.Min(a[i], Mathf.Min(Mathf.Min(a[i - 1], a[i + 1]), Mathf.Min(a[i - w], a[i + w])));
         }
+    }
+
+    static void ClearFaint(Texture2D t, byte floor)
+    {
+        var p = t.GetPixels32();
+        for (int i = 0; i < p.Length; i++) if (p[i].a <= floor) p[i] = new Color32(0, 0, 0, 0);
+        t.SetPixels32(p);
+        t.Apply();
+    }
+
+    // 흰 배경을 테두리부터 채우기로 지운다 (흰 티셔츠는 윤곽선에 막혀 남는다).
+    // 밝을수록 투명하게, 경계 픽셀은 섞인 흰색을 빼서 원래 색을 복원한다.
+    static void KeyWhite(Texture2D t)
+    {
+        var p = t.GetPixels32();
+        int w = t.width, h = t.height;
+        var seen = new bool[p.Length];
+        var q = new Queue<int>();
+        for (int x = 0; x < w; x++) { q.Enqueue(x); q.Enqueue((h - 1) * w + x); }
+        for (int y = 0; y < h; y++) { q.Enqueue(y * w); q.Enqueue(y * w + w - 1); }
+        while (q.Count > 0)
+        {
+            int i = q.Dequeue();
+            if (seen[i]) continue;
+            seen[i] = true;
+            var c = p[i];
+            int min = Mathf.Min(c.r, Mathf.Min(c.g, c.b));
+            if (min < 200) continue; // 윤곽선에서 멈춘다
+            float a = Mathf.Clamp01((250 - min) / 50f);
+            if (a <= 0.05f) p[i] = new Color32(0, 0, 0, 0);
+            else
+            {
+                float k = (1f - a) * 255f;
+                p[i] = new Color32((byte)Mathf.Clamp((c.r - k) / a, 0, 255), (byte)Mathf.Clamp((c.g - k) / a, 0, 255), (byte)Mathf.Clamp((c.b - k) / a, 0, 255), (byte)(a * 255));
+            }
+            int x = i % w, y = i / w;
+            if (x > 0) q.Enqueue(i - 1);
+            if (x < w - 1) q.Enqueue(i + 1);
+            if (y > 0) q.Enqueue(i - w);
+            if (y < h - 1) q.Enqueue(i + w);
+        }
+        t.SetPixels32(p);
+        t.Apply();
     }
 
     // 회색 체크무늬(가짜 투명)를 테두리부터 채우기로 지운다.

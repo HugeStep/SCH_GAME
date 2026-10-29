@@ -1,0 +1,1142 @@
+fileFormatVersion: 2
+guid: 46477908a7d308041a01610f50a398a4
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -718952086227197005
+    second: macbook_0
+  - first:
+      213: 7487130233111958232
+    second: macbook_1
+  - first:
+      213: 4702971123151405656
+    second: macbook_2
+  - first:
+      213: -2492350411442391847
+    second: macbook_3
+  - first:
+      213: 4558881376309458875
+    second: macbook_4
+  - first:
+      213: -638799954776069195
+    second: macbook_5
+  - first:
+      213: 7421889575904400757
+    second: macbook_6
+  - first:
+      213: 8719075548386198855
+    second: macbook_7
+  - first:
+      213: -8784897144257298290
+    second: macbook_8
+  - first:
+      213: 6423281196662056744
+    second: macbook_9
+  - first:
+      213: 3414053659361028192
+    second: macbook_10
+  - first:
+      213: -8951023350197074458
+    second: macbook_11
+  - first:
+      213: 9127817420241009547
+    second: macbook_12
+  - first:
+      213: -9202553840831892008
+    second: macbook_13
+  - first:
+      213: -5073444604933922454
+    second: macbook_14
+  - first:
+      213: -8076531655379820505
+    second: macbook_15
+  - first:
+      213: -4977632407046004109
+    second: macbook_16
+  - first:
+      213: 6308424979321075053
+    second: macbook_17
+  - first:
+      213: 997944392813355605
+    second: macbook_18
+  - first:
+      213: 5249652806100975014
+    second: macbook_19
+  - first:
+      213: -7966710696828419243
+    second: macbook_20
+  - first:
+      213: 844999696739698302
+    second: macbook_21
+  - first:
+      213: 7625642549900507177
+    second: macbook_22
+  - first:
+      213: -145239350430313385
+    second: macbook_23
+  - first:
+      213: 7326055238504182740
+    second: macbook_24
+  - first:
+      213: -6526289941573283930
+    second: macbook_25
+  - first:
+      213: -5190953860531307145
+    second: macbook_26
+  - first:
+      213: -6184688132948937057
+    second: macbook_27
+  - first:
+      213: -4088723001776825451
+    second: macbook_28
+  - first:
+      213: 4711622730584774248
+    second: macbook_29
+  - first:
+      213: -8676741138851676700
+    second: macbook_30
+  - first:
+      213: 142599447162449805
+    second: macbook_31
+  - first:
+      213: -2786415854914010009
+    second: macbook_32
+  - first:
+      213: 6210515428007483025
+    second: macbook_33
+  - first:
+      213: -2589864872384183774
+    second: macbook_34
+  - first:
+      213: -7800908151986966493
+    second: macbook_35
+  - first:
+      213: 2715565602998506242
+    second: macbook_36
+  - first:
+      213: -6221925991439074214
+    second: macbook_37
+  - first:
+      213: 248752087004570138
+    second: macbook_38
+  - first:
+      213: -4433163732892299685
+    second: macbook_39
+  - first:
+      213: 8726731356622943236
+    second: macbook_40
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: macbook_0
+      rect:
+        serializedVersion: 2
+        x: 11
+        y: 531
+        width: 152
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3b3e6e103e4c506f0800000000000000
+      internalID: -718952086227197005
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: macbook_1
+      rect:
+        serializedVersion: 2
+        x: 59
+        y: 378
+        width: 137
+        height: 99
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8d2d9bb4741a7e760800000000000000
+      internalID: 7487130233111958232
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: macbook_2
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 424
+        width: 145
+        height: 82
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8520c50b15f444140800000000000000
+      internalID: 4702971123151405656
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: macbook_3
+      rect:
+        serializedVersion: 2
+        x: 552
+        y: 364
+        width: 138
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9d47d2e7184696dd0800000000000000
+      internalID: -2492350411442391847
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: macbook_4
+      rect:
+        serializedVersion: 2
+        x: 772
+        y: 371
+        width: 88
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bb7b1103576644f30800000000000000
+      internalID: 4558881376309458875
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: macbook_5
+      rect:
+        serializedVersion: 2
+        x: 783
+        y: 365
+        width: 50
+        height: 59
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5bb690d53d68227f0800000000000000
+      internalID: -638799954776069195
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: macbook_6
+      rect:
+        serializedVersion: 2
+        x: 801
+        y: 273
+        width: 157
+        height: 184
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 575d4f51f39dff660800000000000000
+      internalID: 7421889575904400757
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: macbook_7
+      rect:
+        serializedVersion: 2
+        x: 790
+        y: 328
+        width: 43
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7458a5ff301600970800000000000000
+      internalID: 8719075548386198855
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: macbook_8
+      rect:
+        serializedVersion: 2
+        x: 376
+        y: 251
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e8043387796c51680800000000000000
+      internalID: -8784897144257298290
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: macbook_9
+      rect:
+        serializedVersion: 2
+        x: 294
+        y: 49
+        width: 139
+        height: 191
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 827ec736734142950800000000000000
+      internalID: 6423281196662056744
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: macbook_10
+      rect:
+        serializedVersion: 2
+        x: 403
+        y: 227
+        width: 15
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 068265af6b7216f20800000000000000
+      internalID: 3414053659361028192
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: macbook_11
+      rect:
+        serializedVersion: 2
+        x: 432
+        y: 232
+        width: 16
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6e5c64300b397c380800000000000000
+      internalID: -8951023350197074458
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: macbook_12
+      rect:
+        serializedVersion: 2
+        x: 40
+        y: 31
+        width: 185
+        height: 188
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b8b761c15958cae70800000000000000
+      internalID: 9127817420241009547
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: macbook_13
+      rect:
+        serializedVersion: 2
+        x: 403
+        y: 127
+        width: 60
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8d5fecaf906f94080800000000000000
+      internalID: -9202553840831892008
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: macbook_14
+      rect:
+        serializedVersion: 2
+        x: 562
+        y: 144
+        width: 27
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a61aa4713018799b0800000000000000
+      internalID: -5073444604933922454
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: macbook_15
+      rect:
+        serializedVersion: 2
+        x: 700
+        y: 169
+        width: 21
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 72063ef20456aef80800000000000000
+      internalID: -8076531655379820505
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: macbook_16
+      rect:
+        serializedVersion: 2
+        x: 782
+        y: 54
+        width: 201
+        height: 130
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 372ec8bc2b5ebeab0800000000000000
+      internalID: -4977632407046004109
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: macbook_17
+      rect:
+        serializedVersion: 2
+        x: 894
+        y: 180
+        width: 24
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d6532a068170c8750800000000000000
+      internalID: 6308424979321075053
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: macbook_18
+      rect:
+        serializedVersion: 2
+        x: 286
+        y: 156
+        width: 17
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 552ab3f432969dd00800000000000000
+      internalID: 997944392813355605
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: macbook_19
+      rect:
+        serializedVersion: 2
+        x: 587
+        y: 141
+        width: 28
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6adf7cdc9638ad840800000000000000
+      internalID: 5249652806100975014
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: macbook_20
+      rect:
+        serializedVersion: 2
+        x: 588
+        y: 99
+        width: 42
+        height: 67
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 553cc37a4de807190800000000000000
+      internalID: -7966710696828419243
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: macbook_21
+      rect:
+        serializedVersion: 2
+        x: 651
+        y: 125
+        width: 48
+        height: 53
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e768b774fba0abb00800000000000000
+      internalID: 844999696739698302
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: macbook_22
+      rect:
+        serializedVersion: 2
+        x: 684
+        y: 123
+        width: 53
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9287cea2f79b3d960800000000000000
+      internalID: 7625642549900507177
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: macbook_23
+      rect:
+        serializedVersion: 2
+        x: 456
+        y: 123
+        width: 19
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 754513e84910cfdf0800000000000000
+      internalID: -145239350430313385
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: macbook_24
+      rect:
+        serializedVersion: 2
+        x: 532
+        y: 51
+        width: 132
+        height: 84
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4d37eef9c606ba560800000000000000
+      internalID: 7326055238504182740
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: macbook_25
+      rect:
+        serializedVersion: 2
+        x: 559
+        y: 130
+        width: 17
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6afc15b30e5fd65a0800000000000000
+      internalID: -6526289941573283930
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: macbook_26
+      rect:
+        serializedVersion: 2
+        x: 647
+        y: 91
+        width: 45
+        height: 54
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 77db69977f606f7b0800000000000000
+      internalID: -5190953860531307145
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: macbook_27
+      rect:
+        serializedVersion: 2
+        x: 431
+        y: 109
+        width: 23
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f96310539e29b2aa0800000000000000
+      internalID: -6184688132948937057
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: macbook_28
+      rect:
+        serializedVersion: 2
+        x: 455
+        y: 100
+        width: 15
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 59b9f16c710f147c0800000000000000
+      internalID: -4088723001776825451
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: macbook_29
+      rect:
+        serializedVersion: 2
+        x: 688
+        y: 90
+        width: 29
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 866592409eb036140800000000000000
+      internalID: 4711622730584774248
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: macbook_30
+      rect:
+        serializedVersion: 2
+        x: 716
+        y: 86
+        width: 22
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4ed3ab2d7e5069780800000000000000
+      internalID: -8676741138851676700
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: macbook_31
+      rect:
+        serializedVersion: 2
+        x: 433
+        y: 84
+        width: 16
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d8fe841117d9af100800000000000000
+      internalID: 142599447162449805
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: macbook_32
+      rect:
+        serializedVersion: 2
+        x: 668
+        y: 77
+        width: 25
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 76485530b89a459d0800000000000000
+      internalID: -2786415854914010009
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: macbook_33
+      rect:
+        serializedVersion: 2
+        x: 651
+        y: 53
+        width: 14
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 196187680ee203650800000000000000
+      internalID: 6210515428007483025
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: macbook_34
+      rect:
+        serializedVersion: 2
+        x: 693
+        y: 59
+        width: 31
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2224749ce93fe0cd0800000000000000
+      internalID: -2589864872384183774
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: macbook_35
+      rect:
+        serializedVersion: 2
+        x: 863
+        y: 43
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3203e53ed5b9db390800000000000000
+      internalID: -7800908151986966493
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: macbook_36
+      rect:
+        serializedVersion: 2
+        x: 883
+        y: 53
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 203defa3780afa520800000000000000
+      internalID: 2715565602998506242
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: macbook_37
+      rect:
+        serializedVersion: 2
+        x: 953
+        y: 53
+        width: 14
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a5cf085a64747a9a0800000000000000
+      internalID: -6221925991439074214
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: macbook_38
+      rect:
+        serializedVersion: 2
+        x: 832
+        y: 42
+        width: 25
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a126b0784beb37300800000000000000
+      internalID: 248752087004570138
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: macbook_39
+      rect:
+        serializedVersion: 2
+        x: 901
+        y: 39
+        width: 13
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b5e4fc5a21d3a72c0800000000000000
+      internalID: -4433163732892299685
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: macbook_40
+      rect:
+        serializedVersion: 2
+        x: 933
+        y: 43
+        width: 19
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 404f5c1cee39b1970800000000000000
+      internalID: 8726731356622943236
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable: {}
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

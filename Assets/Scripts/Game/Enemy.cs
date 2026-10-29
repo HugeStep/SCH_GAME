@@ -1,16 +1,16 @@
 using UnityEngine;
 
-public enum EnemyType { Chaser, Charger, Ranged, Engineer, Pilot, Drone }
+public enum EnemyType { Chaser, Charger, Ranged, Engineer, Pilot, Drone, Lobber }
 
-// 적: 추적형(교수님·대학원생), 돌진형(미식축구부), 원거리형(화학과), 로봇팔(기계공학과), 드론 조종사(드론학과)와 드론
+// 적: 추적형(교수님·대학원생), 돌진형(미식축구부), 원거리형(화학과), 로봇팔(기계공학과), 드론 조종사(드론학과)와 드론, 포물선 투척(컴퓨터공학과)
 public class Enemy : MonoBehaviour
 {
     EnemyType type;
     int hp, score, facing = 1;
-    int state; // 돌진형: 0 접근 1 준비 2 돌진 3 숨고르기 / 원거리형·드론: 0 이동 1 쏘기 / 대학원생: 0 접근 1 공격 2 내려찍은 뒤 / 기계과: 0 접근 1 공격 / 조종사: 0 첫 드론 전 1 이후
+    int state; // 돌진형: 0 접근 1 준비 2 돌진 3 숨고르기 / 원거리형·컴공과·드론: 0 이동 1 쏘기 / 대학원생: 0 접근 1 공격 2 내려찍은 뒤 / 기계과: 0 접근 1 공격 / 조종사: 0 첫 드론 전 1 이후
     float speed, height = 1.9f, stateT, hurtT, flashT, alpha, attackCd;
     Vector3 dashDir;
-    bool dead, thrown, melee, touch, professor;
+    bool dead, thrown, melee, touch, professor, macbook; // macbook: 컴퓨터공학과가 이번에 던질 것 (아니면 키보드)
     Enemy partner; // 조종사 ↔ 드론
     SpriteAnim anim;
     Sprite[] idle, walk, run, attack, hit, die;
@@ -41,6 +41,7 @@ public class Enemy : MonoBehaviour
             case EnemyType.Engineer: sheet = "mech_eng_base"; hp = 3; speed = 1.9f; score = 180; break;
             case EnemyType.Pilot: sheet = "drone_pilot"; hp = 3; speed = 0f; score = 300; height = 1.5f; break;
             case EnemyType.Drone: sheet = "drone_unit"; hp = 1; speed = 3.2f; score = 120; break;
+            case EnemyType.Lobber: sheet = "computer_base"; hp = 2; speed = 2.2f; score = 250; break;
             default:
                 // 교수님은 한 번에 한 명만 (이미 있으면 대학원생)
                 professor = Random.value < 0.5f && !GameManager.I.Enemies.Exists(e => e.professor && !e.dead);
@@ -54,7 +55,7 @@ public class Enemy : MonoBehaviour
             GameManager.I.OnProfessor();
         }
         melee = sheet == "grad_student_base"; // 몸통 접촉 대신 논문 내려찍기로만 피해
-        touch = !melee && t <= EnemyType.Ranged; // 몸이 닿으면 피해 (기계과·조종사·드론은 공격으로만)
+        touch = !melee && t <= EnemyType.Ranged; // 몸이 닿으면 피해 (기계과·조종사·드론·컴공과는 공격으로만)
         speed *= 1f + GameManager.I.Elapsed / 240f; // 시간이 갈수록 빨라짐 (끝날 때 1.5배)
         // 드론·조종사 시트는 동작 이름이 달라서 비슷한 것으로 대신한다
         idle = Art.Frames(sheet, "idle") ?? Art.Frames(sheet, "hover") ?? Art.Frames(sheet, "operate_1");
@@ -134,7 +135,7 @@ public class Enemy : MonoBehaviour
         var to = gm.Player.transform.position - transform.position;
         if (hurtT > 0) { hurtT -= dt; anim.Play(hit, 14, false); }
         else if (type == EnemyType.Charger) Charge(to, dt);
-        else if (type == EnemyType.Ranged) Shoot(to, dt);
+        else if (type is EnemyType.Ranged or EnemyType.Lobber) Shoot(to, dt);
         else if (type == EnemyType.Engineer) Arm(to, dt);
         else if (type == EnemyType.Pilot) Pilot(to, dt);
         else if (type == EnemyType.Drone) Fly(to, dt);
@@ -303,20 +304,24 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    // 원거리형: 거리를 4.5~7 정도로 유지하며 주인공을 향해 플라스크를 던진다
+    // 원거리형: 거리를 4.5~7 정도로 유지하며 주인공을 향해 플라스크를 던진다.
+    // 컴퓨터공학과도 같은 거리에서 맥북·키보드 중 하나를 주인공 발밑으로 포물선을 그리며 던진다
     void Shoot(Vector3 to, float dt)
     {
         var gm = GameManager.I;
+        bool lob = type == EnemyType.Lobber;
+        int fps = lob ? 7 : 10;
         if (state == 1)
         {
             Face(to);
-            anim.Play(attack, 10, false);
-            if (!thrown && anim.Frame >= 3)
+            anim.Play(attack, fps, false);
+            if (!thrown && anim.Frame >= (lob ? 2 : 3)) // 손을 떠나는 프레임
             {
                 thrown = true;
                 var hand = transform.position + new Vector3(0.4f * facing, 1.4f);
                 var target = gm.Player.transform.position + Vector3.up;
-                Projectile.Flask(hand, (target - hand).normalized);
+                if (lob) Projectile.Lob(transform.position + new Vector3(0.4f * facing, 0), gm.Player.transform.position, macbook);
+                else Projectile.Flask(hand, (target - hand).normalized);
             }
             if (anim.Done) { state = 0; attackCd = Random.Range(2f, 2.8f); }
             return;
@@ -334,7 +339,8 @@ public class Enemy : MonoBehaviour
             state = 1;
             thrown = false;
             Face(to);
-            anim.Play(attack, 10, false, true);
+            if (lob) attack = Art.Frames("computer_throw", (macbook = Random.value < 0.5f) ? "macbook" : "keyboard");
+            anim.Play(attack, fps, false, true);
         }
     }
 
