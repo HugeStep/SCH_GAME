@@ -13,7 +13,9 @@ public class GameManager : MonoBehaviour
     public const float Duration = 120f;
     public const float BandMin = -4.6f, BandMax = -0.6f; // 걸어다닐 수 있는 바닥 높이 범위 (발 위치 y)
     const float MetersPerUnit = 5f;
-    const int HitPenalty = 200;
+    const int HitPenalty = 100;
+    const float ComboTime = 3f; // 이 시간 안에 다음 적을 잡으면 연속 처치
+    const int MaxChain = 4;     // 배율 ×1 → ×1.5 → ×2 → ×2.5 → ×3 (최대)
 
     // 배경 bg_1 ~ bg_8 순서의 구역 이름 (ArtBaker 의 배경 순서와 같음)
     static readonly string[] Zones = { "앙뜨레프레너관", "유니토피아", "유니토피아 광장", "유니토 앞", "공학관", "향설1관 · 도서관", "도서관 옆길", "대학본관" };
@@ -26,15 +28,15 @@ public class GameManager : MonoBehaviour
     public float Elapsed { get; private set; }
     public int Kills { get; private set; }
     public int Hits { get; private set; }
-    int killScore;
-    float startX, spawnT, shakeT;
+    int killScore, chain;
+    float startX, spawnT, shakeT, chainT;
 
     public float CamLeft => Cam.transform.position.x - Cam.orthographicSize * Cam.aspect;
     public float CamRight => Cam.transform.position.x + Cam.orthographicSize * Cam.aspect;
     public int Meters => Mathf.Max(0, Mathf.FloorToInt((Player.transform.position.x - startX) * MetersPerUnit));
     public int Score => CalcScore(Meters, killScore, Hits);
 
-    // 최종 점수 = 이동 거리 × 10 + 처치 점수 − 피격 × 200
+    // 최종 점수 = 이동 거리 × 10 + 처치 점수(연속 처치 배율 포함) − 피격 × 100
     public static int CalcScore(int meters, int killScore, int hits) => Mathf.Max(0, meters * 10 + killScore - hits * HitPenalty);
     // 화면 아래쪽(앞)에 있을수록 앞에 그린다
     public static int Order(float y) => Mathf.RoundToInt(-y * 100);
@@ -48,7 +50,7 @@ public class GameManager : MonoBehaviour
     Image hpIcon;
     RectTransform progressFill, staminaFill;
     Image staminaImg;
-    Text timeText, scoreText, statText, distText, zoneText, centerText;
+    Text timeText, scoreText, comboText, statText, distText, zoneText, centerText;
 
     void Awake()
     {
@@ -89,6 +91,7 @@ public class GameManager : MonoBehaviour
     {
         if (!Running) return;
         Elapsed += Time.deltaTime;
+        chainT -= Time.deltaTime;
         Spawn();
         if (Player.Hp <= 0) End(true);
         else if (Elapsed >= Duration) End(false);
@@ -107,10 +110,41 @@ public class GameManager : MonoBehaviour
         RefreshHud();
     }
 
-    public void AddKill(int score)
+    float Multiplier => 1f + chain * 0.5f;
+
+    // at = 점수를 띄울 월드 위치 (적 머리 위)
+    public void AddKill(int score, Vector3 at)
     {
+        chain = chainT > 0 ? Mathf.Min(chain + 1, MaxChain) : 0;
+        chainT = ComboTime;
+        int pts = Mathf.RoundToInt(score * Multiplier);
         Kills++;
-        killScore += score;
+        killScore += pts;
+        StartCoroutine(Popup(chain > 0 ? $"+{pts}  ×{Multiplier:0.#}" : $"+{pts}", at));
+        StartCoroutine(HitStop());
+    }
+
+    // 처치 순간 아주 짧게 멈춰서 타격감을 준다
+    IEnumerator HitStop()
+    {
+        Time.timeScale = 0.05f;
+        yield return new WaitForSecondsRealtime(0.05f);
+        Time.timeScale = 1f;
+    }
+
+    // 처치 점수가 떠오르며 사라진다
+    IEnumerator Popup(string s, Vector3 world)
+    {
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(hud, Cam.WorldToScreenPoint(world), null, out var pos);
+        var t = UIKit.Label(hud, s, chain > 0 ? 44 : 36, new Vector2(0.5f, 0.5f), pos, new Vector2(400, 60), color: chain > 0 ? UIKit.Gold : Color.white);
+        var cg = t.gameObject.AddComponent<CanvasGroup>(); // 외곽선까지 같이 흐려지도록
+        Destroy(t.gameObject, 0.8f); // 도중에 판이 끝나 코루틴이 멈춰도 지워진다
+        for (float k = 0; k < 1 && t; k += Time.deltaTime / 0.8f)
+        {
+            t.rectTransform.anchoredPosition = pos + Vector2.up * (70f * k);
+            cg.alpha = 1 - k * k;
+            yield return null;
+        }
     }
 
     public void OnPlayerHit()
@@ -244,6 +278,7 @@ public class GameManager : MonoBehaviour
         UIKit.Label(hud, "TIME", 28, tr, new Vector2(-40, -18), new Vector2(240, 36), TextAnchor.MiddleRight, UIKit.Gold);
         timeText = UIKit.Label(hud, "2:00", 72, tr, new Vector2(-40, -50), new Vector2(260, 84), TextAnchor.MiddleRight);
         scoreText = UIKit.Label(hud, "", 40, tr, new Vector2(-40, -138), new Vector2(500, 52), TextAnchor.MiddleRight);
+        comboText = UIKit.Label(hud, "", 34, tr, new Vector2(-40, -192), new Vector2(500, 46), TextAnchor.MiddleRight, UIKit.Gold);
 
         centerText = UIKit.Label(hud, "", 120, new Vector2(0.5f, 0.5f), new Vector2(0, 120), new Vector2(1400, 160), color: UIKit.Gold);
     }
@@ -256,6 +291,7 @@ public class GameManager : MonoBehaviour
         timeText.text = $"{sec / 60}:{sec % 60:00}";
         timeText.color = left <= 10f ? new Color(1f, 0.35f, 0.3f) : Color.white;
         scoreText.text = $"SCORE  {Score:N0}";
+        comboText.text = chainT > 0 && chain > 0 ? $"{chain + 1} 연속 처치  ×{Multiplier:0.#}" : "";
         statText.text = $"처치  {Kills}\n피격  {Hits}";
         distText.text = $"{Meters:N0} m";
 
@@ -281,6 +317,7 @@ public class GameManager : MonoBehaviour
     {
         Running = false;
         StopAllCoroutines();
+        Time.timeScale = 1f; // 히트스톱 도중에 끝났을 때
         if (fade) Destroy(fade.gameObject); // 암전 도중에 끝났을 때
         int score = Score, meters = Meters, kills = Kills, hits = Hits, kill = killScore;
         centerText.text = died ? "GAME OVER" : "TIME UP!";

@@ -5,7 +5,7 @@ public class Player : MonoBehaviour
 {
     public const int MaxHp = 3;
     public const float WalkSpeed = 3f, RunSpeed = 5.4f;
-    const float FireCooldown = 1f, ThrowTime = 0.2f, InvulTime = 1.0f;
+    const float FireCooldown = 0.5f, ThrowTime = 0.2f, InvulTime = 1.0f;
     const float RunDrain = 2.5f, Regen = 4f; // 가득 찬 스태미나를 다 쓰는 / 다시 채우는 데 걸리는 초 (서 있으면 2배로 참)
     public const float HalfWidth = 0.4f, Height = 1.9f;
 
