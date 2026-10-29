@@ -25,8 +25,17 @@ public class SpriteAnim : MonoBehaviour
         Sr.sprite = f[0];
     }
 
+    // 스쿼시 & 스트레치: 크기 1에서 (x, y)만큼 찌그러졌다가 빠르게 되돌아온다 (판정은 그대로, 그림만)
+    Vector2 squash;
+    public void Squash(float x, float y) => squash = new Vector2(x, y);
+
     void Update()
     {
+        if (squash != Vector2.zero)
+        {
+            squash = squash.sqrMagnitude < 0.0001f ? Vector2.zero : squash * Mathf.Exp(-14f * Time.deltaTime);
+            transform.localScale = new Vector3(1 + squash.x, 1 + squash.y, 1);
+        }
         if (frames == null) return;
         t += Time.deltaTime;
         if (Done && destroyOnEnd) { Destroy(gameObject); return; }

@@ -12,11 +12,12 @@ public class Player : MonoBehaviour
     public int Hp = MaxHp;
     public float Stamina { get; private set; } = 1f; // 0~1
     public bool Tired { get; private set; } // 다 쓰면 30% 찰 때까지 못 뜀
+    public bool Sprinting { get; private set; } // 오른쪽으로 달리는 중 (카메라가 앞쪽을 더 보여줌)
     SpriteAnim anim;
     Sprite[] idle, walk, run, hit, fall, throwStand, throwRun;
-    float fireT, throwT, hurtT, invulT;
+    float fireT, throwT, hurtT, invulT, ghostT;
     int facing = 1;
-    bool moving;
+    bool moving, wasRunning;
 
     public static Player Create(Vector3 pos)
     {
@@ -66,6 +67,11 @@ public class Player : MonoBehaviour
         Stamina = Mathf.Clamp01(Stamina + (running ? -dt / RunDrain : dt / Regen * (moving ? 1f : 2f)));
         if (Stamina <= 0) Tired = true;
         else if (Tired && Stamina >= 0.3f) Tired = false;
+        Sprinting = running && input.x > 0.1f;
+        if (running && !wasRunning) anim.Squash(0.15f, -0.1f); // 달리기 시작: 옆으로 늘어남
+        wasRunning = running;
+        ghostT -= dt;
+        if (running && ghostT <= 0) { ghostT = 0.07f; Ghost(); }
         if (hurtT > 0) { hurtT -= dt; input *= 0.3f; }
         var p = transform.position + (Vector3)(input * ((running ? RunSpeed : WalkSpeed) * dt));
         p.x = Mathf.Clamp(p.x, gm.CamLeft + 0.6f, gm.CamRight - 0.6f);
@@ -95,6 +101,28 @@ public class Player : MonoBehaviour
 
     static int Key(KeyCode k) => Input.GetKey(k) ? 1 : 0;
 
+    // 달릴 때 남는 잔상: 지금 모습을 복사해 푸르스름하게 흐려지며 사라진다
+    void Ghost()
+    {
+        var go = new GameObject("Ghost");
+        go.transform.position = transform.position;
+        var sr = go.AddComponent<SpriteRenderer>();
+        sr.sprite = anim.Sr.sprite;
+        sr.flipX = anim.Sr.flipX;
+        sr.sortingOrder = anim.Sr.sortingOrder - 1;
+        StartCoroutine(FadeGhost(sr));
+        Destroy(go, 0.25f);
+    }
+
+    static System.Collections.IEnumerator FadeGhost(SpriteRenderer sr)
+    {
+        for (float t = 0; sr && t < 1; t += Time.deltaTime / 0.25f)
+        {
+            sr.color = new Color(0.55f, 0.8f, 1f, 0.45f * (1 - t));
+            yield return null;
+        }
+    }
+
     void Fire(Vector3 target)
     {
         fireT = FireCooldown;
@@ -104,6 +132,7 @@ public class Player : MonoBehaviour
         var dir = target - hand;
         if (dir.sqrMagnitude < 0.01f) dir = Vector3.right * facing;
         Projectile.Ball(hand, dir.normalized);
+        GameManager.I.Kick(dir.normalized);
         Sfx.Play("throw", 0.35f);
     }
 
@@ -114,6 +143,7 @@ public class Player : MonoBehaviour
         invulT = InvulTime;
         hurtT = 0.25f;
         anim.Play(hit, 14, false, true);
+        anim.Squash(0.2f, -0.2f);
         var p = transform.position;
         p.x += Mathf.Sign(p.x - from.x) * 0.5f; // 살짝 밀려남
         transform.position = p;

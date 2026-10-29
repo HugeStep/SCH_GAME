@@ -29,10 +29,21 @@ public class GameManager : MonoBehaviour
     public int Kills { get; private set; }
     public int Hits { get; private set; }
     int killScore, chain;
-    float startX, spawnT, shakeT, chainT;
+    float startX, spawnT, chainT;
 
-    public float CamLeft => Cam.transform.position.x - Cam.orthographicSize * Cam.aspect;
-    public float CamRight => Cam.transform.position.x + Cam.orthographicSize * Cam.aspect;
+    // 카메라 연출. camX = 따라가는 기준 위치(흔들림·반동 제외), trauma = 흔들림 세기 0~1(제곱으로 적용),
+    // kick = 투척 반동, lead = 달릴 때 앞쪽 여유, zoom/zoomPunch = 확대량, focus = 끝날 때 주인공 쪽으로 다가가는 정도
+    const float DeadZone = 0.3f; // 주인공이 가운데에서 이만큼 벗어나야 따라간다 (잔걸음에 화면이 흔들리지 않게)
+    float camX, trauma, lead, zoom, zoomPunch, focus, profCueT;
+    Vector2 kick;
+    bool over;
+    Text warnText;
+
+    // 설정 화면의 화면 흔들림 켜기/끄기 (저장됨)
+    public static bool ShakeOn { get => PlayerPrefs.GetInt("shake", 1) == 1; set => PlayerPrefs.SetInt("shake", value ? 1 : 0); }
+
+    public float CamLeft => camX - Cam.orthographicSize * Cam.aspect;
+    public float CamRight => camX + Cam.orthographicSize * Cam.aspect;
     public int Meters => Mathf.Max(0, Mathf.FloorToInt((Player.transform.position.x - startX) * MetersPerUnit));
     public int Score => CalcScore(Meters, killScore, Hits);
 
@@ -99,16 +110,50 @@ public class GameManager : MonoBehaviour
 
     void LateUpdate()
     {
-        // 카메라는 오른쪽으로만 따라간다 (지나온 곳으로는 돌아가지 않음)
-        var p = Cam.transform.position;
-        float target = Player.transform.position.x; // 주인공을 화면 가운데에
-        if (target > p.x) p.x = Mathf.Lerp(p.x, target, 8f * Time.deltaTime);
-        shakeT -= Time.deltaTime;
-        p.y = shakeT > 0 ? Random.Range(-0.08f, 0.08f) : 0f;
-        Cam.transform.position = p;
+        UpdateCamera(Time.unscaledDeltaTime); // 히트스톱 중에도 흔들림·줌은 움직인다
         UpdateCampus();
         RefreshHud();
     }
+
+    void UpdateCamera(float dt)
+    {
+        // 오른쪽으로만 따라간다 (지나온 곳으로는 돌아가지 않음).
+        // 평소엔 주인공을 가운데에 두고(뒤에서 오는 교수님이 보이게), 오른쪽으로 달릴 땐 앞쪽을 더 보여준다
+        lead = Mathf.MoveTowards(lead, Running && Player.Sprinting ? 1.2f : 0f, 1.5f * dt);
+        float target = Player.transform.position.x + lead;
+        if (target > camX + DeadZone) camX = Mathf.Lerp(camX, target - DeadZone, 8f * dt);
+
+        // 줌: 처치 순간 살짝 당겼다 풀리고, 마지막 10초엔 조금씩 다가가고, 끝나면 주인공 쪽으로 확대
+        zoomPunch *= Mathf.Exp(-10f * dt);
+        float want = over ? (Player.Hp <= 0 ? 0.8f : 0.4f) : Running ? 0.3f * Mathf.InverseLerp(Duration - 10f, Duration, Elapsed) : 0f;
+        zoom = Mathf.Lerp(zoom, want, 4f * dt);
+        focus = Mathf.MoveTowards(focus, over ? 1f : 0f, dt / 0.6f);
+        Cam.orthographicSize = 5f - zoom - zoomPunch;
+
+        // 교수님이 나타나면 카메라를 잠깐 뒤로 당겨 보여준다
+        profCueT = Mathf.Max(0f, profCueT - dt);
+        float back = -0.6f * Mathf.Sin(Mathf.PI * profCueT / 1.2f);
+
+        var c = Vector2.Lerp(new Vector2(camX + back, 0f), (Vector2)Player.transform.position + Vector2.up, focus * 0.5f);
+        c.x = Mathf.Clamp(c.x, camX - 1.5f, camX + 1.5f); // 배경은 CamLeft/CamRight ±2 까지만 깔려 있다
+        float ymax = 5f - Cam.orthographicSize; // 배경(높이 10) 위아래 끝이 보이지 않게
+        c.y = Mathf.Clamp(c.y, -ymax, ymax);
+
+        // 흔들림: Perlin 노이즈로 부드럽게, 세기는 trauma² (작은 충격은 아주 약하게)
+        trauma = Mathf.Max(0f, trauma - 1.6f * dt);
+        kick = Vector2.Lerp(kick, Vector2.zero, 18f * dt);
+        if (ShakeOn)
+        {
+            float s = trauma * trauma, n = Time.unscaledTime * 22f;
+            c += kick + new Vector2(0.3f * s * (Mathf.PerlinNoise(n, 0.3f) * 2 - 1), 0.15f * s * (Mathf.PerlinNoise(0.7f, n) * 2 - 1));
+        }
+        Cam.transform.position = new Vector3(c.x, c.y, -10);
+    }
+
+    // 투척 반동: 던진 반대쪽으로 카메라를 살짝 밀었다가 되돌린다
+    public void Kick(Vector2 dir) => kick -= dir * 0.1f;
+
+    public void OnProfessor() => profCueT = 1.2f;
 
     float Multiplier => 1f + chain * 0.5f;
 
@@ -121,7 +166,9 @@ public class GameManager : MonoBehaviour
         Kills++;
         killScore += pts;
         StartCoroutine(Popup(chain > 0 ? $"+{pts}  ×{Multiplier:0.#}" : $"+{pts}", at, chain > 0));
-        StartCoroutine(HitStop());
+        StartCoroutine(HitStop(0.05f));
+        zoomPunch = 0.25f;
+        trauma = Mathf.Min(1f, trauma + 0.3f);
     }
 
     // 고양이 보너스: 처치 점수에 더한다 (연속 처치 배율은 붙지 않음)
@@ -131,11 +178,22 @@ public class GameManager : MonoBehaviour
         StartCoroutine(Popup($"+{pts}  냥!", at, true));
     }
 
-    // 처치 순간 아주 짧게 멈춰서 타격감을 준다
-    IEnumerator HitStop()
+    // 처치·피격 순간 아주 짧게 멈춰서 타격감을 준다
+    IEnumerator HitStop(float time)
     {
         Time.timeScale = 0.05f;
-        yield return new WaitForSecondsRealtime(0.05f);
+        yield return new WaitForSecondsRealtime(time);
+        Time.timeScale = 1f;
+    }
+
+    // 쓰러질 때: 느려졌다가 원래 속도로 돌아온다 (결과 화면이 뜨는 1.5초 안에 끝남)
+    IEnumerator SlowMo()
+    {
+        for (float t = 0; t < 1; t += Time.unscaledDeltaTime / 1.2f)
+        {
+            Time.timeScale = Mathf.Lerp(0.25f, 1f, t * t);
+            yield return null;
+        }
         Time.timeScale = 1f;
     }
 
@@ -157,7 +215,8 @@ public class GameManager : MonoBehaviour
     public void OnPlayerHit()
     {
         Hits++;
-        shakeT = 0.25f;
+        trauma = Mathf.Min(1f, trauma + 0.7f);
+        StartCoroutine(HitStop(0.08f));
     }
 
     // ---------- 적 생성 ----------
@@ -288,6 +347,8 @@ public class GameManager : MonoBehaviour
         comboText = UIKit.Label(hud, "", 34, tr, new Vector2(-40, -192), new Vector2(500, 46), TextAnchor.MiddleRight, UIKit.Gold);
 
         centerText = UIKit.Label(hud, "", 120, new Vector2(0.5f, 0.5f), new Vector2(0, 120), new Vector2(1400, 160), color: UIKit.Gold);
+        // 화면 뒤(왼쪽 밖)에 교수님이 있으면 왼쪽 끝에 깜빡이는 경고
+        warnText = UIKit.Label(hud, "!", 110, new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(80, 140), color: new Color(1f, 0.3f, 0.25f));
     }
 
     void RefreshHud()
@@ -309,6 +370,14 @@ public class GameManager : MonoBehaviour
 
         float progress = Mathf.Clamp01((Player.transform.position.x - startX) / lapLength); // START → GOAL (캠퍼스 한 바퀴)
         progressFill.anchorMax = new Vector2(Mathf.Lerp(0.118f, 0.89f, progress), 0.53f);
+
+        var prof = Running ? Enemies.Find(e => e.IsProfessor && e.transform.position.x < CamLeft - 0.3f) : null;
+        warnText.enabled = prof && (int)(Time.unscaledTime * 4) % 2 == 0;
+        if (prof)
+        {
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(hud, Cam.WorldToScreenPoint(prof.transform.position + Vector3.up), null, out var pos);
+            warnText.rectTransform.anchoredPosition = new Vector2(hud.rect.xMin + 50, pos.y);
+        }
     }
 
     IEnumerator Toast(string s, float time)
@@ -323,8 +392,10 @@ public class GameManager : MonoBehaviour
     async void End(bool died)
     {
         Running = false;
+        over = true;
         StopAllCoroutines();
         Time.timeScale = 1f; // 히트스톱 도중에 끝났을 때
+        if (died) StartCoroutine(SlowMo());
         if (fade) Destroy(fade.gameObject); // 암전 도중에 끝났을 때
         int score = Score, meters = Meters, kills = Kills, hits = Hits, kill = killScore;
         centerText.text = died ? "GAME OVER" : "TIME UP!";

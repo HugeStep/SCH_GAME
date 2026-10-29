@@ -128,8 +128,9 @@ public class MainMenuScreen : MonoBehaviour
         var p = OpenPopup();
         var panel = UIKit.Panel(p, Mid, new Vector2(0, 20), new Vector2(820, 480)).transform;
         UIKit.Label(panel, "설정", 56, new Vector2(0.5f, 1), new Vector2(0, -30), new Vector2(600, 70), color: UIKit.Gold);
-        Toggle(panel, "배경음악", 60, () => Sfx.BgmOn, v => Sfx.BgmOn = v);
-        Toggle(panel, "효과음", -60, () => Sfx.On, v => Sfx.On = v);
+        Toggle(panel, "배경음악", 90, () => Sfx.BgmOn, v => Sfx.BgmOn = v);
+        Toggle(panel, "효과음", 0, () => Sfx.On, v => Sfx.On = v);
+        Toggle(panel, "화면 흔들림", -90, () => GameManager.ShakeOn, v => GameManager.ShakeOn = v);
         UIKit.TextBtn(panel, "닫기", 32, new Vector2(0.5f, 0), new Vector2(0, 24), new Vector2(220, 64), new Color(1f, 0.72f, 0.1f), () => Destroy(popup));
     }
 

@@ -16,6 +16,7 @@ public class Enemy : MonoBehaviour
     Sprite[] idle, walk, run, attack, hit, die;
 
     public EnemyType Type => type;
+    public bool IsProfessor => professor;
 
     public static Enemy Create(EnemyType type, Vector3 pos)
     {
@@ -47,8 +48,11 @@ public class Enemy : MonoBehaviour
                 speed = professor ? Player.WalkSpeed + 0.3f : 2.4f; // 교수님은 주인공이 걸을 때보다 조금 빠르고 뛸 때보다 느리다
                 break;
         }
-        if (professor) // 교수님은 늘 뒤(화면 왼쪽 밖)에서 쫓아온다
+        if (professor) // 교수님은 늘 뒤(화면 왼쪽 밖)에서 쫓아온다. 나타나면 카메라가 잠깐 뒤를 비춘다
+        {
             transform.position = new Vector3(GameManager.I.CamLeft - 1f, Random.Range(GameManager.BandMin, GameManager.BandMax));
+            GameManager.I.OnProfessor();
+        }
         melee = sheet == "grad_student_base"; // 몸통 접촉 대신 논문 내려찍기로만 피해
         touch = !melee && t <= EnemyType.Ranged; // 몸이 닿으면 피해 (기계과·조종사·드론은 공격으로만)
         speed *= 1f + GameManager.I.Elapsed / 240f; // 시간이 갈수록 빨라짐 (끝날 때 1.5배)
@@ -77,6 +81,7 @@ public class Enemy : MonoBehaviour
         if (dead) return;
         hp -= dmg;
         flashT = 0.1f;
+        anim.Squash(0.18f, -0.15f);
         Sfx.Play("hit", 0.6f);
         if (melee) state = 0; // 맞으면 내려찍기가 끊긴다
         // 돌진 중·로봇팔 휘두르는 중·의자에 앉은 조종사는 경직 없음
