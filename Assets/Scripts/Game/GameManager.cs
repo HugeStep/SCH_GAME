@@ -62,19 +62,19 @@ public class GameManager : MonoBehaviour
     public static int Order(float y) => Mathf.RoundToInt(-y * 100);
 
     // 깔린 배경들. warp = 앞 구역에서 암전으로 넘어와야 하는 새 구역의 시작
-    readonly List<(GameObject go, float x0, float x1, int zone, bool warp)> segs = new();
+    readonly List<(GameObject go, float x0, float x1, bool warp)> segs = new();
     float nextX, lapLength;
     // 지금 구역이 끝나는 곳(다음 화면 전환 경계). 다음 구역이 아직 안 깔렸거나 끊김 없이 이어지는 구간이면 무한대
     float WarpX { get { foreach (var s in segs) if (s.warp && s.x0 > camX) return s.x0; return float.MaxValue; } }
     float LockX => WarpX - 5f * Cam.aspect; // 경계가 화면 오른쪽 끝에 오는 카메라 위치 (확대 전 기준)
-    int nextSeg, zone = -1, shownHp = -1;
+    int nextSeg, shownHp = -1;
     Image fade;
 
     RectTransform hud;
     Image hpIcon;
     RectTransform progressFill, staminaFill;
     Image staminaImg;
-    Text timeText, scoreText, comboText, statText, distText, zoneText, centerText;
+    Text timeText, scoreText, comboText, statText, distText, centerText;
 
     void Awake()
     {
@@ -212,6 +212,13 @@ public class GameManager : MonoBehaviour
         StartCoroutine(Popup($"+{pts}  냥!", at, true));
     }
 
+    // 아이스커피: 목숨 +1
+    public void AddLife(Vector3 at)
+    {
+        Player.Hp = Mathf.Min(Player.Hp + 1, Player.MaxHp);
+        StartCoroutine(Popup("목숨 +1", at, true));
+    }
+
     // 처치·피격 순간 아주 짧게 멈춰서 타격감을 준다
     IEnumerator HitStop(float time)
     {
@@ -255,6 +262,9 @@ public class GameManager : MonoBehaviour
 
     // ---------- 적 생성 ----------
 
+    const int MaxGrads = 3; // 논문 대학원생은 한 번에 이만큼까지
+    public bool GradsFull => Enemies.FindAll(e => e.IsGrad).Count >= MaxGrads;
+
     void Spawn()
     {
         float t = Elapsed;
@@ -271,6 +281,8 @@ public class GameManager : MonoBehaviour
                  : t < 50 ? (r < 0.4f ? EnemyType.Chaser : r < 0.58f ? EnemyType.Charger : r < 0.74f ? EnemyType.Ranged : r < 0.88f ? EnemyType.Engineer : EnemyType.Lobber)
                  : r < 0.3f ? EnemyType.Chaser : r < 0.45f ? EnemyType.Charger : r < 0.58f ? EnemyType.Ranged : r < 0.72f ? EnemyType.Engineer : r < 0.85f ? EnemyType.Pilot : EnemyType.Lobber;
         if (type == EnemyType.Pilot && Enemies.Exists(e => e.Type == EnemyType.Pilot)) type = EnemyType.Chaser; // 드론은 한 번에 한 대만
+        // 대학원생이 이미 가득이면 교수님 자리가 남았을 때만 나온다 (Enemy 가 교수님으로 만든다). 없으면 이번엔 쉰다
+        if (type == EnemyType.Chaser && GradsFull && Enemies.Exists(e => e.IsProfessor)) return;
         // 조종사는 앉아서 움직이지 않으니 화면 오른쪽 안에 자리 잡는다
         Enemy.Create(type, type == EnemyType.Pilot ? new Vector3(CamRight - 1.2f, Random.Range(BandMin, BandMax)) : SpawnPoint());
     }
@@ -310,7 +322,7 @@ public class GameManager : MonoBehaviour
             go.transform.localScale = Vector3.one * (10f / s.bounds.size.y);
             go.transform.position = new Vector3(nextX + w / 2, 0, 0);
             if (road % 2 == 1) AddBuilding(go.transform, b);
-            segs.Add((go, nextX, nextX + w, z, n > 0 && road <= 0)); // 처음 구역은 배경마다, 대학본관 구간은 들어설 때만 암전
+            segs.Add((go, nextX, nextX + w, n > 0 && road <= 0)); // 처음 구역은 배경마다, 대학본관 구간은 들어설 때만 암전
             nextX += w - 0.02f; // 이음매 틈 방지
             nextSeg++;
         }
@@ -320,12 +332,6 @@ public class GameManager : MonoBehaviour
         if (!Player) return;
         float px = Player.transform.position.x;
         if (Running && !fade && camX >= LockX - 0.01f && px >= CamRight - 0.7f) StartCoroutine(Warp(WarpX)); // 멈춘 화면의 오른쪽 끝에 닿음
-        foreach (var s in segs)
-            if (px >= s.x0 && px < s.x1 && s.zone != zone)
-            {
-                zone = s.zone;
-                if (zoneText) zoneText.text = ZoneName(zone);
-            }
     }
 
     // 도로 배경 가운데에 건물을 연석 위에 세운다 (배경의 자식이라 같이 움직이고 같이 지워진다)
@@ -386,8 +392,7 @@ public class GameManager : MonoBehaviour
         progressFill.anchorMin = new Vector2(0.118f, 0.33f); // 바 그림 안쪽 트랙 영역
         progressFill.anchorMax = new Vector2(0.118f, 0.53f);
         progressFill.offsetMin = progressFill.offsetMax = Vector2.zero;
-        distText = UIKit.Label(hud, "0 m", 38, top, new Vector2(-140, -100), new Vector2(240, 50), TextAnchor.MiddleRight);
-        zoneText = UIKit.Label(hud, zone >= 0 ? ZoneName(zone) : "", 30, top, new Vector2(200, -100), new Vector2(360, 50), TextAnchor.MiddleLeft, UIKit.Gold);
+        distText = UIKit.Label(hud, "0 m", 38, top, new Vector2(0, -100), new Vector2(240, 50));
 
         UIKit.Label(hud, "TIME", 28, tr, new Vector2(-40, -18), new Vector2(240, 36), TextAnchor.MiddleRight, UIKit.Gold);
         timeText = UIKit.Label(hud, "2:00", 72, tr, new Vector2(-40, -50), new Vector2(260, 84), TextAnchor.MiddleRight);
@@ -537,8 +542,13 @@ public class GameManager : MonoBehaviour
         var retry = Art.Ui("btn_retry");
         if (Session.PlaysLeft <= 0) // 기회를 다 쓰면 다시 하기 대신 안내
             UIKit.Label(dim.transform, $"플레이 기회 {Db.MaxPlays}번을 모두 사용했어요", 36, new Vector2(0.5f, 0), new Vector2(OverX, 70), new Vector2(800, 60), color: UIKit.Gold);
-        else UIKit.Btn(dim.transform, retry, Art.Ui("btn_retry_pressed"), new Vector2(0.5f, 0), new Vector2(OverX, 30), UIKit.Fit(retry, 470),
-            () => { skipIntro = true; SceneManager.LoadScene("Game"); });
+        else
+        {
+            var size = UIKit.Fit(retry, 470);
+            UIKit.Btn(dim.transform, retry, Art.Ui("btn_retry_pressed"), new Vector2(0.5f, 0), new Vector2(OverX, 30), size,
+                () => { skipIntro = true; SceneManager.LoadScene("Game"); });
+            UIKit.Label(dim.transform, $"남은 플레이 기회  {Session.PlaysLeft}/{Db.MaxPlays}", 30, new Vector2(0.5f, 0), new Vector2(OverX, 30 + size.y + 6), new Vector2(600, 44), color: UIKit.Gold);
+        }
         var menu = Art.Ui("btn_menu");
         UIKit.Btn(dim.transform, menu, Art.Ui("btn_menu_pressed"), new Vector2(0.5f, 0), new Vector2(RankX, 30), UIKit.Fit(menu, 470),
             () => SceneManager.LoadScene("Main"));

@@ -1,9 +1,10 @@
 using UnityEngine;
 
-// 적을 쓰러뜨리면 가끔 나오는 고양이. 주인공이 닿으면 보너스 점수, 그냥 두면 잠시 뒤 사라진다
+// 적을 쓰러뜨리면 가끔 나오는 고양이(보너스 점수)와 아이스커피(목숨 +1, 목숨이 줄었을 때만 나옴).
+// 주인공이 닿으면 먹고, 그냥 두면 잠시 뒤 사라진다
 public class Cat : MonoBehaviour
 {
-    const float DropChance = 0.1f, Life = 7f;
+    const float DropChance = 0.1f, CoffeeChance = 0.08f, Life = 7f;
     const int Bonus = 300; // 가장 비싼 적(드론학과)만큼. 돌아가서 줍느라 놓치는 이동 점수(초당 150~270)보다 조금 크게
 
     // cat.png: 정면·비스듬·옆 3포즈 × 윗줄 눈 뜸 / 아랫줄 눈 감음.
@@ -12,23 +13,37 @@ public class Cat : MonoBehaviour
     static readonly int[] HalfW = { 52, 66, 94 };
     const int CellW = 256, RowSplit = 162;
     static Sprite[][] poses;
+    static Sprite cup;
 
     SpriteAnim anim;
     float t;
+    bool coffee;
 
     public static void MaybeDrop(Vector3 pos)
     {
-        if (Random.value >= DropChance) return;
         var gm = GameManager.I;
+        float r = Random.value;
+        bool coffee = r >= DropChance && r < DropChance + CoffeeChance && gm.Player.Hp < Player.MaxHp;
+        if (r >= DropChance && !coffee) return;
         pos.x = Mathf.Clamp(pos.x, gm.CamLeft + 0.8f, gm.CamRight - 0.8f); // 화면 밖에서 쓰러져도 주울 수 있게
         pos.y = Mathf.Clamp(pos.y, GameManager.BandMin, GameManager.BandMax); // 하늘의 드론이면 땅으로
-        var go = new GameObject("Cat");
+        var go = new GameObject(coffee ? "Coffee" : "Cat");
         go.transform.position = pos;
         var c = go.AddComponent<Cat>();
+        c.coffee = coffee;
         c.anim = go.AddComponent<SpriteAnim>();
-        poses ??= Load();
-        c.anim.Play(poses[Random.Range(0, poses.Length)], 3f, true);
-        c.anim.Sr.flipX = Random.value < 0.5f;
+        if (coffee)
+        {
+            var s = Art.Ui("hp_5"); // HUD 의 가득 찬 커피 그림을 땅 위에 0.9 높이로 세운다
+            if (!cup) cup = Sprite.Create(s.texture, s.rect, new Vector2(0.5f, 0f), s.rect.height / 0.9f);
+            c.anim.Play(new[] { cup }, 1f, true);
+        }
+        else
+        {
+            poses ??= Load();
+            c.anim.Play(poses[Random.Range(0, poses.Length)], 3f, true);
+            c.anim.Sr.flipX = Random.value < 0.5f;
+        }
         c.anim.Sr.sortingOrder = GameManager.Order(pos.y);
     }
 
@@ -62,7 +77,9 @@ public class Cat : MonoBehaviour
 
         var to = gm.Player.transform.position - transform.position;
         if (Mathf.Abs(to.x) > 0.8f || Mathf.Abs(to.y) > 0.45f) return;
-        gm.AddBonus(Bonus, transform.position + Vector3.up * 1.1f);
+        if (!coffee) gm.AddBonus(Bonus, transform.position + Vector3.up * 1.1f);
+        else if (gm.Player.Hp < Player.MaxHp) gm.AddLife(transform.position + Vector3.up * 1.1f);
+        else return; // 목숨이 가득이면 그대로 둔다
         Sfx.Play("click");
         Destroy(gameObject);
     }

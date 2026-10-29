@@ -30,6 +30,8 @@ public class MainMenuScreen : MonoBehaviour
         BlueButton("btn_blue_book", "도움말", new Vector2(-70, -130), ShowRules);
         var exit = Art.Ui("btn_exit");
         UIKit.Btn(root, exit, Art.Ui("btn_exit_pressed"), right, new Vector2(-70, -290), UIKit.Fit(exit, 520), Quit);
+        UIKit.TextBtn(root, "로그아웃", 24, new Vector2(1, 0), new Vector2(-30, 24), new Vector2(160, 48), new Color(0.1f, 0.2f, 0.45f, 0.9f),
+            () => { Session.Clear(); SceneManager.LoadScene("Login"); });
 
         // 왼쪽: 랭킹 버튼 (트로피)
         var rb = UIKit.Btn(root, null, null, new Vector2(0, 0.5f), new Vector2(50, -20), new Vector2(150, 160), ShowRanking, UIKit.Navy);
@@ -113,7 +115,7 @@ public class MainMenuScreen : MonoBehaviour
             "<color=#FFD54A>체력</color>   목숨 3번 (아이스커피) · 다 비우면 그 자리에서 게임 종료\n" +
             "<color=#FFD54A>점수</color>   이동 거리(m) × 10  +  처치 점수  −  피격 1회당 100\n" +
             "<color=#FFD54A>연속</color>   3초 안에 다음 적을 잡으면 처치 점수 ×1.5 → ×2 → … 최대 ×3\n" +
-            "<color=#FFD54A>고양이</color>  적을 쓰러뜨리면 가끔 나타나요 · 7초 안에 닿으면 처치 점수 +300\n" +
+            "<color=#FFD54A>보너스</color>  적을 쓰러뜨리면 가끔 나와요 · 고양이 +300점, 커피 목숨 +1\n" +
             $"<color=#FFD54A>기회</color>   계정당 {Db.MaxPlays}판까지 · 마지막 판에서 쓰러지면 교수님께 붙잡혀요",
             32, new Vector2(0.5f, 1), new Vector2(0, -130), new Vector2(1200, 340), TextAnchor.UpperLeft);
 

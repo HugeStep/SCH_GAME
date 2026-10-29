@@ -17,6 +17,7 @@ public class Enemy : MonoBehaviour
 
     public EnemyType Type => type;
     public bool IsProfessor => professor;
+    public bool IsGrad => melee;
 
     public static Enemy Create(EnemyType type, Vector3 pos)
     {
@@ -43,8 +44,8 @@ public class Enemy : MonoBehaviour
             case EnemyType.Drone: sheet = "drone_unit"; hp = 1; speed = 3.2f; score = 120; break;
             case EnemyType.Lobber: sheet = "computer_base"; hp = 2; speed = 2.2f; score = 250; break;
             default:
-                // 교수님은 한 번에 한 명만 (이미 있으면 대학원생)
-                professor = Random.value < 0.5f && !GameManager.I.Enemies.Exists(e => e.professor && !e.dead);
+                // 교수님은 한 번에 한 명만 (이미 있으면 대학원생). 대학원생이 가득이면 교수님으로
+                professor = !GameManager.I.Enemies.Exists(e => e.professor && !e.dead) && (Random.value < 0.5f || GameManager.I.GradsFull);
                 sheet = professor ? "professor_base" : "grad_student_base"; hp = professor ? 5 : 2; score = 100; // 교수님은 끈질기다
                 speed = professor ? Player.WalkSpeed + 0.3f : 2.4f; // 교수님은 주인공이 걸을 때보다 조금 빠르고 뛸 때보다 느리다
                 break;
