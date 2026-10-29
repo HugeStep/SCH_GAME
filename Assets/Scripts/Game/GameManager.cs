@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour
     public int Meters => Mathf.Max(0, Mathf.FloorToInt((Player.transform.position.x - startX) * MetersPerUnit));
     public int Score => CalcScore(Meters, killScore, Hits);
 
-    // 최종 점수 = 이동 거리 × 10 + 처치 점수(연속 처치 배율 포함) − 피격 × 100
+    // 최종 점수 = 이동 거리 × 10 + 처치 점수(연속 처치 배율·고양이 보너스 포함) − 피격 × 100
     public static int CalcScore(int meters, int killScore, int hits) => Mathf.Max(0, meters * 10 + killScore - hits * HitPenalty);
     // 화면 아래쪽(앞)에 있을수록 앞에 그린다
     public static int Order(float y) => Mathf.RoundToInt(-y * 100);
@@ -120,8 +120,15 @@ public class GameManager : MonoBehaviour
         int pts = Mathf.RoundToInt(score * Multiplier);
         Kills++;
         killScore += pts;
-        StartCoroutine(Popup(chain > 0 ? $"+{pts}  ×{Multiplier:0.#}" : $"+{pts}", at));
+        StartCoroutine(Popup(chain > 0 ? $"+{pts}  ×{Multiplier:0.#}" : $"+{pts}", at, chain > 0));
         StartCoroutine(HitStop());
+    }
+
+    // 고양이 보너스: 처치 점수에 더한다 (연속 처치 배율은 붙지 않음)
+    public void AddBonus(int pts, Vector3 at)
+    {
+        killScore += pts;
+        StartCoroutine(Popup($"+{pts}  냥!", at, true));
     }
 
     // 처치 순간 아주 짧게 멈춰서 타격감을 준다
@@ -132,11 +139,11 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f;
     }
 
-    // 처치 점수가 떠오르며 사라진다
-    IEnumerator Popup(string s, Vector3 world)
+    // 처치 점수가 떠오르며 사라진다 (big = 크게 금색으로)
+    IEnumerator Popup(string s, Vector3 world, bool big)
     {
         RectTransformUtility.ScreenPointToLocalPointInRectangle(hud, Cam.WorldToScreenPoint(world), null, out var pos);
-        var t = UIKit.Label(hud, s, chain > 0 ? 44 : 36, new Vector2(0.5f, 0.5f), pos, new Vector2(400, 60), color: chain > 0 ? UIKit.Gold : Color.white);
+        var t = UIKit.Label(hud, s, big ? 44 : 36, new Vector2(0.5f, 0.5f), pos, new Vector2(400, 60), color: big ? UIKit.Gold : Color.white);
         var cg = t.gameObject.AddComponent<CanvasGroup>(); // 외곽선까지 같이 흐려지도록
         Destroy(t.gameObject, 0.8f); // 도중에 판이 끝나 코루틴이 멈춰도 지워진다
         for (float k = 0; k < 1 && t; k += Time.deltaTime / 0.8f)

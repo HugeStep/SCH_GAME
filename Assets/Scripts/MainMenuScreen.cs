@@ -101,8 +101,9 @@ public class MainMenuScreen : MonoBehaviour
             "<color=#FFD54A>공격</color>   마우스로 조준하고 왼쪽 클릭 — 0.5초에 한 번 · 종이공은 적을 관통\n" +
             "<color=#FFD54A>체력</color>   목숨 3번 (아이스커피) · 다 비우면 그 자리에서 게임 종료\n" +
             "<color=#FFD54A>점수</color>   이동 거리(m) × 10  +  처치 점수  −  피격 1회당 100\n" +
-            "<color=#FFD54A>연속</color>   3초 안에 다음 적을 잡으면 처치 점수 ×1.5 → ×2 → … 최대 ×3",
-            32, new Vector2(0.5f, 1), new Vector2(0, -130), new Vector2(1200, 300), TextAnchor.UpperLeft);
+            "<color=#FFD54A>연속</color>   3초 안에 다음 적을 잡으면 처치 점수 ×1.5 → ×2 → … 최대 ×3\n" +
+            "<color=#FFD54A>고양이</color>  적을 쓰러뜨리면 가끔 나타나요 · 7초 안에 닿으면 처치 점수 +300",
+            32, new Vector2(0.5f, 1), new Vector2(0, -130), new Vector2(1200, 340), TextAnchor.UpperLeft);
 
         (string sheet, string name, string desc)[] enemies =
         {

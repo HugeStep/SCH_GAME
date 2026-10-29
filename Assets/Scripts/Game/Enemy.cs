@@ -90,6 +90,7 @@ public class Enemy : MonoBehaviour
         Sfx.Play("kill");
         Die();
         GameManager.I.AddKill(score, transform.position + Vector3.up * (type == EnemyType.Drone ? 0.6f : height + 0.3f));
+        Cat.MaybeDrop(transform.position);
         if (type == EnemyType.Pilot && partner) partner.Die(); // 조종사가 쓰러지면 드론도 추락 (점수는 조종사 몫만)
     }
 
