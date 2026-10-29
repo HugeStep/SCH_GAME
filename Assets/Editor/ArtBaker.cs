@@ -10,12 +10,12 @@ public static class ArtBaker
     const string Src = @"C:\Users\cscsw\OneDrive - sch.ac.kr\게임경진대회 소스\";
     const string Dst = "Assets/Resources/Art/";
 
-    // 진행 순서대로 이어 붙일 캠퍼스 배경. bg_1 ~ bg_4 는 한 장짜리 파노라마를 건물 사이 x 좌표에서 잘라 쓴다
-    const string Panorama = "1-4. 캠퍼스 파노라마.png";
-    static readonly int[] PanoramaCuts = { 0, 395, 905, 1500, 2000 };
-    // bg_5 (화면 전환 전 마지막 구역)
-    static readonly string[] Backgrounds = { "4. 공학관 20.9.png" };
-    // 화면 전환 뒤: 끝없이 반복되는 기본 도로 배경(road) + 한 장 걸러 하나씩 얹는 건물(bld_1 ~, 순서는 GameManager.Buildings 와 같음).
+    // 처음 구역 bg_1 ~ 6: 장면 그림 그대로 (구역 사이엔 기본 도로가 한 번씩 끼고, 구역이 바뀔 때마다 암전으로 넘어감)
+    static readonly string[] Backgrounds =
+    {
+        "1. 앙뜨레프레너관.png", "2. 유니토피아 좌측면.png", "3. 유니토 앞 건물.png", "4. 공학관 20.9.png", "5. 향1 숲길.png", "6. 도서관 옆길 내리막.png",
+    };
+    // 그 뒤(대학본관부터): 끝없이 반복되는 기본 도로 배경(road) 위에 한 장 걸러 건물(bld_1 ~, 순서는 GameManager.Buildings 와 같음)을 얹는다.
     // 건물 원본은 검은 배경. cropH = 위에서부터 남길 높이(오른쪽 아래 워터마크 별 잘라냄), fade = 그림 좌우 끝에서 잘린 나무를 흐리게
     const string Road = "8. 기본 도로 배경.png";
     static readonly (string file, int cropH, bool fade)[] Buildings =
@@ -105,14 +105,8 @@ public static class ArtBaker
 
         Save(Crop(Load("ui/title/ui_title_logo.png"), 0, 0, 2695, 1696, 10), "ui/logo");
 
-        // 5) 배경 (불투명, 그대로 복사)
+        // 5) 배경
         File.Copy(Src + "ui/main_menu/bg_main_menu_campus_gate.png", Dst + "ui/menu_bg.png", true);
-        var pano = Load("배경/" + Panorama);
-        int n = PanoramaCuts.Length - 1;
-        for (int i = 0; i < n; i++)
-            Save(Crop(pano, PanoramaCuts[i], 0, PanoramaCuts[i + 1] - PanoramaCuts[i], pano.height, 0, false), "bg/bg_" + (i + 1));
-        for (int i = 0; i < Backgrounds.Length; i++)
-            File.Copy(Src + "배경/" + Backgrounds[i], Dst + "bg/bg_" + (n + i + 1) + ".png", true);
         BakeBuildings();
 
         BakeIntro();
@@ -122,6 +116,8 @@ public static class ArtBaker
 
     public static void BakeBuildings()
     {
+        for (int i = 0; i < Backgrounds.Length; i++)
+            File.Copy(Src + "배경/" + Backgrounds[i], Dst + "bg/bg_" + (i + 1) + ".png", true);
         File.Copy(Src + "배경/" + Road, Dst + "bg/road.png", true);
         for (int i = 0; i < Buildings.Length; i++)
         {

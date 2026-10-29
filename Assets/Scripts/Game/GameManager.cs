@@ -17,10 +17,12 @@ public class GameManager : MonoBehaviour
     const float ComboTime = 3f; // 이 시간 안에 다음 적을 잡으면 연속 처치
     const int MaxChain = 4;     // 배율 ×1 → ×1.5 → ×2 → ×2.5 → ×3 (최대)
 
-    // 배경 bg_1 ~ bg_5 순서의 구역 이름 (ArtBaker 의 배경 순서와 같음). 공학관 다음은 화면 전환
-    static readonly string[] Zones = { "앙뜨레프레너관", "유니토피아", "유니토피아 광장", "유니토 앞", "공학관" };
-    // 화면 전환 뒤엔 기본 도로 배경(road)이 끝없이 반복되고, 빈 도로 → 건물 → 빈 도로 → 건물 … 순서로 한 장에 건물 하나(bld_1 ~)를 얹는다.
-    // (구역 이름, 화면에서의 건물 높이) — 순서는 ArtBaker.Buildings 와 같음. 빈 도로는 다음 건물의 구역으로 친다
+    // 처음 구역: 장면 그림 bg_1 ~ 6 (ArtBaker.Backgrounds 순서). 장면 사이엔 기본 도로(road)가 한 번씩 끼고,
+    // 장면 → 도로 → 장면 … → 6번 → 대학본관 구간으로 넘어갈 때마다 암전으로 넘어간다
+    static readonly string[] Zones = { "앙뜨레프레너관", "유니토피아", "유니토 앞", "공학관", "향설1관 숲길", "도서관 옆길" };
+    static int Areas => Zones.Length * 2 - 1; // 장면 6장 + 사이 도로 5장
+    // 대학본관 구간부터는 도로 배경이 끊김 없이 끝없이 이어지고, 빈 도로 → 건물 → 빈 도로 → 건물 … 순서로 한 장에 건물 하나(bld_1 ~)를 얹는다.
+    // (구역 이름, 화면에서의 건물 높이) — 순서는 ArtBaker.Buildings 와 같음. 빈 도로는 다음 장면·건물의 구역으로 친다
     static readonly (string name, float height)[] Buildings = { ("대학본관", 4f), ("A01", 4f), ("B27", 4f), ("SCHU 가림막", 2.2f) };
     const float GroundY = 0f; // 도로 건너편 연석 높이 = 건물 밑단
     static string ZoneName(int z) => z < Zones.Length ? Zones[z] : Buildings[z - Zones.Length].name;
@@ -59,9 +61,12 @@ public class GameManager : MonoBehaviour
     // 화면 아래쪽(앞)에 있을수록 앞에 그린다
     public static int Order(float y) => Mathf.RoundToInt(-y * 100);
 
-    readonly List<(GameObject go, float x0, float x1, int zone)> segs = new();
-    float nextX, lapLength, warpX = float.MaxValue; // warpX: 공학관 → 도로 구간 경계
-    float LockX => warpX - 5f * Cam.aspect; // 경계가 화면 오른쪽 끝에 오는 카메라 위치 (확대 전 기준)
+    // 깔린 배경들. warp = 앞 구역에서 암전으로 넘어와야 하는 새 구역의 시작
+    readonly List<(GameObject go, float x0, float x1, int zone, bool warp)> segs = new();
+    float nextX, lapLength;
+    // 지금 구역이 끝나는 곳(다음 화면 전환 경계). 다음 구역이 아직 안 깔렸거나 끊김 없이 이어지는 구간이면 무한대
+    float WarpX { get { foreach (var s in segs) if (s.warp && s.x0 > camX) return s.x0; return float.MaxValue; } }
+    float LockX => WarpX - 5f * Cam.aspect; // 경계가 화면 오른쪽 끝에 오는 카메라 위치 (확대 전 기준)
     int nextSeg, zone = -1, shownHp = -1;
     Image fade;
 
@@ -97,10 +102,10 @@ public class GameManager : MonoBehaviour
         bgm.volume = 0.5f;
         bgm.mute = !Sfx.BgmOn;
 
-        // START → GOAL = 화면 전환 전 구역 + 건물 한 바퀴
+        // START → GOAL = 처음 구역(장면 6장 + 사이 도로 5장) + 대학본관부터 건물 한 바퀴
         for (int i = 1; i <= Zones.Length; i++) lapLength += Width(Art.Bg(i));
-        lapLength += Width(Art.Bg("road")) * 2 * Buildings.Length;
-        nextX = CamLeft - 1f;
+        lapLength += Width(Art.Bg("road")) * (Zones.Length - 1 + 2 * Buildings.Length);
+        nextX = CamLeft; // 첫 구역은 화면 왼쪽 끝부터
         UpdateCampus();
 
         // 주인공은 화면 왼쪽 끝에서 시작한다. 카메라는 그대로 있다가 주인공이 가운데에 오면 따라간다
@@ -175,7 +180,7 @@ public class GameManager : MonoBehaviour
         }
         // 흔들리거나 뒤를 비춰도 화면 전환 경계 너머(다음 구역 · 전환 직후 왼쪽 빈 곳)는 보이지 않게
         float half = Cam.orthographicSize * Cam.aspect;
-        c.x = Mathf.Clamp(c.x, segs[0].x0 + half, warpX - half);
+        c.x = Mathf.Clamp(c.x, segs[0].x0 + half, WarpX - half);
         Cam.transform.position = new Vector3(c.x, c.y, -10);
     }
 
@@ -292,21 +297,20 @@ public class GameManager : MonoBehaviour
     {
         while (nextX < CamRight + 2f)
         {
-            int road = nextSeg - Zones.Length; // 화면 전환 뒤 몇 번째 도로 배경인지 (전환 전이면 음수)
+            int n = nextSeg, road = n - Areas; // road: 대학본관 구간에서 몇 번째 도로 배경인지 (그 전이면 음수)
             int b = road / 2 % Buildings.Length;
-            int z = road < 0 ? nextSeg : Zones.Length + b;
-            var s = road < 0 ? Art.Bg(nextSeg + 1) : Art.Bg("road");
+            int z = road >= 0 ? Zones.Length + b : (n + 1) / 2; // 처음 구역: 짝수 = 장면, 홀수 = 사이 도로(다음 장면의 구역)
+            var s = road < 0 && n % 2 == 0 ? Art.Bg(n / 2 + 1) : Art.Bg("road");
             var go = new GameObject("BG " + ZoneName(z));
             var sr = go.AddComponent<SpriteRenderer>();
             sr.sprite = s;
             sr.sortingOrder = -32000;
-            sr.flipX = road % 2 == 1; // 도로 그림은 양 끝이 이어지지 않아서 한 장씩 좌우를 뒤집어 붙인다 (뒤집힌 끝끼리 맞닿음)
+            sr.flipX = n % 2 == 1; // 이어지는 도로 그림은 양 끝이 안 맞아서 한 장씩 좌우를 뒤집어 붙인다 (뒤집힌 끝끼리 맞닿음, 장면 그림은 안 뒤집힘)
             float w = Width(s);
             go.transform.localScale = Vector3.one * (10f / s.bounds.size.y);
             go.transform.position = new Vector3(nextX + w / 2, 0, 0);
             if (road % 2 == 1) AddBuilding(go.transform, b);
-            segs.Add((go, nextX, nextX + w, z));
-            if (road == 0) warpX = nextX;
+            segs.Add((go, nextX, nextX + w, z, n > 0 && road <= 0)); // 처음 구역은 배경마다, 대학본관 구간은 들어설 때만 암전
             nextX += w - 0.02f; // 이음매 틈 방지
             nextSeg++;
         }
@@ -315,7 +319,7 @@ public class GameManager : MonoBehaviour
 
         if (!Player) return;
         float px = Player.transform.position.x;
-        if (Running && !fade && camX >= LockX - 0.01f && px >= CamRight - 0.7f) StartCoroutine(Warp(warpX)); // 멈춘 화면의 오른쪽 끝에 닿음
+        if (Running && !fade && camX >= LockX - 0.01f && px >= CamRight - 0.7f) StartCoroutine(Warp(WarpX)); // 멈춘 화면의 오른쪽 끝에 닿음
         foreach (var s in segs)
             if (px >= s.x0 && px < s.x1 && s.zone != zone)
             {
@@ -338,24 +342,23 @@ public class GameManager : MonoBehaviour
         go.transform.SetParent(bg, true);
     }
 
-    // 공학관 → 도로 구간은 이어지지 않고 다른 맵으로 넘어가듯 빠르게 암전했다가 밝아진다.
+    // 구역이 바뀔 땐(처음 구역의 장면·도로 사이, 6번 → 대학본관 구간) 이어지지 않고 다른 맵으로 넘어가듯 암전했다가 밝아진다.
     // 어두운 동안 카메라를 새 구역 시작점으로 넘기고 주인공을 왼쪽 끝에 세운다 (시작 때처럼 가운데에 와야 카메라가 따라감).
     // 적은 그 자리에 두니 주인공과의 거리도 그대로다.
     IEnumerator Warp(float seam)
     {
         fade = UIKit.Dim(hud, 0f);
         fade.raycastTarget = false;
-        for (float t = 0; t < 1; t += Time.deltaTime / 0.12f) { fade.color = new Color(0, 0, 0, t); yield return null; }
+        for (float t = 0; t < 1; t += Time.deltaTime / 0.25f) { fade.color = new Color(0, 0, 0, t); yield return null; }
         fade.color = Color.black;
 
         camX += seam - CamLeft;
-        warpX = float.MaxValue;
         Player.transform.position = new Vector3(CamLeft + 1f, Player.transform.position.y);
         for (int i = segs.Count - 1; i >= 0; i--)
             if (segs[i].x0 < seam - 0.01f) { Destroy(segs[i].go); segs.RemoveAt(i); }
-        yield return new WaitForSeconds(0.06f);
+        yield return new WaitForSeconds(0.08f);
 
-        for (float t = 1; t > 0; t -= Time.deltaTime / 0.22f) { fade.color = new Color(0, 0, 0, t); yield return null; }
+        for (float t = 1; t > 0; t -= Time.deltaTime / 0.3f) { fade.color = new Color(0, 0, 0, t); yield return null; }
         Destroy(fade.gameObject);
     }
 
