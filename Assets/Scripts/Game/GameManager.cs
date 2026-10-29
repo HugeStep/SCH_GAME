@@ -49,6 +49,8 @@ public class GameManager : MonoBehaviour
 
     public float CamLeft => camX - Cam.orthographicSize * Cam.aspect;
     public float CamRight => camX + Cam.orthographicSize * Cam.aspect;
+    // 교수님이 숨어서 따라오는 선: 보통은 화면 왼쪽 끝, 주인공이 왼쪽 끝에 있을 땐(시작·화면 전환 직후) 주인공보다 4만큼 뒤
+    public float BehindX => Mathf.Min(CamLeft, Player.transform.position.x - 4f);
     public int Meters => Mathf.Max(0, Mathf.FloorToInt((Player.transform.position.x - startX) * MetersPerUnit));
     public int Score => CalcScore(Meters, killScore, Hits);
 
@@ -59,6 +61,7 @@ public class GameManager : MonoBehaviour
 
     readonly List<(GameObject go, float x0, float x1, int zone)> segs = new();
     float nextX, lapLength, warpX = float.MaxValue; // warpX: 공학관 → 도로 구간 경계
+    float LockX => warpX - 5f * Cam.aspect; // 경계가 화면 오른쪽 끝에 오는 카메라 위치 (확대 전 기준)
     int nextSeg, zone = -1, shownHp = -1;
     Image fade;
 
@@ -100,7 +103,8 @@ public class GameManager : MonoBehaviour
         nextX = CamLeft - 1f;
         UpdateCampus();
 
-        Player = Player.Create(new Vector3(0, -2.6f, 0));
+        // 주인공은 화면 왼쪽 끝에서 시작한다. 카메라는 그대로 있다가 주인공이 가운데에 오면 따라간다
+        Player = Player.Create(new Vector3(CamLeft + 1f, -2.6f, 0));
         startX = Player.transform.position.x;
         BuildHud();
         // 메인 화면에서 들어오면 시작 컷신 뒤에 판이 시작된다 (다시 하기는 바로 시작)
@@ -143,6 +147,7 @@ public class GameManager : MonoBehaviour
         lead = Mathf.MoveTowards(lead, Running && Player.Sprinting ? 1.2f : 0f, 1.5f * dt);
         float target = Player.transform.position.x + lead;
         if (target > camX + DeadZone) camX = Mathf.Lerp(camX, target - DeadZone, 8f * dt);
+        camX = Mathf.Min(camX, LockX); // 화면 전환 구간에선 멈추고 주인공만 오른쪽 끝까지 걸어간다
 
         // 줌: 처치 순간 살짝 당겼다 풀리고, 마지막 10초엔 조금씩 다가가고, 끝나면 주인공 쪽으로 확대
         zoomPunch *= Mathf.Exp(-10f * dt);
@@ -168,6 +173,9 @@ public class GameManager : MonoBehaviour
             float s = trauma * trauma, n = Time.unscaledTime * 22f;
             c += kick + new Vector2(0.3f * s * (Mathf.PerlinNoise(n, 0.3f) * 2 - 1), 0.15f * s * (Mathf.PerlinNoise(0.7f, n) * 2 - 1));
         }
+        // 흔들리거나 뒤를 비춰도 화면 전환 경계 너머(다음 구역 · 전환 직후 왼쪽 빈 곳)는 보이지 않게
+        float half = Cam.orthographicSize * Cam.aspect;
+        c.x = Mathf.Clamp(c.x, segs[0].x0 + half, warpX - half);
         Cam.transform.position = new Vector3(c.x, c.y, -10);
     }
 
@@ -304,10 +312,10 @@ public class GameManager : MonoBehaviour
         }
         for (int i = segs.Count - 1; i >= 0; i--)
             if (segs[i].x1 < CamLeft - 2f) { Destroy(segs[i].go); segs.RemoveAt(i); }
-        if (Running && CamRight + 1.5f > warpX) { StartCoroutine(Warp(warpX)); warpX = float.MaxValue; }
 
         if (!Player) return;
         float px = Player.transform.position.x;
+        if (Running && !fade && camX >= LockX - 0.01f && px >= CamRight - 0.7f) StartCoroutine(Warp(warpX)); // 멈춘 화면의 오른쪽 끝에 닿음
         foreach (var s in segs)
             if (px >= s.x0 && px < s.x1 && s.zone != zone)
             {
@@ -331,7 +339,8 @@ public class GameManager : MonoBehaviour
     }
 
     // 공학관 → 도로 구간은 이어지지 않고 다른 맵으로 넘어가듯 빠르게 암전했다가 밝아진다.
-    // 어두운 동안 배경만 당겨서 새 구역이 화면 왼쪽 끝부터 시작되게 한다 (주인공·적은 그대로).
+    // 어두운 동안 카메라를 새 구역 시작점으로 넘기고 주인공을 왼쪽 끝에 세운다 (시작 때처럼 가운데에 와야 카메라가 따라감).
+    // 적은 그 자리에 두니 주인공과의 거리도 그대로다.
     IEnumerator Warp(float seam)
     {
         fade = UIKit.Dim(hud, 0f);
@@ -339,15 +348,11 @@ public class GameManager : MonoBehaviour
         for (float t = 0; t < 1; t += Time.deltaTime / 0.12f) { fade.color = new Color(0, 0, 0, t); yield return null; }
         fade.color = Color.black;
 
-        float dx = seam - CamLeft;
+        camX += seam - CamLeft;
+        warpX = float.MaxValue;
+        Player.transform.position = new Vector3(CamLeft + 1f, Player.transform.position.y);
         for (int i = segs.Count - 1; i >= 0; i--)
-        {
-            var s = segs[i];
-            if (s.x0 < seam - 0.01f) { Destroy(s.go); segs.RemoveAt(i); continue; }
-            s.go.transform.position += Vector3.left * dx;
-            segs[i] = (s.go, s.x0 - dx, s.x1 - dx, s.zone);
-        }
-        nextX -= dx;
+            if (segs[i].x0 < seam - 0.01f) { Destroy(segs[i].go); segs.RemoveAt(i); }
         yield return new WaitForSeconds(0.06f);
 
         for (float t = 1; t > 0; t -= Time.deltaTime / 0.22f) { fade.color = new Color(0, 0, 0, t); yield return null; }

@@ -51,7 +51,7 @@ public class Enemy : MonoBehaviour
         }
         if (professor) // 교수님은 늘 뒤(화면 왼쪽 밖)에서 쫓아온다. 나타나면 카메라가 잠깐 뒤를 비춘다
         {
-            transform.position = new Vector3(GameManager.I.CamLeft - 1f, Random.Range(GameManager.BandMin, GameManager.BandMax));
+            transform.position = new Vector3(GameManager.I.BehindX - 1f, Random.Range(GameManager.BandMin, GameManager.BandMax));
             GameManager.I.OnProfessor();
         }
         melee = sheet == "grad_student_base"; // 몸통 접촉 대신 논문 내려찍기로만 피해
@@ -129,7 +129,7 @@ public class Enemy : MonoBehaviour
 
         if (!gm.Running) { anim.Play(idle, 6, true); return; }
         // 교수님은 떨어져도 사라지지 않고 화면 바로 뒤에 붙어 걸어온다 → 주인공이 걸으면 왼쪽 끝에 살짝씩 보인다
-        if (professor && transform.position.x < gm.CamLeft - 1.5f) transform.position = new Vector3(gm.CamLeft - 1.5f, transform.position.y);
+        if (professor && transform.position.x < gm.BehindX - 1.5f) transform.position = new Vector3(gm.BehindX - 1.5f, transform.position.y);
         if (transform.position.x < gm.CamLeft - 6f) { gm.Enemies.Remove(this); Destroy(gameObject); return; } // 한참 뒤처짐
 
         var to = gm.Player.transform.position - transform.position;
