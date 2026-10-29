@@ -45,7 +45,7 @@ public class Enemy : MonoBehaviour
             default:
                 // 교수님은 한 번에 한 명만 (이미 있으면 대학원생)
                 professor = Random.value < 0.5f && !GameManager.I.Enemies.Exists(e => e.professor && !e.dead);
-                sheet = professor ? "professor_base" : "grad_student_base"; hp = 2; score = 100;
+                sheet = professor ? "professor_base" : "grad_student_base"; hp = professor ? 5 : 2; score = 100; // 교수님은 끈질기다
                 speed = professor ? Player.WalkSpeed + 0.3f : 2.4f; // 교수님은 주인공이 걸을 때보다 조금 빠르고 뛸 때보다 느리다
                 break;
         }
