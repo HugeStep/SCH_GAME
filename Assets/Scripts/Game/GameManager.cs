@@ -80,12 +80,11 @@ public class GameManager : MonoBehaviour
         Cam.transform.position = new Vector3(0, 0, -10);
 
         // 배경음악 (AudioListener는 Sfx가 만든다)
-        var bgm = gameObject.AddComponent<AudioSource>();
+        bgm = gameObject.AddComponent<AudioSource>();
         bgm.clip = Resources.Load<AudioClip>("Audio/bgm_game");
         bgm.loop = true;
         bgm.volume = 0.5f;
         bgm.mute = !Sfx.BgmOn;
-        bgm.Play();
 
         for (int i = 1; i <= Zones.Length; i++) lapLength += Width(Art.Bg(i));
         nextX = CamLeft - 1f;
@@ -94,6 +93,18 @@ public class GameManager : MonoBehaviour
         Player = Player.Create(new Vector3(0, -2.6f, 0));
         startX = Player.transform.position.x;
         BuildHud();
+        // 메인 화면에서 들어오면 시작 컷신 뒤에 판이 시작된다 (다시 하기는 바로 시작)
+        if (skipIntro) Begin();
+        else Intro.Play(Begin);
+        skipIntro = false;
+    }
+
+    static bool skipIntro;
+    AudioSource bgm;
+
+    void Begin()
+    {
+        bgm.Play();
         Running = true;
         StartCoroutine(Toast("START!", 1.2f));
     }
@@ -465,7 +476,7 @@ public class GameManager : MonoBehaviour
         // 버튼은 각 패널 아래 가운데
         var retry = Art.Ui("btn_retry");
         UIKit.Btn(dim.transform, retry, Art.Ui("btn_retry_pressed"), new Vector2(0.5f, 0), new Vector2(OverX, 30), UIKit.Fit(retry, 470),
-            () => SceneManager.LoadScene("Game"));
+            () => { skipIntro = true; SceneManager.LoadScene("Game"); });
         var menu = Art.Ui("btn_menu");
         UIKit.Btn(dim.transform, menu, Art.Ui("btn_menu_pressed"), new Vector2(0.5f, 0), new Vector2(RankX, 30), UIKit.Fit(menu, 470),
             () => SceneManager.LoadScene("Main"));

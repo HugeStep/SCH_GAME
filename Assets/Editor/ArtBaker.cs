@@ -107,8 +107,25 @@ public static class ArtBaker
         for (int i = 0; i < Backgrounds.Length; i++)
             File.Copy(Src + "배경/" + Backgrounds[i], Dst + "bg/bg_" + (n + i + 1) + ".png", true);
 
+        BakeIntro();
         AssetDatabase.Refresh();
         Debug.Log("[ArtBaker] 완료");
+    }
+
+    // 게임 시작 컷신 (Intro.cs): 컷 1~5 + 컷마다 얹히는 안쪽 카드
+    public static void BakeIntro()
+    {
+        Directory.CreateDirectory(Dst + "intro");
+        const string In = "플레이 인트로/";
+        for (int i = 1; i <= 4; i++) File.Copy(Src + In + $"인트로 {i}.jpg", Dst + $"intro/cut_{i}.jpg", true);
+        Save(Crop(Load(In + "인트로 1 안쪽카드.png"), 0, 0, 1024, 572, 8), "intro/card_1"); // 투명 배경 → 카드 그림만
+        Save(GlowCard(Load(In + "인트로 2 안쪽 카드 .png"), 600, new Vector2(810, 230)), "intro/card_2");
+        Save(Crop(Load(In + "인트로 3 안쪽카드.jpg"), 160, 0, 575, 572, 0, false), "intro/card_3"); // 얼굴 + 내민 손
+        Save(Crop(Load(In + "인트로 4 안쪽 카드.jpg"), 560, 0, 355, 572, 0, false), "intro/card_4"); // 얼굴 + 땀방울
+        var card5 = Load(In + "인트로 5 안쪽카드.png");
+        Save(card5, "intro/card_5"); // 컷 5와 같은 크기·위치 그대로 겹쳐 얹는다
+        Save(RemoveCard(Load(In + "인트로 5.png"), card5), "intro/cut_5");
+        Save(FocusLines(1024), "intro/lines");
     }
 
     // Resources/Art 아래 이미지는 모두 스프라이트로, 시트 좌표가 어긋나지 않게 원본 크기 유지
@@ -123,6 +140,7 @@ public static class ArtBaker
             ti.mipmapEnabled = false;
             ti.alphaIsTransparency = true;
             ti.maxTextureSize = 4096;
+            if (assetPath.StartsWith(Dst + "intro/")) ti.textureCompression = TextureImporterCompression.Uncompressed; // 화면 가득 확대되는 그림이라 압축 얼룩 방지
             if (assetPath.Contains("rank_bar")) ti.spriteBorder = new Vector4(12, 0, 44, 0); // 줄 길이에 맞춰 늘릴 때 오른쪽 뾰족한 끝은 유지
         }
     }
@@ -358,6 +376,179 @@ public static class ArtBaker
             if (c.r + c.g + c.b > 0.85f) t.SetPixel(xx, t.height - 1 - yy, fill);
         }
         t.Apply();
+    }
+
+    // 투명 배경 인물 그림의 x0 ~ 오른쪽 끝을 따뜻한 햇살 배경 위에 얹은 카드 (center = 빛 중심, 좌상단 기준)
+    static Texture2D GlowCard(Texture2D src, int x0, Vector2 center)
+    {
+        int sw = src.width, w = sw - x0, h = src.height;
+        var p = src.GetPixels32();
+        var o = new Color32[w * h];
+        Color inner = new(1f, 0.97f, 0.86f), outer = new(0.97f, 0.74f, 0.33f);
+        for (int y = 0; y < h; y++)
+        for (int x = 0; x < w; x++)
+        {
+            var d = new Vector2(x0 + x - center.x, y - center.y);
+            float r = Mathf.Clamp01(d.magnitude / 560f);
+            var bg = Color.Lerp(inner, outer, r * r);
+            float ray = Mathf.SmoothStep(0, 1, (Mathf.Sin(Mathf.Atan2(d.y, d.x) * 22f) - 0.2f) / 0.4f); // 22줄 햇살
+            bg = Color.Lerp(bg, Color.white, 0.45f * ray * (1 - r));
+            Color c = p[(h - 1 - y) * sw + x0 + x];
+            var m = Color.Lerp(bg, c, c.a);
+            m.a = 1;
+            o[(h - 1 - y) * w + x] = m;
+        }
+        var t = new Texture2D(w, h, TextureFormat.RGBA32, false);
+        t.SetPixels32(o);
+        t.Apply();
+        return t;
+    }
+
+    // 컷 그림에 이미 그려진 카드(card 의 불투명 부분, 같은 크기·위치)를 지운다.
+    // 카드 자리는 1/4 크기에서 주변 색으로 메우고, x 620 부터 오른쪽은 통째로 흐리고 어둡게 해서 메운 자국이 안 보이게 한다.
+    static Texture2D RemoveCard(Texture2D cut, Texture2D card)
+    {
+        const int S = 4;
+        int w = cut.width, h = cut.height, sw = w / S, sh = h / S;
+        var p = cut.GetPixels32();
+        var c = card.GetPixels32();
+        var small = new Color[sw * sh];
+        var hole = new bool[sw * sh];
+        for (int y = 0; y < sh; y++)
+        for (int x = 0; x < sw; x++)
+        {
+            Color sum = Color.clear;
+            for (int yy = 0; yy < S; yy++)
+            for (int xx = 0; xx < S; xx++)
+            {
+                int i = (y * S + yy) * w + x * S + xx;
+                if (c[i].a > 8) hole[y * sw + x] = true;
+                sum += p[i];
+            }
+            small[y * sw + x] = sum / (S * S);
+        }
+
+        // 카드 가장자리 번짐까지 지우게 한 칸 넓힌 구멍
+        var mask = new Color[sw * sh];
+        var known = new bool[sw * sh];
+        for (int y = 0; y < sh; y++)
+        for (int x = 0; x < sw; x++)
+        {
+            bool near = false;
+            for (int dy = -1; dy <= 1; dy++)
+            for (int dx = -1; dx <= 1; dx++)
+            {
+                int nx = x + dx, ny = y + dy;
+                if (nx >= 0 && nx < sw && ny >= 0 && ny < sh && hole[ny * sw + nx]) near = true;
+            }
+            mask[y * sw + x] = near ? Color.white : Color.clear;
+            known[y * sw + x] = !near;
+        }
+        // 바깥부터 한 겹씩 이웃 평균으로 메운다
+        for (bool left = true; left;)
+        {
+            left = false;
+            var next = (bool[])known.Clone();
+            for (int y = 0; y < sh; y++)
+            for (int x = 0; x < sw; x++)
+            {
+                if (known[y * sw + x]) continue;
+                Color sum = Color.clear; int k = 0;
+                for (int dy = -1; dy <= 1; dy++)
+                for (int dx = -1; dx <= 1; dx++)
+                {
+                    int nx = x + dx, ny = y + dy;
+                    if (nx >= 0 && nx < sw && ny >= 0 && ny < sh && known[ny * sw + nx]) { sum += small[ny * sw + nx]; k++; }
+                }
+                if (k > 0) { small[y * sw + x] = sum / k; next[y * sw + x] = true; }
+                else left = true;
+            }
+            known = next;
+        }
+        for (int i = 0; i < 3; i++) BoxBlur(small, sw, sh, 5);
+        BoxBlur(mask, sw, sh, 1);
+
+        var dark = new Color(0.5f, 0.55f, 0.68f);
+        var o = new Color32[w * h];
+        for (int y = 0; y < h; y++)
+        for (int x = 0; x < w; x++)
+        {
+            float u = (x + 0.5f) / S - 0.5f, v = (y + 0.5f) / S - 0.5f;
+            float k = Mathf.Max(Mathf.SmoothStep(0, 1, (x - 620) / 100f), Bilinear(mask, sw, sh, u, v).r);
+            var m = Color.Lerp(p[y * w + x], Bilinear(small, sw, sh, u, v) * dark, k);
+            m.a = 1;
+            o[y * w + x] = m;
+        }
+        var t = new Texture2D(w, h, TextureFormat.RGBA32, false);
+        t.SetPixels32(o);
+        t.Apply();
+        return t;
+    }
+
+    // 만화 집중선 (흰 선, 투명 배경): 가운데는 비우고 바깥으로 갈수록 굵어진다. 왼쪽(인물 쪽)은 비워 둔다.
+    static Texture2D FocusLines(int size)
+    {
+        const int N = 110;
+        var rnd = new System.Random(3);
+        var ang = new float[N]; var wid = new float[N]; var from = new float[N];
+        for (int n = 0; n < N;)
+        {
+            float a = (float)rnd.NextDouble() * 360f;
+            if (Mathf.Abs(Mathf.DeltaAngle(a, 180)) < 55) continue;
+            ang[n] = a;
+            wid[n] = (0.35f + 0.9f * (float)rnd.NextDouble()) * Mathf.Deg2Rad; // 반폭 (각도)
+            from[n++] = 0.55f + 0.3f * (float)rnd.NextDouble();               // 선이 시작하는 반지름
+        }
+        float c = size / 2f;
+        var o = new Color32[size * size];
+        for (int y = 0; y < size; y++)
+        for (int x = 0; x < size; x++)
+        {
+            float dx = (x + 0.5f - c) / c, dy = (y + 0.5f - c) / c, r = Mathf.Sqrt(dx * dx + dy * dy);
+            if (r < 0.55f || r >= 1f) continue;
+            float a = Mathf.Atan2(dy, dx) * Mathf.Rad2Deg, best = 0;
+            for (int i = 0; i < N; i++)
+            {
+                if (r <= from[i]) continue;
+                float half = wid[i] * Mathf.Clamp01((r - from[i]) / 0.25f) * r * c;      // 픽셀 반폭 (뾰족하게 시작)
+                float dist = Mathf.Abs(Mathf.DeltaAngle(a, ang[i])) * Mathf.Deg2Rad * r * c;
+                best = Mathf.Max(best, Mathf.Clamp01(half - dist + 0.5f));
+            }
+            best *= Mathf.Clamp01((1f - r) / 0.08f); // 네모 끝이 안 보이게
+            o[y * size + x] = new Color32(255, 255, 255, (byte)(best * 255));
+        }
+        var t = new Texture2D(size, size, TextureFormat.RGBA32, false);
+        t.SetPixels32(o);
+        t.Apply();
+        return t;
+    }
+
+    // 가로 → 세로 상자 흐림 (가장자리는 끝 칸 반복)
+    static void BoxBlur(Color[] a, int w, int h, int r)
+    {
+        var t = new Color[a.Length];
+        for (int y = 0; y < h; y++)
+        for (int x = 0; x < w; x++)
+        {
+            Color s = Color.clear;
+            for (int k = -r; k <= r; k++) s += a[y * w + Mathf.Clamp(x + k, 0, w - 1)];
+            t[y * w + x] = s / (2 * r + 1);
+        }
+        for (int y = 0; y < h; y++)
+        for (int x = 0; x < w; x++)
+        {
+            Color s = Color.clear;
+            for (int k = -r; k <= r; k++) s += t[Mathf.Clamp(y + k, 0, h - 1) * w + x];
+            a[y * w + x] = s / (2 * r + 1);
+        }
+    }
+
+    static Color Bilinear(Color[] a, int w, int h, float u, float v)
+    {
+        u = Mathf.Clamp(u, 0, w - 1); v = Mathf.Clamp(v, 0, h - 1);
+        int x = Mathf.Min((int)u, w - 2), y = Mathf.Min((int)v, h - 2);
+        float fx = u - x, fy = v - y;
+        return Color.Lerp(Color.Lerp(a[y * w + x], a[y * w + x + 1], fx), Color.Lerp(a[(y + 1) * w + x], a[(y + 1) * w + x + 1], fx), fy);
     }
 
     // 사각형 안의 노란/주황 계열 픽셀을 refPx 위치 색으로 바꾼다 — 진행 바의 채움 지우기용
