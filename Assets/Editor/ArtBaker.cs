@@ -13,8 +13,15 @@ public static class ArtBaker
     // 진행 순서대로 이어 붙일 캠퍼스 배경. bg_1 ~ bg_4 는 한 장짜리 파노라마를 건물 사이 x 좌표에서 잘라 쓴다
     const string Panorama = "1-4. 캠퍼스 파노라마.png";
     static readonly int[] PanoramaCuts = { 0, 395, 905, 1500, 2000 };
-    // bg_5 ~ bg_8
-    static readonly string[] Backgrounds = { "4. 공학관 20.9.png", "5. 향1 숲길.png", "6. 도서관 옆길 내리막.png", "7. 대학본관.png" };
+    // bg_5 (화면 전환 전 마지막 구역)
+    static readonly string[] Backgrounds = { "4. 공학관 20.9.png" };
+    // 화면 전환 뒤: 끝없이 반복되는 기본 도로 배경(road) + 한 장 걸러 하나씩 얹는 건물(bld_1 ~, 순서는 GameManager.Buildings 와 같음).
+    // 건물 원본은 검은 배경. cropH = 위에서부터 남길 높이(오른쪽 아래 워터마크 별 잘라냄), fade = 그림 좌우 끝에서 잘린 나무를 흐리게
+    const string Road = "8. 기본 도로 배경.png";
+    static readonly (string file, int cropH, bool fade)[] Buildings =
+    {
+        ("1. 대학본관.png", 300, false), ("2. A01.png", 455, false), ("3. B27.png", 467, true), ("4. SCHU 가림막.png", 450, false),
+    };
 
     [System.Serializable] class Db { public Sheet[] sheets; }
     [System.Serializable] class Sheet { public string key, file; public bool chroma, jpeg, white; public Anim[] anims; }
@@ -106,10 +113,25 @@ public static class ArtBaker
             Save(Crop(pano, PanoramaCuts[i], 0, PanoramaCuts[i + 1] - PanoramaCuts[i], pano.height, 0, false), "bg/bg_" + (i + 1));
         for (int i = 0; i < Backgrounds.Length; i++)
             File.Copy(Src + "배경/" + Backgrounds[i], Dst + "bg/bg_" + (n + i + 1) + ".png", true);
+        BakeBuildings();
 
         BakeIntro();
         AssetDatabase.Refresh();
         Debug.Log("[ArtBaker] 완료");
+    }
+
+    public static void BakeBuildings()
+    {
+        File.Copy(Src + "배경/" + Road, Dst + "bg/road.png", true);
+        for (int i = 0; i < Buildings.Length; i++)
+        {
+            var (file, cropH, fade) = Buildings[i];
+            var t = Load("배경/건물/" + file);
+            KeyBlack(t);
+            t = Crop(t, 0, 0, t.width, cropH);
+            if (fade) FadeSides(t, 90);
+            Save(t, "bg/bld_" + (i + 1));
+        }
     }
 
     // 게임 시작 컷신 (Intro.cs): 컷 1~5 + 컷마다 얹히는 안쪽 카드
@@ -282,9 +304,8 @@ public static class ArtBaker
         t.Apply();
     }
 
-    // 흰 배경을 테두리부터 채우기로 지운다 (흰 티셔츠는 윤곽선에 막혀 남는다).
-    // 밝을수록 투명하게, 경계 픽셀은 섞인 흰색을 빼서 원래 색을 복원한다.
-    static void KeyWhite(Texture2D t)
+    // 배경을 테두리부터 채우기로 지운다. key 가 배경 픽셀이면 바꿀 색을, 그림이면 null 을 돌려준다 (그림에서 멈춤).
+    static void FloodKey(Texture2D t, System.Func<Color32, Color32?> key)
     {
         var p = t.GetPixels32();
         int w = t.width, h = t.height;
@@ -297,16 +318,9 @@ public static class ArtBaker
             int i = q.Dequeue();
             if (seen[i]) continue;
             seen[i] = true;
-            var c = p[i];
-            int min = Mathf.Min(c.r, Mathf.Min(c.g, c.b));
-            if (min < 200) continue; // 윤곽선에서 멈춘다
-            float a = Mathf.Clamp01((250 - min) / 50f);
-            if (a <= 0.05f) p[i] = new Color32(0, 0, 0, 0);
-            else
-            {
-                float k = (1f - a) * 255f;
-                p[i] = new Color32((byte)Mathf.Clamp((c.r - k) / a, 0, 255), (byte)Mathf.Clamp((c.g - k) / a, 0, 255), (byte)Mathf.Clamp((c.b - k) / a, 0, 255), (byte)(a * 255));
-            }
+            var c = key(p[i]);
+            if (c == null) continue;
+            p[i] = c.Value;
             int x = i % w, y = i / w;
             if (x > 0) q.Enqueue(i - 1);
             if (x < w - 1) q.Enqueue(i + 1);
@@ -317,30 +331,40 @@ public static class ArtBaker
         t.Apply();
     }
 
-    // 회색 체크무늬(가짜 투명)를 테두리부터 채우기로 지운다.
-    static void RemoveCheckerboard(Texture2D t)
+    // 흰 배경을 지운다 (흰 티셔츠는 윤곽선에 막혀 남는다).
+    // 밝을수록 투명하게, 경계 픽셀은 섞인 흰색을 빼서 원래 색을 복원한다.
+    static void KeyWhite(Texture2D t) => FloodKey(t, c =>
+    {
+        int min = Mathf.Min(c.r, Mathf.Min(c.g, c.b));
+        if (min < 200) return null; // 윤곽선에서 멈춘다
+        float a = Mathf.Clamp01((250 - min) / 50f);
+        if (a <= 0.05f) return new Color32(0, 0, 0, 0);
+        float k = (1f - a) * 255f;
+        return new Color32((byte)Mathf.Clamp((c.r - k) / a, 0, 255), (byte)Mathf.Clamp((c.g - k) / a, 0, 255), (byte)Mathf.Clamp((c.b - k) / a, 0, 255), (byte)(a * 255));
+    });
+
+    // 검은 배경을 지운다 (건물 그림). 안쪽의 어두운 창문·그늘은 밝은 부분에 막혀 남고, 경계의 어두운 픽셀은 반투명으로.
+    static void KeyBlack(Texture2D t) => FloodKey(t, c =>
+    {
+        int max = Mathf.Max(c.r, Mathf.Max(c.g, c.b));
+        if (max > 36) return null;
+        float a = Mathf.Clamp01((max - 12) / 24f);
+        return a <= 0.05f ? new Color32(0, 0, 0, 0) : new Color32(c.r, c.g, c.b, (byte)(a * 255));
+    });
+
+    // 회색 체크무늬(가짜 투명)를 지운다. 밝은 무채색만 배경으로 본다
+    static void RemoveCheckerboard(Texture2D t) => FloodKey(t, c =>
+    {
+        int max = Mathf.Max(c.r, Mathf.Max(c.g, c.b)), min = Mathf.Min(c.r, Mathf.Min(c.g, c.b));
+        return max - min > 24 || min < 185 ? null : new Color32(0, 0, 0, 0);
+    });
+
+    // 그림 좌우 끝 px 픽셀을 점점 투명하게 (가장자리에서 잘린 나무가 뚝 끊겨 보이지 않게)
+    static void FadeSides(Texture2D t, int px)
     {
         var p = t.GetPixels32();
-        int w = t.width, h = t.height;
-        var seen = new bool[p.Length];
-        var q = new Queue<int>();
-        for (int x = 0; x < w; x++) { q.Enqueue(x); q.Enqueue((h - 1) * w + x); }
-        for (int y = 0; y < h; y++) { q.Enqueue(y * w); q.Enqueue(y * w + w - 1); }
-        while (q.Count > 0)
-        {
-            int i = q.Dequeue();
-            if (seen[i]) continue;
-            seen[i] = true;
-            var c = p[i];
-            int max = Mathf.Max(c.r, Mathf.Max(c.g, c.b)), min = Mathf.Min(c.r, Mathf.Min(c.g, c.b));
-            if (max - min > 24 || min < 185) continue; // 밝은 무채색만 배경으로 본다
-            p[i] = new Color32(0, 0, 0, 0);
-            int x = i % w, y = i / w;
-            if (x > 0) q.Enqueue(i - 1);
-            if (x < w - 1) q.Enqueue(i + 1);
-            if (y > 0) q.Enqueue(i - w);
-            if (y < h - 1) q.Enqueue(i + w);
-        }
+        int w = t.width;
+        for (int i = 0; i < p.Length; i++) p[i].a = (byte)(p[i].a * Mathf.Clamp01(Mathf.Min(i % w, w - 1 - i % w) / (float)px));
         t.SetPixels32(p);
         t.Apply();
     }

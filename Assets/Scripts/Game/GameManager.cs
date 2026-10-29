@@ -17,8 +17,13 @@ public class GameManager : MonoBehaviour
     const float ComboTime = 3f; // 이 시간 안에 다음 적을 잡으면 연속 처치
     const int MaxChain = 4;     // 배율 ×1 → ×1.5 → ×2 → ×2.5 → ×3 (최대)
 
-    // 배경 bg_1 ~ bg_8 순서의 구역 이름 (ArtBaker 의 배경 순서와 같음)
-    static readonly string[] Zones = { "앙뜨레프레너관", "유니토피아", "유니토피아 광장", "유니토 앞", "공학관", "향설1관 · 도서관", "도서관 옆길", "대학본관" };
+    // 배경 bg_1 ~ bg_5 순서의 구역 이름 (ArtBaker 의 배경 순서와 같음). 공학관 다음은 화면 전환
+    static readonly string[] Zones = { "앙뜨레프레너관", "유니토피아", "유니토피아 광장", "유니토 앞", "공학관" };
+    // 화면 전환 뒤엔 기본 도로 배경(road)이 끝없이 반복되고, 빈 도로 → 건물 → 빈 도로 → 건물 … 순서로 한 장에 건물 하나(bld_1 ~)를 얹는다.
+    // (구역 이름, 화면에서의 건물 높이) — 순서는 ArtBaker.Buildings 와 같음. 빈 도로는 다음 건물의 구역으로 친다
+    static readonly (string name, float height)[] Buildings = { ("대학본관", 4f), ("A01", 4f), ("B27", 4f), ("SCHU 가림막", 2.2f) };
+    const float GroundY = 0f; // 도로 건너편 연석 높이 = 건물 밑단
+    static string ZoneName(int z) => z < Zones.Length ? Zones[z] : Buildings[z - Zones.Length].name;
 
     public static GameManager I { get; private set; }
     public Camera Cam { get; private set; }
@@ -53,7 +58,7 @@ public class GameManager : MonoBehaviour
     public static int Order(float y) => Mathf.RoundToInt(-y * 100);
 
     readonly List<(GameObject go, float x0, float x1, int zone)> segs = new();
-    float nextX, lapLength, warpX = float.MaxValue; // warpX: 5→6 구역 경계
+    float nextX, lapLength, warpX = float.MaxValue; // warpX: 공학관 → 도로 구간 경계
     int nextSeg, zone = -1, shownHp = -1;
     Image fade;
 
@@ -89,7 +94,9 @@ public class GameManager : MonoBehaviour
         bgm.volume = 0.5f;
         bgm.mute = !Sfx.BgmOn;
 
+        // START → GOAL = 화면 전환 전 구역 + 건물 한 바퀴
         for (int i = 1; i <= Zones.Length; i++) lapLength += Width(Art.Bg(i));
+        lapLength += Width(Art.Bg("road")) * 2 * Buildings.Length;
         nextX = CamLeft - 1f;
         UpdateCampus();
 
@@ -277,17 +284,21 @@ public class GameManager : MonoBehaviour
     {
         while (nextX < CamRight + 2f)
         {
-            int z = nextSeg % Zones.Length;
-            var s = Art.Bg(z + 1);
-            var go = new GameObject("BG " + Zones[z]);
+            int road = nextSeg - Zones.Length; // 화면 전환 뒤 몇 번째 도로 배경인지 (전환 전이면 음수)
+            int b = road / 2 % Buildings.Length;
+            int z = road < 0 ? nextSeg : Zones.Length + b;
+            var s = road < 0 ? Art.Bg(nextSeg + 1) : Art.Bg("road");
+            var go = new GameObject("BG " + ZoneName(z));
             var sr = go.AddComponent<SpriteRenderer>();
             sr.sprite = s;
             sr.sortingOrder = -32000;
+            sr.flipX = road % 2 == 1; // 도로 그림은 양 끝이 이어지지 않아서 한 장씩 좌우를 뒤집어 붙인다 (뒤집힌 끝끼리 맞닿음)
             float w = Width(s);
             go.transform.localScale = Vector3.one * (10f / s.bounds.size.y);
             go.transform.position = new Vector3(nextX + w / 2, 0, 0);
+            if (road % 2 == 1) AddBuilding(go.transform, b);
             segs.Add((go, nextX, nextX + w, z));
-            if (z == 5) warpX = nextX;
+            if (road == 0) warpX = nextX;
             nextX += w - 0.02f; // 이음매 틈 방지
             nextSeg++;
         }
@@ -301,11 +312,25 @@ public class GameManager : MonoBehaviour
             if (px >= s.x0 && px < s.x1 && s.zone != zone)
             {
                 zone = s.zone;
-                if (zoneText) zoneText.text = Zones[zone];
+                if (zoneText) zoneText.text = ZoneName(zone);
             }
     }
 
-    // 5→6 구역은 이어지지 않고 다른 맵으로 넘어가듯 빠르게 암전했다가 밝아진다.
+    // 도로 배경 가운데에 건물을 연석 위에 세운다 (배경의 자식이라 같이 움직이고 같이 지워진다)
+    static void AddBuilding(Transform bg, int i)
+    {
+        var s = Art.Bg("bld_" + (i + 1));
+        var go = new GameObject(Buildings[i].name);
+        var sr = go.AddComponent<SpriteRenderer>();
+        sr.sprite = s;
+        sr.sortingOrder = -31999;
+        float h = Buildings[i].height;
+        go.transform.localScale = Vector3.one * (h / s.bounds.size.y);
+        go.transform.position = new Vector3(bg.position.x, GroundY + h / 2, 0);
+        go.transform.SetParent(bg, true);
+    }
+
+    // 공학관 → 도로 구간은 이어지지 않고 다른 맵으로 넘어가듯 빠르게 암전했다가 밝아진다.
     // 어두운 동안 배경만 당겨서 새 구역이 화면 왼쪽 끝부터 시작되게 한다 (주인공·적은 그대로).
     IEnumerator Warp(float seam)
     {
@@ -354,7 +379,7 @@ public class GameManager : MonoBehaviour
         progressFill.anchorMax = new Vector2(0.118f, 0.53f);
         progressFill.offsetMin = progressFill.offsetMax = Vector2.zero;
         distText = UIKit.Label(hud, "0 m", 38, top, new Vector2(-140, -100), new Vector2(240, 50), TextAnchor.MiddleRight);
-        zoneText = UIKit.Label(hud, zone >= 0 ? Zones[zone] : "", 30, top, new Vector2(200, -100), new Vector2(360, 50), TextAnchor.MiddleLeft, UIKit.Gold);
+        zoneText = UIKit.Label(hud, zone >= 0 ? ZoneName(zone) : "", 30, top, new Vector2(200, -100), new Vector2(360, 50), TextAnchor.MiddleLeft, UIKit.Gold);
 
         UIKit.Label(hud, "TIME", 28, tr, new Vector2(-40, -18), new Vector2(240, 36), TextAnchor.MiddleRight, UIKit.Gold);
         timeText = UIKit.Label(hud, "2:00", 72, tr, new Vector2(-40, -50), new Vector2(260, 84), TextAnchor.MiddleRight);

@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 46d39050e1489f145b47a96f988aba70
+guid: 581396b160ee1ca4caefa77b395f21d4
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3197580925778971410
-    second: bg_8_0
+      213: 7094887773775264657
+    second: road_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: bg_8_0
+      name: road_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 1870
-        height: 841
+        width: 2000
+        height: 721
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 21bce9519e6106c20800000000000000
-      internalID: 3197580925778971410
+      spriteID: 19bf22507da167260800000000000000
+      internalID: 7094887773775264657
       vertices: []
       indices: 
       edges: []

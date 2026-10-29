@@ -46,6 +46,7 @@ public static class Art
     }
 
     public static Sprite Ui(string name) => Resources.Load<Sprite>("Art/ui/" + name);
-    public static Sprite Bg(int i) => Resources.Load<Sprite>("Art/bg/bg_" + i);
+    public static Sprite Bg(int i) => Bg("bg_" + i);
+    public static Sprite Bg(string name) => Resources.Load<Sprite>("Art/bg/" + name);
     public static Sprite Intro(string name) => Resources.Load<Sprite>("Art/intro/" + name);
 }
