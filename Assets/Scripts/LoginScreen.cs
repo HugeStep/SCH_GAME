@@ -25,7 +25,7 @@ public class LoginScreen : MonoBehaviour
         UIKit.Label(panel, "학생 로그인", 44, new Vector2(0.5f, 1f), new Vector2(0, -28), new Vector2(700, 60), color: UIKit.Gold);
 
         dept = Row(panel, 0, "학과", "예) 컴퓨터소프트웨어공학과", InputField.ContentType.Standard, 20);
-        id = Row(panel, 1, "학번", "숫자만 입력", InputField.ContentType.IntegerNumber, 12);
+        id = Row(panel, 1, "학번", "숫자 8자리", InputField.ContentType.IntegerNumber, 8);
         studentName = Row(panel, 2, "이름", "이름", InputField.ContentType.Standard, 10);
 
         UIKit.TextBtn(panel, "로그인", 40, new Vector2(0.5f, 0f), new Vector2(0, 70), new Vector2(380, 84), new Color(1f, 0.72f, 0.1f), Submit);
@@ -58,7 +58,7 @@ public class LoginScreen : MonoBehaviour
         if (busy) return;
         string d = dept.text.Trim(), s = id.text.Trim(), n = studentName.text.Trim();
         if (d.Length == 0) { msg.text = "학과를 입력해 주세요."; dept.Select(); return; }
-        if (!Regex.IsMatch(s, @"^\d{4,12}$")) { msg.text = "학번은 숫자 4~12자리로 입력해 주세요."; id.Select(); return; }
+        if (!Regex.IsMatch(s, @"^\d{8}$")) { msg.text = "학번은 숫자 8자리로 입력해 주세요."; id.Select(); return; }
         if (n.Length == 0) { msg.text = "이름을 입력해 주세요."; studentName.Select(); return; }
 
         busy = true;
