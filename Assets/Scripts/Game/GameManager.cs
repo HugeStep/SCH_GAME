@@ -73,6 +73,9 @@ public class GameManager : MonoBehaviour
     {
         // 모든 판이 랭킹에 등록되도록 로그인 없이는 시작하지 않는다 (에디터에서 Game 씬을 바로 실행한 경우)
         if (!Session.LoggedIn) { enabled = false; SceneManager.LoadScene("Login"); return; }
+        // 계정당 3판: 기회를 다 썼으면 메인으로 (메인 화면에서 안내). 들어오는 순간 한 번을 쓴다 (도중에 꺼도 그대로)
+        if (Session.PlaysLeft <= 0) { enabled = false; SceneManager.LoadScene("Main"); return; }
+        Db.UsePlay();
 
         Cam = Camera.main;
         Cam.orthographic = true;
@@ -417,6 +420,7 @@ public class GameManager : MonoBehaviour
         await Task.Delay(1500);
         if (!this) return;
         centerText.text = "";
+        if (died && Session.PlaysLeft <= 0) { await Caught(); if (!this) return; }
         var (bestText, rankText, dim) = BuildResult(score, meters, kills, hits, kill);
         try
         {
@@ -434,6 +438,29 @@ public class GameManager : MonoBehaviour
         // 오른쪽: 랭킹 (저장이 끝난 뒤에 불러와서 방금 기록이 반영된다)
         // 두 프레임의 네모 틀 위·아래 끝이 같은 높이에 오도록 크기·위치를 맞춘 값 (패널 그림 비율 기준)
         if (dim) RankingBoard.Build(dim.transform, new Vector2(0.5f, 0.5f), new Vector2(RankX, 47), 888, atMe: true);
+    }
+
+    // 마지막 기회까지 쓰러지면: 화면이 어두워졌다가 교수님에게 연구실로 끌려가는 그림이 밝아지고, 그 위에 결과 화면이 뜬다
+    async Task Caught()
+    {
+        var black = UIKit.Dim(hud, 0f);
+        black.raycastTarget = true;
+        await FadeTo(black, 1f, 0.6f);
+        var cut = UIKit.Background(hud, Art.Ui("cut_caught"));
+        cut.color = new Color(1, 1, 1, 0);
+        await FadeTo(cut, 1f, 0.8f);
+        await Task.Delay(2500);
+    }
+
+    static async Task FadeTo(Image img, float to, float time)
+    {
+        float from = img.color.a;
+        for (float t = 0; t < 1 && img; t += Time.unscaledDeltaTime / time)
+        {
+            img.color = new Color(img.color.r, img.color.g, img.color.b, Mathf.Lerp(from, to, t));
+            await Task.Yield();
+        }
+        if (img) img.color = new Color(img.color.r, img.color.g, img.color.b, to);
     }
 
     const float OverX = -448, RankX = 425; // 결과 화면 왼쪽(게임오버)·오른쪽(랭킹) 패널 가로 위치
@@ -475,7 +502,9 @@ public class GameManager : MonoBehaviour
 
         // 버튼은 각 패널 아래 가운데
         var retry = Art.Ui("btn_retry");
-        UIKit.Btn(dim.transform, retry, Art.Ui("btn_retry_pressed"), new Vector2(0.5f, 0), new Vector2(OverX, 30), UIKit.Fit(retry, 470),
+        if (Session.PlaysLeft <= 0) // 기회를 다 쓰면 다시 하기 대신 안내
+            UIKit.Label(dim.transform, $"플레이 기회 {Db.MaxPlays}번을 모두 사용했어요", 36, new Vector2(0.5f, 0), new Vector2(OverX, 70), new Vector2(800, 60), color: UIKit.Gold);
+        else UIKit.Btn(dim.transform, retry, Art.Ui("btn_retry_pressed"), new Vector2(0.5f, 0), new Vector2(OverX, 30), UIKit.Fit(retry, 470),
             () => { skipIntro = true; SceneManager.LoadScene("Game"); });
         var menu = Art.Ui("btn_menu");
         UIKit.Btn(dim.transform, menu, Art.Ui("btn_menu_pressed"), new Vector2(0.5f, 0), new Vector2(RankX, 30), UIKit.Fit(menu, 470),

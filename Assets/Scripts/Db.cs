@@ -8,17 +8,21 @@ using Firebase.Firestore;
 public static class Session
 {
     public static string Dept, Id, Name;
-    public static long Best;
+    public static long Best, PlaysUsed;
     public static bool LoggedIn => !string.IsNullOrEmpty(Id);
-    public static void Clear() { Dept = Id = Name = null; Best = 0; }
+    public static long PlaysLeft => Math.Max(0, Db.MaxPlays - PlaysUsed);
+    public static void Clear() { Dept = Id = Name = null; Best = PlaysUsed = 0; }
 }
 
 // 화면에 보여줄 메시지가 있는 오류
 public class UserError : Exception { public UserError(string msg) : base(msg) { } }
 
-// Firestore 저장소. 문서: users/{학번} = { dept, studentId, name, bestScore, bestMeters, bestKills, bestHits, lastScore, plays }
+// Firestore 저장소. 문서: users/{학번} = { dept, studentId, name, bestScore, bestMeters, bestKills, bestHits, lastScore, plays, playsUsed }
+// plays = 끝까지 한 판 수(기록용), playsUsed = 시작한 판 수(계정당 MaxPlays판 제한)
 public static class Db
 {
+    public const int MaxPlays = 3;
+
     public struct Entry { public string Dept, Name, Id; public long Score; }
 
     static FirebaseFirestore fs;
@@ -39,12 +43,13 @@ public static class Db
     {
         var doc = (await Users()).Document(id);
         var snap = await doc.GetSnapshotAsync();
-        long best = 0;
+        long best = 0, used = 0;
         if (snap.Exists)
         {
             if (!snap.TryGetValue<string>("name", out var saved) || saved != name)
                 throw new UserError("이미 다른 이름으로 등록된 학번입니다. 학번과 이름을 확인해 주세요.");
             snap.TryGetValue("bestScore", out best);
+            snap.TryGetValue("playsUsed", out used);
             if (!snap.TryGetValue<string>("dept", out var savedDept) || savedDept != dept)
                 await doc.UpdateAsync("dept", dept);
         }
@@ -53,13 +58,22 @@ public static class Db
             await doc.SetAsync(new Dictionary<string, object>
             {
                 { "dept", dept }, { "studentId", id }, { "name", name },
-                { "bestScore", 0L }, { "plays", 0L }, { "createdAt", FieldValue.ServerTimestamp },
+                { "bestScore", 0L }, { "plays", 0L }, { "playsUsed", 0L }, { "createdAt", FieldValue.ServerTimestamp },
             });
         }
         Session.Dept = dept;
         Session.Id = id;
         Session.Name = name;
         Session.Best = best;
+        Session.PlaysUsed = used;
+    }
+
+    // 판을 시작할 때 기회 한 번을 쓴다
+    public static async void UsePlay()
+    {
+        Session.PlaysUsed++;
+        try { await (await Users()).Document(Session.Id).UpdateAsync("playsUsed", FieldValue.Increment(1L)); }
+        catch (Exception e) { UnityEngine.Debug.LogWarning(e); }
     }
 
     // 결과 저장. 최고 기록을 넘었으면 true.

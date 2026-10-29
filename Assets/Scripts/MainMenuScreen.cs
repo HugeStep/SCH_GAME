@@ -24,7 +24,7 @@ public class MainMenuScreen : MonoBehaviour
         var right = new Vector2(1, 0.5f);
         var start = Art.Ui("btn_start");
         UIKit.Btn(root, start, Art.Ui("btn_start_pressed"), right, new Vector2(-60, 200), UIKit.Fit(start, 600),
-            () => SceneManager.LoadScene("Game"));
+            () => { if (Session.PlaysLeft > 0) SceneManager.LoadScene("Game"); else ShowNoPlays(); });
         var settings = Art.Ui("btn_settings");
         UIKit.Btn(root, settings, Art.Ui("btn_settings_pressed"), right, new Vector2(-70, 30), UIKit.Fit(settings, 520), ShowSettings);
         BlueButton("btn_blue_book", "도움말", new Vector2(-70, -130), ShowRules);
@@ -51,7 +51,18 @@ public class MainMenuScreen : MonoBehaviour
         var hero = Art.Frames("player_base", "emote")[5];
         UIKit.Img(root, hero, new Vector2(0, 0), new Vector2(50, 30), UIKit.Fit(hero, 190));
         var bubble = UIKit.Panel(root, new Vector2(0, 0), new Vector2(240, 60), new Vector2(760, 120)).transform;
-        UIKit.Label(bubble, $"{Session.Name}님, 2분 안에 캠퍼스를 가로질러\n<color=#FFD54A>최대한 멀리</color> 달려보세요!", 30, Mid, Vector2.zero, new Vector2(720, 110));
+        UIKit.Label(bubble, Session.PlaysLeft > 0
+            ? $"{Session.Name}님, 2분 안에 캠퍼스를 가로질러\n<color=#FFD54A>최대한 멀리</color> 달려보세요!  (남은 기회 <color=#FFD54A>{Session.PlaysLeft}</color>/{Db.MaxPlays})"
+            : $"{Session.Name}님, 플레이 기회 {Db.MaxPlays}번을 모두 썼어요.\n<color=#FFD54A>랭킹</color>에서 내 기록을 확인해 보세요!", 28, Mid, Vector2.zero, new Vector2(740, 110));
+    }
+
+    void ShowNoPlays()
+    {
+        var p = OpenPopup();
+        var panel = UIKit.Panel(p, Mid, new Vector2(0, 20), new Vector2(820, 360)).transform;
+        UIKit.Label(panel, "플레이 기회 소진", 50, new Vector2(0.5f, 1), new Vector2(0, -30), new Vector2(700, 70), color: UIKit.Gold);
+        UIKit.Label(panel, $"계정당 {Db.MaxPlays}번까지 플레이할 수 있어요.\n남은 기회가 없습니다.", 34, Mid, new Vector2(0, 10), new Vector2(740, 120));
+        UIKit.TextBtn(panel, "닫기", 32, new Vector2(0.5f, 0), new Vector2(0, 24), new Vector2(220, 64), new Color(1f, 0.72f, 0.1f), () => Destroy(popup));
     }
 
     // 파란 버튼(그림의 글자를 지운 것) 위에 글자를 얹는다
