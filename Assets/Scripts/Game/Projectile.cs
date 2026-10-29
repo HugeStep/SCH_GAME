@@ -1,6 +1,6 @@
 using UnityEngine;
 
-// 주인공의 종이공 / 화학과의 플라스크 / 드론의 에너지탄
+// 주인공의 종이공(관통) / 화학과의 플라스크 / 드론의 에너지탄
 public class Projectile : MonoBehaviour
 {
     Vector3 vel;
@@ -9,6 +9,7 @@ public class Projectile : MonoBehaviour
     SpriteAnim anim;
     Sprite[] endFx; // 적 투사체가 터질 때
     string endSfx;
+    readonly System.Collections.Generic.HashSet<Enemy> pierced = new(); // 이미 맞힌 적
 
     public static void Ball(Vector3 pos, Vector3 dir)
     {
@@ -66,13 +67,12 @@ public class Projectile : MonoBehaviour
             if (gm.Player.Contains(pos)) { gm.Player.Damage(pos); End(); }
             return;
         }
-        foreach (var e in gm.Enemies)
+        // 종이공은 관통한다: 지나가는 길의 적을 한 번씩 모두 맞힌다
+        foreach (var e in gm.Enemies.ToArray()) // 맞아 죽으면 목록에서 빠지므로 복사본으로 돈다
         {
-            if (!e.Contains(pos)) continue;
+            if (!e.Contains(pos) || !pierced.Add(e)) continue;
             e.Damage(1, vel);
             SpriteAnim.Fx(Art.Frames("fx_common", "hit_spark"), pos, 0.7f, 24f);
-            Destroy(gameObject);
-            return;
         }
     }
 

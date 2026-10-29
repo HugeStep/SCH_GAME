@@ -98,7 +98,7 @@ public class MainMenuScreen : MonoBehaviour
         UIKit.Label(panel,
             "<color=#FFD54A>목표</color>   2분 동안 캠퍼스를 <b>오른쪽으로</b> 최대한 멀리 달리세요!\n" +
             "<color=#FFD54A>이동</color>   W A S D  (8방향) · Shift 누르면 달리기 (스태미나 소모)\n" +
-            "<color=#FFD54A>공격</color>   마우스로 조준하고 왼쪽 클릭 — 0.5초에 한 번\n" +
+            "<color=#FFD54A>공격</color>   마우스로 조준하고 왼쪽 클릭 — 0.5초에 한 번 · 종이공은 적을 관통\n" +
             "<color=#FFD54A>체력</color>   목숨 3번 (아이스커피) · 다 비우면 그 자리에서 게임 종료\n" +
             "<color=#FFD54A>점수</color>   이동 거리(m) × 10  +  처치 점수  −  피격 1회당 100\n" +
             "<color=#FFD54A>연속</color>   3초 안에 다음 적을 잡으면 처치 점수 ×1.5 → ×2 → … 최대 ×3",
