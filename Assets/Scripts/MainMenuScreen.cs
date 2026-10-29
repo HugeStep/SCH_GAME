@@ -109,27 +109,31 @@ public class MainMenuScreen : MonoBehaviour
         UIKit.Label(panel,
             "<color=#FFD54A>목표</color>   2분 동안 캠퍼스를 <b>오른쪽으로</b> 최대한 멀리 달리세요!\n" +
             "<color=#FFD54A>이동</color>   W A S D  (8방향) · Shift 누르면 달리기 (스태미나 소모)\n" +
-            "<color=#FFD54A>공격</color>   마우스로 조준하고 왼쪽 클릭 — 0.5초에 한 번 · 종이공은 적을 관통\n" +
+            "<color=#FFD54A>공격</color>   마우스로 조준하고 왼쪽 클릭 — 0.8초에 한 번 · 종이공은 적을 관통\n" +
             "<color=#FFD54A>체력</color>   목숨 3번 (아이스커피) · 다 비우면 그 자리에서 게임 종료\n" +
             "<color=#FFD54A>점수</color>   이동 거리(m) × 10  +  처치 점수  −  피격 1회당 100\n" +
             "<color=#FFD54A>연속</color>   3초 안에 다음 적을 잡으면 처치 점수 ×1.5 → ×2 → … 최대 ×3\n" +
-            "<color=#FFD54A>고양이</color>  적을 쓰러뜨리면 가끔 나타나요 · 7초 안에 닿으면 처치 점수 +300",
+            "<color=#FFD54A>고양이</color>  적을 쓰러뜨리면 가끔 나타나요 · 7초 안에 닿으면 처치 점수 +300\n" +
+            $"<color=#FFD54A>기회</color>   계정당 {Db.MaxPlays}판까지 · 마지막 판에서 쓰러지면 교수님께 붙잡혀요",
             32, new Vector2(0.5f, 1), new Vector2(0, -130), new Vector2(1200, 340), TextAnchor.UpperLeft);
 
-        (string sheet, string name, string desc)[] enemies =
+        (string sheet, string anim, string name, string desc)[] enemies =
         {
-            ("professor_base", "교수님", "추적형 · +100"),
-            ("grad_student_base", "대학원생", "근접형 · +100"),
-            ("football_base", "미식축구부", "돌진형 · +150"),
-            ("chemistry_base", "화학과", "원거리형 · +200"),
+            ("professor_base", "idle", "교수님", "추적형 · +100"),
+            ("grad_student_base", "idle", "대학원생", "근접형 · +100"),
+            ("football_base", "idle", "미식축구부", "돌진형 · +150"),
+            ("computer_base", "idle", "컴퓨터공학과", "투척형 · +250"),
+            ("chemistry_base", "idle", "화학과", "원거리형 · +200"),
+            ("mech_eng_base", "idle", "기계공학과", "로봇팔 · +180"),
+            ("drone_pilot", "operate_1", "드론학과", "드론 조종 · +300"),
         };
         for (int i = 0; i < enemies.Length; i++)
         {
-            float x = -450 + i * 300;
-            var s = Art.Frames(enemies[i].sheet, "idle")[0];
+            float x = -540 + i * 180;
+            var s = Art.Frames(enemies[i].sheet, enemies[i].anim)[0];
             UIKit.Img(panel, s, new Vector2(0.5f, 0), new Vector2(x, 190), new Vector2(150, 190));
-            UIKit.Label(panel, enemies[i].name, 32, new Vector2(0.5f, 0), new Vector2(x, 140), new Vector2(280, 44), color: UIKit.Gold);
-            UIKit.Label(panel, enemies[i].desc, 26, new Vector2(0.5f, 0), new Vector2(x, 100), new Vector2(280, 40));
+            UIKit.Label(panel, enemies[i].name, 26, new Vector2(0.5f, 0), new Vector2(x, 140), new Vector2(180, 44), color: UIKit.Gold);
+            UIKit.Label(panel, enemies[i].desc, 21, new Vector2(0.5f, 0), new Vector2(x, 100), new Vector2(180, 40));
         }
         UIKit.TextBtn(panel, "닫기", 32, new Vector2(0.5f, 0), new Vector2(0, 24), new Vector2(220, 64), new Color(1f, 0.72f, 0.1f), () => Destroy(popup));
     }

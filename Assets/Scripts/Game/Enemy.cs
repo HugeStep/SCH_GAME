@@ -37,9 +37,9 @@ public class Enemy : MonoBehaviour
         switch (t)
         {
             case EnemyType.Charger: sheet = "football_base"; hp = 3; speed = 1.8f; score = 150; height = 2.2f; break;
-            case EnemyType.Ranged: sheet = "chemistry_base"; hp = 2; speed = 2.2f; score = 200; break;
+            case EnemyType.Ranged: sheet = "chemistry_base"; hp = 4; speed = 2.2f; score = 200; break;
             case EnemyType.Engineer: sheet = "mech_eng_base"; hp = 3; speed = 1.9f; score = 180; break;
-            case EnemyType.Pilot: sheet = "drone_pilot"; hp = 3; speed = 0f; score = 300; height = 1.5f; break;
+            case EnemyType.Pilot: sheet = "drone_pilot"; hp = 5; speed = 0f; score = 300; height = 1.5f; break;
             case EnemyType.Drone: sheet = "drone_unit"; hp = 1; speed = 3.2f; score = 120; break;
             case EnemyType.Lobber: sheet = "computer_base"; hp = 2; speed = 2.2f; score = 250; break;
             default:
