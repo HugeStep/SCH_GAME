@@ -7,10 +7,10 @@ using UnityEngine.UI;
 // anchor 는 부모 안의 기준점이자 자신의 피벗 (예: (0,1)=좌상단, (0.5,0.5)=가운데).
 public static class UIKit
 {
-    static Font font;
-    // 한글 폰트: 윈도우 기본 '맑은 고딕'을 OS에서 바로 가져다 쓴다.
-    public static Font Font => font ??= Font.CreateDynamicFontFromOSFont(
-        new[] { "Malgun Gothic", "맑은 고딕", "Apple SD Gothic Neo", "Noto Sans CJK KR", "Arial" }, 32);
+    static Font font, fontRegular;
+    // 한글 폰트: Paperlogy (Resources/Fonts). 굵기는 파일로 고르고 fontStyle 은 Normal 로 둔다.
+    public static Font Font => font ??= Resources.Load<Font>("Fonts/Paperlogy-7Bold");
+    public static Font FontRegular => fontRegular ??= Resources.Load<Font>("Fonts/Paperlogy-4Regular");
 
     public static readonly Color Navy = new Color(0.06f, 0.13f, 0.32f, 1f); // 불투명이어야 Outline(금색 테두리)이 안쪽에 비치지 않음
     public static readonly Color Gold = new Color(1f, 0.78f, 0.15f);
@@ -99,7 +99,6 @@ public static class UIKit
         var t = Rect(parent, "Text", anchor, pos, box).gameObject.AddComponent<Text>();
         t.font = Font;
         t.fontSize = size;
-        t.fontStyle = FontStyle.Bold;
         t.text = s;
         t.alignment = align;
         t.color = color ?? Color.white;
@@ -154,7 +153,7 @@ public static class UIKit
         var f = bg.gameObject.AddComponent<InputField>();
 
         var ph = Label(bg.transform, placeholder, 30, Vector2.zero, Vector2.zero, Vector2.zero, TextAnchor.MiddleLeft, new Color(0.5f, 0.53f, 0.6f), false);
-        ph.fontStyle = FontStyle.Normal;
+        ph.font = FontRegular;
         var tx = Label(bg.transform, "", 32, Vector2.zero, Vector2.zero, Vector2.zero, TextAnchor.MiddleLeft, new Color(0.08f, 0.1f, 0.2f), false);
         tx.supportRichText = false;
         foreach (var t in new[] { ph, tx })
