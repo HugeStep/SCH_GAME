@@ -1,0 +1,67 @@
+rules_version = '2';
+
+// users/{학번} 문서 규칙. 쓰는 쪽 코드: Assets/Scripts/Db.cs
+// 게임에 진짜 로그인이 없어서 "누가" 쓰는지는 못 막는다. 대신 "무엇을" 쓰는지 게임이 하는 동작만 허용한다.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /users/{id} {
+      allow read: if true; // 로그인 확인 + 랭킹
+
+      // 첫 로그인 (Db.Login): 정해진 칸만, 기록은 0에서 시작
+      allow create: if id.matches('[0-9]{8}')
+        && request.resource.data.keys().hasOnly(['dept', 'studentId', 'name', 'bestScore', 'plays', 'playsUsed', 'createdAt'])
+        && isText(request.resource.data.dept, 30)
+        && isText(request.resource.data.name, 20)
+        && request.resource.data.studentId == id
+        && request.resource.data.bestScore == 0
+        && request.resource.data.plays == 0
+        && request.resource.data.playsUsed == 0
+        && request.resource.data.createdAt == request.time;
+
+      allow update: if changeDept() || usePlay() || saveResult();
+      allow delete: if false;
+    }
+  }
+}
+
+function isText(v, max) {
+  return v is string && v.size() > 0 && v.size() <= max;
+}
+
+function changed() {
+  return request.resource.data.diff(resource.data).affectedKeys();
+}
+
+// 예전 문서에는 playsUsed가 없을 수 있어서 기본값 0
+function before(k) {
+  return resource.data.get(k, 0);
+}
+
+// 다시 로그인할 때 학과만 바꾸기 (Db.Login)
+function changeDept() {
+  return changed().hasOnly(['dept']) && isText(request.resource.data.dept, 30);
+}
+
+// 판 시작 (Db.UsePlay): 1씩만 늘고 3판(Db.MaxPlays)을 넘지 않는다
+function usePlay() {
+  return changed().hasOnly(['playsUsed'])
+    && request.resource.data.playsUsed == before('playsUsed') + 1
+    && request.resource.data.playsUsed <= 3;
+}
+
+// 결과 저장 (Db.SaveResult): 판 수 +1, 최고 기록은 오를 때만 이번 점수로
+function saveResult() {
+  let d = request.resource.data;
+  return changed().hasOnly(['plays', 'lastScore', 'updatedAt', 'bestScore', 'bestMeters', 'bestKills', 'bestHits'])
+    && d.plays == before('plays') + 1
+    && isScore(d.lastScore)
+    && d.updatedAt == request.time
+    && (!changed().hasAny(['bestScore', 'bestMeters', 'bestKills', 'bestHits'])
+      || (d.bestScore == d.lastScore && d.bestScore > before('bestScore')
+        && d.bestMeters is int && d.bestKills is int && d.bestHits is int));
+}
+
+// 2분 동안 실제로 낼 수 있는 점수는 10만 점 안팎. 말도 안 되는 값만 막는다
+function isScore(v) {
+  return v is int && v >= 0 && v <= 1000000;
+}

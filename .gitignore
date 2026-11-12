@@ -56,3 +56,7 @@ crashlytics-build.properties
 
 # 테스트 스크린샷
 /[Cc]aptures/
+
+# Firestore 규칙 테스트
+firebase/node_modules/
+firebase/*.log
